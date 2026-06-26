@@ -32,14 +32,14 @@ export default function CategoryActions({ id, name }: Props) {
       };
 
       if (!res.ok) {
-        showToast("error", json.error ?? "Gagal menghapus kategori");
+        showToast("info", json.error ?? "Gagal menghapus kategori");
         return;
       }
 
       showToast("success", `Kategori "${name}" berhasil dihapus`);
       router.refresh();
     } catch {
-      showToast("error", "Terjadi kesalahan jaringan");
+      showToast("info", "Terjadi kesalahan jaringan");
     } finally {
       setDeleting(false);
     }
