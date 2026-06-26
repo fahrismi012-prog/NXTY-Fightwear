@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
 
-// jsonwebtoken requires Node.js crypto APIs.
-export const runtime = "nodejs";
-
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Only guard /admin routes
