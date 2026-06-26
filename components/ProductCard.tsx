@@ -45,7 +45,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       color: product.colors[0],
       quantity: 1,
     });
-    showToast("cart", "Added to cart", `${product.name.slice(0, 28)}...`);
+    showToast("cart", "Ditambahkan ke keranjang", `${product.name.slice(0, 28)}...`);
   };
 
   const handleBuyNow = (e: React.MouseEvent) => {
@@ -71,7 +71,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       color,
       quantity: 1,
     });
-    showToast("buy", "Instant checkout", "Redirecting to payment...");
+    showToast("buy", "Checkout langsung", "Mengalihkan ke pembayaran...");
     router.push("/checkout");
   };
 
@@ -143,7 +143,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             aria-label="Tambah ke keranjang"
           >
             <ShoppingCart className="w-3.5 h-3.5" />
-            ADD TO CART
+            MASUKKAN KERANJANG
           </button>
           <button
             onClick={handleBuyNow}
@@ -151,7 +151,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             aria-label="Beli sekarang"
           >
             <Zap className="w-3.5 h-3.5 fill-current" />
-            BELI
+            BELI SEKARANG
           </button>
         </div>
 
@@ -164,7 +164,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               aria-label="Tambah ke keranjang"
             >
               <ShoppingCart className="w-3 h-3" />
-              <span className="hidden sm:inline">CART</span>
+              <span className="hidden sm:inline">KERANJANG</span>
               <span className="sm:hidden">+</span>
             </button>
             <button
@@ -173,7 +173,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               aria-label="Beli sekarang"
             >
               <Zap className="w-3 h-3 fill-current" />
-              BUY
+              BELI
             </button>
           </div>
 

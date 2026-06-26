@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
     if (!canAdd) return;
     setAdding("cart");
     addToCart(buildCartItem());
-    showToast("cart", "Added to cart", `${product.name.slice(0, 30)}...`);
+    showToast("cart", "Ditambahkan ke keranjang", `${product.name.slice(0, 30)}...`);
     setTimeout(() => setAdding(null), 400);
   };
 
@@ -77,7 +77,7 @@ export default function ProductDetailPage() {
     if (!canAdd) return;
     setAdding("buy");
     addToCart(buildCartItem());
-    showToast("buy", "Instant checkout", "Redirecting to payment...");
+    showToast("buy", "Checkout langsung", "Mengalihkan ke pembayaran...");
     setTimeout(() => {
       router.push("/checkout");
     }, 350);
@@ -294,7 +294,7 @@ export default function ProductDetailPage() {
                 {adding === "cart" ? (
                   <>
                     <Check className="w-4 h-4" />
-                    ADDED
+                    DITAMBAHKAN
                   </>
                 ) : (
                   <>
@@ -339,7 +339,7 @@ export default function ProductDetailPage() {
               <div className="flex flex-col items-center text-center gap-1">
                 <Truck className="w-4 h-4 text-[#dc2626]" />
                 <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400">
-                  FAST SHIP
+                  KIRIM CEPAT
                 </p>
               </div>
               <div className="flex flex-col items-center text-center gap-1 border-l border-r border-[#262626]">
@@ -351,7 +351,7 @@ export default function ProductDetailPage() {
               <div className="flex flex-col items-center text-center gap-1">
                 <RotateCcw className="w-4 h-4 text-[#dc2626]" />
                 <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400">
-                  EASY RETURN
+                  BISA RETUR
                 </p>
               </div>
             </div>

@@ -23,7 +23,7 @@ export default function BottomNav() {
   const items = [
     {
       key: "home",
-      label: "Home",
+      label: "Beranda",
       icon: Home,
       type: "link" as const,
       href: "/",
@@ -45,7 +45,7 @@ export default function BottomNav() {
     },
     {
       key: "cart",
-      label: "Cart",
+      label: "Keranjang",
       icon: ShoppingBag,
       type: "action" as const,
       onClick: openCart,

@@ -44,7 +44,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
     return (
       <div className="inline-flex items-center gap-2 bg-[#262626] px-3 py-1.5 border border-[#262626]">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">
-          PROMO ENDED
+          PROMO BERAKHIR
         </span>
       </div>
     );
@@ -84,7 +84,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
             {String(time.days).padStart(2, "0")}
           </span>
           <span className={`${s.label} font-black uppercase text-white/80 tracking-wider`}>
-            DAYS
+            HARI
           </span>
         </div>
       )}
@@ -93,7 +93,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
           {String(time.hours).padStart(2, "0")}
         </span>
         <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
-          HRS
+          JAM
         </span>
       </div>
       <span className="text-[#dc2626] font-black text-2xl">:</span>
@@ -102,7 +102,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
           {String(time.minutes).padStart(2, "0")}
         </span>
         <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
-          MIN
+          MENIT
         </span>
       </div>
       <span className="text-[#dc2626] font-black text-2xl">:</span>
@@ -111,7 +111,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
           {String(time.seconds).padStart(2, "0")}
         </span>
         <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
-          SEC
+          DETIK
         </span>
       </div>
     </div>

@@ -11,12 +11,12 @@ interface NavbarProps {
 }
 
 const MARQUEE_ITEMS = [
-  "READY TO FIGHT",
-  "GEAR UP",
-  "TRAIN HARD",
-  "NO MERCY",
-  "BORN TO FIGHT",
-  "BUILT TO LAST",
+  "SIAP TEMPUR",
+  "PERLENGKAPAN LENGKAP",
+  "LATIHAN KERAS",
+  "TANPA AMPUN",
+  "LAHIR UNTUK BERTEMPUR",
+  "DIBUAT TAHAN LAMA",
 ];
 
 export default function Navbar({ onSearch }: NavbarProps) {
@@ -32,11 +32,11 @@ export default function Navbar({ onSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { href: "/", label: "HOME" },
+    { href: "/", label: "BERANDA" },
     { href: "/promo", label: "PROMO" },
-    { href: "/cara-order", label: "HOW TO ORDER" },
-    { href: "/tentang-kami", label: "ABOUT" },
-    { href: "/kontak", label: "CONTACT" },
+    { href: "/cara-order", label: "CARA ORDER" },
+    { href: "/tentang-kami", label: "TENTANG" },
+    { href: "/kontak", label: "KONTAK" },
   ];
 
   return (
@@ -126,7 +126,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
         <div className="border-b-2 border-[#dc2626] px-3 sm:px-4 py-3 bg-[#0a0a0a]">
           <form onSubmit={handleSearch} className="max-w-3xl mx-auto relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-[0.2em] text-[#dc2626] border-r-2 border-[#262626] pr-2">
-              FIND
+              CARI
             </span>
             <input
               type="text"

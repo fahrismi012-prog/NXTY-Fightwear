@@ -45,7 +45,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-[#dc2626]" />
             <h2 className="text-sm font-black uppercase tracking-[0.2em] text-white">
-              CART
+              KERANJANG
               <span className="ml-2 text-[#dc2626] font-mono">
                 [{String(items.length).padStart(2, "0")}]
               </span>
@@ -68,7 +68,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <ShoppingBag className="w-7 h-7 text-neutral-700" />
               </div>
               <p className="text-xl font-black text-white uppercase tracking-tighter mb-1">
-                EMPTY
+                KOSONG
               </p>
               <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-6">
                 // keranjang kosong
@@ -77,7 +77,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 onClick={onClose}
                 className="px-5 py-3 bg-[#dc2626] text-white text-xs font-black uppercase tracking-[0.25em] hover:bg-white hover:text-[#dc2626] transition-colors"
               >
-                START SHOPPING →
+                MULAI BELANJA →
               </button>
             </div>
           ) : (
@@ -183,14 +183,14 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 onClick={onClose}
                 className="w-full py-3.5 bg-[#dc2626] text-white text-xs font-black uppercase tracking-[0.25em] flex items-center justify-center gap-2 hover:bg-white hover:text-[#dc2626] transition-colors"
               >
-                CHECKOUT NOW
+                CHECKOUT SEKARANG
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <button
                 onClick={clearCart}
                 className="w-full py-2 text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500 hover:text-[#dc2626]"
               >
-                CLEAR ALL
+                HAPUS SEMUA
               </button>
             </div>
           </div>

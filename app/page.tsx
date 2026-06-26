@@ -110,10 +110,10 @@ export default function Home() {
                 // CATALOG / 2024
               </p>
               <h2 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tighter italic">
-                {activeCategory || "ALL GEAR"}
+                {activeCategory || "SEMUA PRODUK"}
               </h2>
               <p className="text-xs text-neutral-500 mt-1.5 font-mono uppercase tracking-widest">
-                {String(filteredProducts.length).padStart(2, "0")} ITEMS FOUND
+                {String(filteredProducts.length).padStart(2, "0")} PRODUK DITEMUKAN
               </p>
             </div>
             {(searchQuery || activeCategory) && (
@@ -124,7 +124,7 @@ export default function Home() {
                 }}
                 className="text-[11px] text-[#dc2626] font-black uppercase tracking-[0.25em] border-2 border-[#dc2626] px-3 py-2 hover:bg-[#dc2626] hover:text-white transition-colors self-start"
               >
-                RESET
+                ATUR ULANG
               </button>
             )}
           </div>
@@ -157,7 +157,7 @@ export default function Home() {
             </div>
             <div className="text-center sm:text-right">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500 font-mono">
-                BORN TO FIGHT · BUILT TO LAST
+                LAHIR UNTUK BERTEMPUR · DIBUAT TAHAN LAMA
               </p>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-700 mt-1">
                 © 2024 NXTY · ALL RIGHTS RESERVED

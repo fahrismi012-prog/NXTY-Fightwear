@@ -11,15 +11,19 @@ interface MobileFilterSheetProps {
 }
 
 const CATEGORIES = [
-  "Boxing Gloves",
+  "Sarung Tinju",
   "Hand Wrap",
   "Rashguard",
-  "Fight Shorts",
-  "Shin Guard",
-  "Mouth Guard",
-  "Gym Bag",
-  "Apparel",
-  "Aksesoris",
+  "Celana Tarung",
+  "Pelindung Kaki",
+  "Pelindung Gigi",
+  "Pelindung",
+  "Tas Gym",
+  "Pakaian Olahraga",
+  "Aksesoris Latihan",
+  "Matras",
+  "Pencak Silat",
+  "Renang",
 ];
 
 export default function MobileFilterSheet({

@@ -36,7 +36,7 @@ export default function MobileSearchSheet({
     }
   };
 
-  const popularTerms = ["Boxing Gloves", "Hand Wrap", "Rashguard", "Fight Shorts"];
+  const popularTerms = ["Sarung Tinju", "Hand Wrap", "Matras", "Deker"];
 
   return (
     <Sheet isOpen={isOpen} onClose={onClose} fullHeight title="Cari Produk">

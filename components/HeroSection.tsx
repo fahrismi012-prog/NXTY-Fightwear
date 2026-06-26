@@ -20,16 +20,16 @@ export default function HeroSection() {
         {/* Status tag */}
         <div className="inline-flex items-center gap-2 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1.5 mb-6">
           <span className="w-1.5 h-1.5 bg-white animate-pulse" />
-          <span>STATUS / READY</span>
+          <span>STATUS / SIAP</span>
         </div>
 
         {/* Headline */}
         <h1 className="font-black tracking-tighter leading-[0.85] mb-8 sm:mb-10">
-          <span className="block text-white text-5xl sm:text-7xl lg:text-8xl">GEAR</span>
+          <span className="block text-white text-5xl sm:text-7xl lg:text-8xl">PERLENGKAPAN</span>
           <span className="block text-[#dc2626] italic text-5xl sm:text-7xl lg:text-8xl">
-            FOR THE
+            UNTUK
           </span>
-          <span className="block text-white text-5xl sm:text-7xl lg:text-8xl">FIGHTERS</span>
+          <span className="block text-white text-5xl sm:text-7xl lg:text-8xl">PETARUNG</span>
         </h1>
 
         {/* Subhead */}
@@ -38,8 +38,8 @@ export default function HeroSection() {
             NXTY FIGHTWEAR
           </p>
           <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-            Built for combat athletes. Boxing gloves, rashguards, fight shorts, and more. No compromise, no excuses.{" "}
-            <span className="text-[#dc2626] font-black uppercase">Ready. Set. Fight.</span>
+            Dibuat untuk atlet combat sports dan pencak silat. Sarung tinju, hand wrap, matras, deker, dan masih banyak lagi. Tanpa kompromi, tanpa alasan.{" "}
+            <span className="text-[#dc2626] font-black uppercase">Siap. Tempur. Menang.</span>
           </p>
         </div>
 
@@ -49,23 +49,23 @@ export default function HeroSection() {
             href="#catalog"
             className="inline-flex items-center justify-center gap-3 bg-[#dc2626] text-white px-6 py-4 font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-[#dc2626] transition-colors"
           >
-            SHOP NOW
+            BELANJA SEKARANG
             <ArrowRight className="w-4 h-4" />
           </a>
           <a
             href="#categories"
             className="inline-flex items-center justify-center gap-3 border-2 border-white text-white px-6 py-4 font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-black transition-colors"
           >
-            VIEW CATEGORIES
+            LIHAT KATEGORI
           </a>
         </div>
 
         {/* Stats bar - no rounded */}
         <div className="grid grid-cols-3 border-2 border-[#262626]">
           {[
-            { num: "24", label: "PRODUCTS" },
-            { num: "09", label: "CATEGORIES" },
-            { num: "4.8", label: "RATING" },
+            { num: "35", label: "PRODUK" },
+            { num: "13", label: "KATEGORI" },
+            { num: "4.9", label: "RATING" },
           ].map((stat, i) => (
             <div
               key={i}

@@ -7,17 +7,17 @@ const steps = [
   {
     icon: Search,
     title: "Cari Produk",
-    description: "Jelajahi katalog kami. Gunakan fitur pencarian atau filter kategori untuk menemukan gear yang kamu butuhkan.",
+    description: "Jelajahi katalog kami. Gunakan fitur pencarian atau filter kategori untuk menemukan produk yang kamu butuhkan.",
   },
   {
     icon: ShoppingCart,
     title: "Tambah ke Keranjang",
-    description: "Pilih varian ukuran dan warna, tentukan jumlah, lalu klik 'Tambah ke Keranjang'. Cart akan otomatis persist.",
+    description: "Pilih varian ukuran dan warna, tentukan jumlah, lalu klik 'Masukkan Keranjang'. Keranjang akan tersimpan otomatis.",
   },
   {
     icon: CreditCard,
     title: "Checkout & Bayar",
-    description: "Isi data pengiriman di halaman checkout, pilih metode pembayaran, dan klik 'Bayar Sekarang'.",
+    description: "Isi data pengiriman di halaman checkout, pilih metode pembayaran, lalu klik 'Bayar Sekarang'.",
   },
   {
     icon: Truck,
@@ -26,8 +26,8 @@ const steps = [
   },
   {
     icon: CheckCircle,
-    title: "Terima & Review",
-    description: "Terima paket, cek kondisi produk, dan berikan ulasan untuk membantu komunitas fighter lainnya.",
+    title: "Terima & Ulas",
+    description: "Terima paket, cek kondisi produk, dan berikan ulasan untuk membantu komunitas petarung lainnya.",
   },
 ];
 

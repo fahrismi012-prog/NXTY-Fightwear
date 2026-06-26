@@ -22,7 +22,7 @@ export default function TentangKamiPage() {
         </div>
 
         <p className="text-sm text-neutral-400 leading-relaxed mb-6 text-center">
-          NXTY Fightwear adalah UMKM lokal yang menghadirkan perlengkapan latihan dan fightwear berkualitas untuk atlet combat sports di Indonesia. Dari boxing gloves, rashguard, hingga fight shorts — setiap produk dirancang untuk performa maksimal.
+          NXTY Fightwear adalah UMKM lokal yang menghadirkan perlengkapan latihan dan fightwear berkualitas untuk atlet combat sports, pencak silat, dan bela diri di Indonesia. Dari sarung tinju, hand wrap, matras, deker, hingga seragam pencak silat — setiap produk dirancang untuk performa maksimal.
         </p>
 
         <div className="flex flex-col gap-3 mb-6">
