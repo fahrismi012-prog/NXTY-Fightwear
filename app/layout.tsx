@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { CartProvider } from "@/contexts/CartContext";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { UIProvider } from "@/contexts/UIContext";
 import AppShell from "@/components/AppShell";
 import "./globals.css";
 
@@ -54,7 +55,9 @@ export default function RootLayout({
       >
         <CartProvider>
           <ToastProvider>
-            <AppShell>{children}</AppShell>
+            <UIProvider>
+              <AppShell>{children}</AppShell>
+            </UIProvider>
           </ToastProvider>
         </CartProvider>
       </body>

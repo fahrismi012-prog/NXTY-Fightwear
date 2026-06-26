@@ -10,23 +10,15 @@ import {
   User,
 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useUI } from "@/contexts/UIContext";
 import { cn } from "@/lib/utils";
-
-interface BottomNavProps {
-  onFilterClick: () => void;
-  onSearchClick: () => void;
-  onCartClick: () => void;
-}
 
 const ICON_SIZE = 22;
 
-export default function BottomNav({
-  onFilterClick,
-  onSearchClick,
-  onCartClick,
-}: BottomNavProps) {
+export default function BottomNav() {
   const pathname = usePathname();
   const { totalItems } = useCart();
+  const { openCart, openFilter, openSearch } = useUI();
 
   const items = [
     {
@@ -42,21 +34,21 @@ export default function BottomNav({
       label: "Kategori",
       icon: LayoutGrid,
       type: "action" as const,
-      onClick: onFilterClick,
+      onClick: openFilter,
     },
     {
       key: "cari",
       label: "Cari",
       icon: Search,
       type: "action" as const,
-      onClick: onSearchClick,
+      onClick: openSearch,
     },
     {
       key: "cart",
       label: "Cart",
       icon: ShoppingBag,
       type: "action" as const,
-      onClick: onCartClick,
+      onClick: openCart,
       badge: totalItems,
     },
     {
@@ -99,7 +91,10 @@ export default function BottomNav({
                   )}
                 />
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-[#dc2626] text-white text-[9px] font-black w-4 h-4 flex items-center justify-center border border-[#0a0a0a]">
+                  <span
+                    aria-label={`${item.badge} item di keranjang`}
+                    className="absolute -top-1.5 -right-2 bg-[#dc2626] text-white text-[9px] font-black w-4 h-4 flex items-center justify-center border border-[#0a0a0a]"
+                  >
                     {item.badge > 9 ? "9+" : item.badge}
                   </span>
                 )}

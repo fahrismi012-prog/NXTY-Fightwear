@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useUI } from "@/contexts/UIContext";
 import BottomNav from "./BottomNav";
 import CartDrawer from "./CartDrawer";
 import MobileFilterSheet from "./MobileFilterSheet";
@@ -11,41 +11,30 @@ interface AppShellProps {
 }
 
 /**
- * Wrapper yang mengelola state global untuk:
- * - BottomNav (mobile only)
- * - CartDrawer
- * - MobileFilterSheet (kategori)
- * - MobileSearchSheet (pencarian)
- *
- * Dipasang di layout.tsx sehingga tersedia di semua halaman.
+ * Wrapper yang mount BottomNav (mobile), CartDrawer, dan mobile sheets.
+ * State modal dikelola oleh UIContext (global).
+ * BottomNav disembunyikan saat modal terbuka.
  */
 export default function AppShell({ children }: AppShellProps) {
-  const [cartOpen, setCartOpen] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const {
+    cartOpen,
+    filterOpen,
+    searchOpen,
+    closeCart,
+    closeFilter,
+    closeSearch,
+  } = useUI();
+  const anyModalOpen = cartOpen || filterOpen || searchOpen;
 
   return (
     <>
       {children}
 
-      <MobileFilterSheet
-        isOpen={filterOpen}
-        onClose={() => setFilterOpen(false)}
-      />
-      <MobileSearchSheet
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-      />
-      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <MobileFilterSheet isOpen={filterOpen} onClose={closeFilter} />
+      <MobileSearchSheet isOpen={searchOpen} onClose={closeSearch} />
+      <CartDrawer isOpen={cartOpen} onClose={closeCart} />
 
-      {/* BottomNav disembunyikan saat overlay/sheet/drawer terbuka */}
-      {!cartOpen && !filterOpen && !searchOpen && (
-        <BottomNav
-          onCartClick={() => setCartOpen(true)}
-          onFilterClick={() => setFilterOpen(true)}
-          onSearchClick={() => setSearchOpen(true)}
-        />
-      )}
+      {!anyModalOpen && <BottomNav />}
     </>
   );
 }

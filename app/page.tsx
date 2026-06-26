@@ -8,7 +8,6 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoryPills from "@/components/CategoryPills";
 import ProductGrid from "@/components/ProductGrid";
-import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
 import BannerCarousel from "@/components/BannerCarousel";
 import FlashSaleSection from "@/components/FlashSaleSection";
@@ -25,7 +24,6 @@ const PROMO_MARQUEE = [
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [cartOpen, setCartOpen] = useState(false);
 
   const categories = useMemo(() => {
     const set = new Set(productsData.products.map((p) => p.category));
@@ -67,8 +65,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pb-20 md:pb-0">
-      <Navbar onSearch={handleSearch} onCartClick={() => setCartOpen(true)} />
-      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <Navbar onSearch={handleSearch} />
       <ScrollToTop />
       <HeroSection />
 
