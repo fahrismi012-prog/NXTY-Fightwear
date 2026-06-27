@@ -28,6 +28,9 @@ export async function GET() {
   if (auth) return auth;
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { data, error } = await supabase
     .from("categories")
     .select("*")
@@ -74,6 +77,9 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { data, error } = await supabase
     .from("categories")
     .insert({

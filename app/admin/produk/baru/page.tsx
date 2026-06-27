@@ -7,6 +7,9 @@ export const dynamic = "force-dynamic";
 
 export default async function NewProductPage() {
   const supabase = createAdminClient();
+  if (!supabase) {
+    return null;
+  }
   const { data } = await supabase
     .from("categories")
     .select("id, name, slug")

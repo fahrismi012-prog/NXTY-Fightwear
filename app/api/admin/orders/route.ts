@@ -42,6 +42,9 @@ export async function GET(req: NextRequest) {
   if (auth) return auth;
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   let query = supabase
     .from("orders")
     .select("*")

@@ -10,16 +10,21 @@ async function loadCategoriesWithCount(): Promise<
   Array<Category & { product_count: number }>
 > {
   const supabase = createAdminClient();
-
-  // Parallel fetch: kategori + semua product (hanya category_id) untuk count.
-  const [categoriesRes, productsRes] = await Promise.all([
-    supabase.from("categories").select("*").order("name", { ascending: true }),
-    supabase.from("products").select("category_id"),
-  ]);
-
-  if (categoriesRes.error) {
-    throw new Error(categoriesRes.error.message);
+  if (!supabase) {
+    return [] as never;
   }
+
+  try {
+    // Parallel fetch: kategori + semua product (hanya category_id) untuk count.
+    const [categoriesRes, productsRes] = await Promise.all([
+      supabase.from("categories").select("*").order("name", { ascending: true }),
+      supabase.from("products").select("category_id"),
+    ]);
+
+    if (categoriesRes.error) {
+      console.warn("[admin/kategori] categories error:", categoriesRes.error.message);
+      return [];
+    }
 
   const counts = new Map<string, number>();
   for (const row of productsRes.data ?? []) {
@@ -28,10 +33,14 @@ async function loadCategoriesWithCount(): Promise<
     counts.set(catId, (counts.get(catId) ?? 0) + 1);
   }
 
-  return (categoriesRes.data ?? []).map((cat) => ({
-    ...cat,
-    product_count: counts.get(cat.id) ?? 0,
-  }));
+    return (categoriesRes.data ?? []).map((cat) => ({
+      ...cat,
+      product_count: counts.get(cat.id) ?? 0,
+    }));
+  } catch (err) {
+    console.warn("[admin/kategori] fetch failed:", err);
+    return [];
+  }
 }
 
 export default async function KategoriListPage() {

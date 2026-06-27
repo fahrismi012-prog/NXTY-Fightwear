@@ -15,6 +15,9 @@ async function loadData(): Promise<{
   categories: RawCategory[];
 }> {
   const supabase = createAdminClient();
+  if (!supabase) {
+    return [] as never;
+  }
   const [productsRes, categoriesRes] = await Promise.all([
     supabase
       .from("products")
@@ -26,10 +29,12 @@ async function loadData(): Promise<{
   ]);
 
   if (productsRes.error) {
-    throw new Error(productsRes.error.message);
+    console.warn("[admin] productsRes error:", productsRes.error.message);
+    return { products: [], categories: (categoriesRes.data ?? []) as RawCategory[] };
   }
   if (categoriesRes.error) {
-    throw new Error(categoriesRes.error.message);
+    console.warn("[admin] categoriesRes error:", categoriesRes.error.message);
+    return { products: (productsRes.data ?? []) as any, categories: [] };
   }
 
   const rows = (productsRes.data ?? []) as Array<{

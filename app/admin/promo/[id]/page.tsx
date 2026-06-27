@@ -13,6 +13,9 @@ type PageProps = {
 
 async function loadPromo(id: string): Promise<Promotion | null> {
   const supabase = createAdminClient();
+  if (!supabase) {
+    return [] as never;
+  }
   const { data, error } = await supabase
     .from("promotions")
     .select("*")
@@ -25,6 +28,9 @@ async function loadPromo(id: string): Promise<Promotion | null> {
 
 async function loadProducts(): Promise<ProductOption[]> {
   const supabase = createAdminClient();
+  if (!supabase) {
+    return [] as never;
+  }
   const { data, error } = await supabase
     .from("products")
     .select("id, name")

@@ -13,6 +13,9 @@ type PageProps = {
 export default async function EditCategoryPage({ params }: PageProps) {
   const { id } = await params;
   const supabase = createAdminClient();
+  if (!supabase) {
+    return null;
+  }
   const { data, error } = await supabase
     .from("categories")
     .select("id, name, slug, description")

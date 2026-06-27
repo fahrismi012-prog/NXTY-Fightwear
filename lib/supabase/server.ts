@@ -1,36 +1,33 @@
 import { createClient } from "@supabase/supabase-js";
 
 /**
- * Server-side Supabase client dengan service role key.
- * HANYA dipakai di server (API routes, server components, scripts).
- * Bypass RLS — jangan expose ke browser.
+ * Cek apakah Supabase admin credentials sudah diset.
  */
-export function createAdminClient() {
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    },
+export function isSupabaseAdminConfigured(): boolean {
+  return !!(
+    process.env.SUPABASE_URL &&
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 }
 
 /**
- * Server-side Supabase client dengan anon key (RLS aktif).
- * Untuk storefront yang baca data publik (products, categories, dll).
+ * Create Supabase admin server client dengan service role key.
+ * Return null jika env vars belum diset (gracefully).
+ *
+ * Caller HARUS handle null dengan response 503 atau fallback.
  */
-export function createServerClient() {
+export function createAdminClient() {
+  if (!isSupabaseAdminConfigured()) {
+    console.warn(
+      "[Supabase] SUPABASE_URL atau SUPABASE_SERVICE_ROLE_KEY belum diset. Admin operations disabled."
+    );
+    return null;
+  }
   return createClient(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    },
+      auth: { autoRefreshToken: false, persistSession: false },
+    }
   );
 }

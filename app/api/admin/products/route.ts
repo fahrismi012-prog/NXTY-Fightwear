@@ -28,6 +28,9 @@ export async function GET() {
   if (auth) return auth;
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -149,6 +152,9 @@ export async function POST(req: NextRequest) {
   const inStock = body.in_stock === false ? false : true;
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
 
   // Insert produk
   const { data: product, error: insertError } = await supabase

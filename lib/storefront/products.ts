@@ -1,4 +1,4 @@
-import { createAdminClient, createServerClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import type {
   LegacyProduct,
   Product,
@@ -68,8 +68,8 @@ export async function getProducts(): Promise<ProductWithRelations[]> {
   }
 
   try {
-    const supabase = createServerClient();
-    const { data, error } = await supabase
+    const supabase = createAdminClient();
+    if (!supabase) return mapLegacyProducts();    const { data, error } = await supabase
       .from("products")
       .select("*, category:categories(*), images:product_images(*)")
       .eq("in_stock", true)
@@ -104,7 +104,8 @@ export async function getProductBySlug(
   }
 
   try {
-    const supabase = createServerClient();
+    const supabase = createAdminClient();
+    if (!supabase) return null;
     const { data, error } = await supabase
       .from("products")
       .select("*, category:categories(*), images:product_images(*)")
@@ -131,7 +132,8 @@ export async function getPromotions(): Promise<Promotion[]> {
   }
 
   try {
-    const supabase = createServerClient();
+    const supabase = createAdminClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("promotions")
       .select("*")
@@ -173,6 +175,14 @@ export async function getAdminStats(): Promise<{
 
   try {
     const supabase = createAdminClient();
+    if (!supabase) {
+      return {
+        totalProducts: 0,
+        totalCategories: 0,
+        activePromotions: 0,
+        ordersToday: 0,
+      };
+    }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

@@ -29,6 +29,9 @@ export async function GET(_req: NextRequest, context: RouteContext) {
 
   const { id } = await context.params;
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { data, error } = await supabase
     .from("categories")
     .select("*")
@@ -97,6 +100,9 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   }
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { data, error } = await supabase
     .from("categories")
     .update(update)
@@ -120,6 +126,9 @@ export async function DELETE(_req: NextRequest, context: RouteContext) {
 
   const { id } = await context.params;
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
 
   // Cek apakah ada produk yang masih terkait
   const { count, error: countError } = await supabase

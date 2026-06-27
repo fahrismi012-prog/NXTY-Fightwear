@@ -91,6 +91,9 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
 
   // Ambil order, pastikan status valid dan belum ada waybill
   const { data: orderRow, error: fetchErr } = await supabase

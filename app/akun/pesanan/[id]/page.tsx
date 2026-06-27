@@ -1,8 +1,11 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import { requireCustomerUser } from "@/lib/supabase/server-auth";
+
+export const dynamic = "force-dynamic";
+
+import { createAdminClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, MapPin, Package } from "lucide-react";
+import { ChevronLeft, MapPin } from "lucide-react";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import TrackingTimeline from "@/components/admin/TrackingTimeline";
 import type { TrackingEvent } from "@/lib/shipping/everpro";
@@ -17,8 +20,9 @@ function formatPrice(price: number): string {
 
 async function fetchTracking(waybill: string, courier: string): Promise<TrackingEvent[]> {
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/shipping/track?waybill=${waybill}&courier=${courier}`,
+      `${baseUrl}/api/shipping/track?waybill=${waybill}&courier=${courier}`,
       { cache: "no-store" }
     );
     if (!res.ok) return [];
@@ -35,29 +39,11 @@ export default async function PesananDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/masuk");
+  const user = await requireCustomerUser();
+  const supabase = createAdminClient();
+  if (!supabase) {
+    return null;
+  }
 
   const { data: order } = await supabase
     .from("orders")
@@ -68,7 +54,6 @@ export default async function PesananDetailPage({
 
   if (!order) notFound();
 
-  // Fetch tracking events if waybill exists
   const events =
     order.shipping?.waybill && order.shipping?.courier
       ? await fetchTracking(order.shipping.waybill, order.shipping.courier)
@@ -109,7 +94,7 @@ export default async function PesananDetailPage({
           Items
         </h3>
         <div className="space-y-2">
-          {order.items?.map((item: any, i: number) => (
+          {order.items?.map((item: { name: string; size: string; color: string; quantity: number; price: number }, i: number) => (
             <div
               key={i}
               className="flex items-center justify-between text-xs py-2 border-b border-[#262626] last:border-b-0"

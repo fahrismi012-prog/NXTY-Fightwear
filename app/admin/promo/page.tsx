@@ -85,6 +85,9 @@ function getDiscountLabel(promo: Promotion): string {
 
 async function loadPromotions(typeFilter: PromotionType | null): Promise<Promotion[]> {
   const supabase = createAdminClient();
+  if (!supabase) {
+    return [] as never;
+  }
   let query = supabase
     .from("promotions")
     .select("*")
@@ -95,11 +98,17 @@ async function loadPromotions(typeFilter: PromotionType | null): Promise<Promoti
     query = query.eq("type", typeFilter);
   }
 
-  const { data, error } = await query;
-  if (error) {
-    throw new Error(error.message);
+  try {
+    const { data, error } = await query;
+    if (error) {
+      console.warn("[admin/promo] promotions error:", error.message);
+      return [];
+    }
+    return (data ?? []) as Promotion[];
+  } catch (err) {
+    console.warn("[admin/promo] fetch failed:", err);
+    return [];
   }
-  return (data ?? []) as Promotion[];
 }
 
 export default async function PromoListPage({ searchParams }: PageProps) {

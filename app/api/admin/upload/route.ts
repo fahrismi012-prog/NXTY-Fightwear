@@ -69,6 +69,9 @@ export async function POST(req: NextRequest) {
   const filename = `${randomUUID()}.${safeExt}`;
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+  }
   const { error } = await supabase.storage
     .from(BUCKET)
     .upload(filename, file, {

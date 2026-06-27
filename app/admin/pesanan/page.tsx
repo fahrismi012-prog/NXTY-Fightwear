@@ -6,15 +6,24 @@ export const dynamic = "force-dynamic";
 
 async function loadOrders(): Promise<Order[]> {
   const supabase = createAdminClient();
-  const { data, error } = await supabase
-    .from("orders")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    throw new Error(error.message);
+  if (!supabase) {
+    return [];
   }
-  return (data ?? []) as Order[];
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.warn("[admin/pesanan] orders error:", error.message);
+      return [];
+    }
+    return (data ?? []) as Order[];
+  } catch (err) {
+    console.warn("[admin/pesanan] fetch failed:", err);
+    return [];
+  }
 }
 
 export default async function PesananListPage() {

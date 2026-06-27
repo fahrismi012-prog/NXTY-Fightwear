@@ -39,6 +39,9 @@ function toImageItems(images: ProductImage[] | null): ImageItem[] {
 export default async function EditProductPage({ params }: PageProps) {
   const { id } = await params;
   const supabase = createAdminClient();
+  if (!supabase) {
+    return null;
+  }
 
   const [productRes, categoriesRes] = await Promise.all([
     supabase

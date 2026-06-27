@@ -1,9 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
+
+export const dynamic = "force-dynamic";
+
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireCustomerUser } from "@/lib/supabase/server-auth";
 import ProfileForm from "./ProfileForm";
 
 export default async function AkunProfilePage() {
+  const user = await requireCustomerUser();
+
   const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,11 +26,6 @@ export default async function AkunProfilePage() {
       },
     }
   );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/masuk");
 
   const { data: profile } = await supabase
     .from("customer_profiles")
