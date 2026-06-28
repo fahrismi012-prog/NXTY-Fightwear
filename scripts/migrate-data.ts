@@ -210,14 +210,20 @@ async function main() {
 
   // 3. Promotions — upsert by id, map product_ids (legacy id → uuid)
   console.log(`[migrate] Inserting promotions...`);
+  const validPromoTypes = new Set(["banner", "flash_sale", "voucher", "bundle", "add_on"]);
   for (const promo of promosJson.promotions) {
+    // Skip invalid promotion types (legacy data may have types not in current schema)
+    if (!validPromoTypes.has(promo.type)) {
+      console.warn(`  ⚠ ${promo.id}: skip (invalid type: "${promo.type}")`);
+      continue;
+    }
     const mappedProductIds = (promo.productIds ?? [])
       .map((legacyId) => productSlugToId.get(productLegacyIdToSlug.get(legacyId) ?? ""))
       .filter((x): x is string => Boolean(x));
 
     const { error } = await supabase.from("promotions").upsert(
       {
-        id: promo.id,
+        // Skip id — let Supabase generate UUID (legacy string IDs won't fit uuid column)
         type: promo.type,
         title: promo.title,
         subtitle: promo.subtitle ?? null,
