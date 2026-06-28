@@ -59,6 +59,33 @@ html {
   animation: marquee 30s linear infinite;
 }
 
+/* Skeleton loading animations */
+@keyframes skeleton-gradient {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-skeleton-gradient {
+  background: linear-gradient(
+    90deg,
+    #262626 0%,
+    #404040 20%,
+    #262626 40%,
+    #262626 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-gradient 1.5s ease-in-out infinite;
+}
+
+.animate-skeleton-pulse {
+  animation: skeleton-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* Diagonal stripes pattern - red accent */
 .bg-stripes-red {
   background-image: repeating-linear-gradient(
