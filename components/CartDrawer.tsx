@@ -179,6 +179,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             </div>
             <div className="grid grid-cols-1 gap-2">
               <Link
+                href="/cart"
+                onClick={onClose}
+                className="w-full py-3 border-2 border-[#262626] text-white text-xs font-black uppercase tracking-[0.25em] flex items-center justify-center gap-2 hover:bg-[#161616] hover:border-[#dc2626] transition-colors"
+              >
+                LIHAT CART PAGE
+              </Link>
+              <Link
                 href="/checkout"
                 onClick={onClose}
                 className="w-full py-3.5 bg-[#dc2626] text-white text-xs font-black uppercase tracking-[0.25em] flex items-center justify-center gap-2 hover:bg-white hover:text-[#dc2626] transition-colors"
