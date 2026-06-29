@@ -45,7 +45,7 @@ export default function caraOrderPage() {
 
       <div className="max-w-2xl mx-auto px-4 py-8">
         <p className="text-sm text-neutral-400 mb-8 text-center leading-relaxed">
-          Berikut panduan sederhana untuk berbelanja di NXTY Fightwear.
+          Berikut panduan sederhana untuk berbelanja di Anxiety Fightwear.
         </p>
 
         <div className="flex flex-col gap-4">

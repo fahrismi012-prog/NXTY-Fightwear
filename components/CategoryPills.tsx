@@ -15,16 +15,17 @@ export default function CategoryPills({
   onSelect,
 }: CategoryPillsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Detect apakah konten overflow di kanan (cue untuk scroll)
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     const checkScroll = () => {
       const { scrollLeft, scrollWidth, clientWidth } = el;
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 4);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+      setCanScrollLeft(scrollLeft > 10);
     };
 
     checkScroll();
@@ -38,48 +39,59 @@ export default function CategoryPills({
   }, [categories]);
 
   return (
-    <div className="relative w-full">
-      <div ref={scrollRef} className="w-full overflow-x-auto scrollbar-hide">
-        <div className="flex min-w-max">
+    <div className="relative w-full -mx-4 sm:mx-0">
+      {/* Left-edge gradient fade */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute top-0 left-0 bottom-0 w-12 bg-gradient-to-r from-canvas via-canvas/80 to-transparent z-10 transition-opacity duration-200",
+          canScrollLeft ? "opacity-100" : "opacity-0"
+        )}
+      />
+
+      {/* Right-edge gradient fade */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute top-0 right-0 bottom-0 w-12 bg-gradient-to-l from-canvas via-canvas/80 to-transparent z-10 transition-opacity duration-200",
+          canScrollRight ? "opacity-100" : "opacity-0"
+        )}
+      />
+
+      {/* Scrollable container - full width on mobile, contained on desktop */}
+      <div
+        ref={scrollRef}
+        className="w-full overflow-x-auto scrollbar-hide overflow-y-visible"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        <div className="flex gap-2 px-4 sm:px-0 py-2">
           <button
             onClick={() => onSelect(null)}
             className={cn(
-              "shrink-0 px-3 sm:px-4 py-3 text-[11px] sm:text-xs font-black uppercase tracking-[0.2em] border-2 transition-colors flex items-center gap-2 min-h-[44px]",
+              "shrink-0 px-3.5 py-1.5 text-body-sm font-medium rounded-full border transition-all min-h-[36px]",
               activeCategory === null
-                ? "bg-[#dc2626] border-[#dc2626] text-white"
-                : "bg-transparent border-[#262626] text-neutral-400 hover:border-[#dc2626] hover:text-[#dc2626]"
+                ? "bg-brand-red border-brand-red text-white"
+                : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-red hover:text-brand-red"
             )}
           >
-            <span className="text-[9px] opacity-70">00</span>
-            ALL
+            Semua
           </button>
-          {categories.map((cat, i) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => onSelect(cat)}
               className={cn(
-                "shrink-0 px-3 sm:px-4 py-3 text-[11px] sm:text-xs font-black uppercase tracking-[0.2em] border-2 border-l-0 transition-colors flex items-center gap-2 whitespace-nowrap min-h-[44px]",
+                "shrink-0 px-3.5 py-1.5 text-body-sm font-medium rounded-full border transition-all whitespace-nowrap min-h-[36px]",
                 activeCategory === cat
-                  ? "bg-[#dc2626] border-[#dc2626] text-white"
-                  : "bg-transparent border-[#262626] text-neutral-400 hover:border-[#dc2626] hover:text-[#dc2626]"
+                  ? "bg-brand-red border-brand-red text-white"
+                  : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-red hover:text-brand-red"
               )}
             >
-              <span className="text-[9px] opacity-70">
-                {String(i + 1).padStart(2, "0")}
-              </span>
               {cat}
             </button>
           ))}
         </div>
       </div>
-
-      {/* Right-edge gradient cue untuk mobile */}
-      {canScrollRight && (
-        <div
-          aria-hidden
-          className="md:hidden pointer-events-none absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-[#0a0a0a]"
-        />
-      )}
     </div>
   );
 }

@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { CartProvider } from "@/contexts/CartContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { UIProvider } from "@/contexts/UIContext";
+import { WishlistProvider } from "@/contexts/WishlistContext";
 import AppShell from "@/components/AppShell";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "NXTY Fightwear — Peralatan Olahraga & Fightwear",
@@ -43,6 +48,13 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0a0a0a",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,14 +63,16 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
-        className={`${inter.className} antialiased min-h-screen bg-[#0a0a0a] text-white selection:bg-[#dc2626] selection:text-white`}
+        className={`${inter.variable} antialiased min-h-screen bg-[#0a0a0a] text-white selection:bg-[#dc2626] selection:text-white`}
       >
         <CartProvider>
-          <ToastProvider>
-            <UIProvider>
-              <AppShell>{children}</AppShell>
-            </UIProvider>
-          </ToastProvider>
+          <WishlistProvider>
+            <ToastProvider>
+              <UIProvider>
+                <AppShell>{children}</AppShell>
+              </UIProvider>
+            </ToastProvider>
+          </WishlistProvider>
         </CartProvider>
       </body>
     </html>

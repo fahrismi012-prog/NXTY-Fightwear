@@ -2,8 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ChevronLeft, Zap, Ticket, Package, Gift, Image as ImageIcon, Percent } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import { Zap, Ticket, Package, Gift, Image as ImageIcon, Percent } from "lucide-react";
 import ScrollToTop from "@/components/ScrollToTop";
 import BannerCarousel from "@/components/BannerCarousel";
 import VoucherCard from "@/components/VoucherCard";
@@ -55,35 +54,18 @@ export default function PromoPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <Navbar onSearch={() => {}} />
       <ScrollToTop />
 
-      {/* Page header */}
-      <div className="sticky top-[80px] sm:top-[88px] z-20 bg-[#0a0a0a] border-b-2 border-[#dc2626]">
-        <div className="max-w-7xl mx-auto px-4 h-12 flex items-center gap-3">
-          <Link
-            href="/"
-            className="w-9 h-9 border-2 border-[#262626] flex items-center justify-center hover:bg-[#dc2626] hover:border-[#dc2626] transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Link>
-          <div className="flex-1">
-            <p className="text-[9px] font-mono text-[#dc2626] tracking-[0.3em] uppercase">
-              // MARKETING CENTER
-            </p>
-            <h1 className="text-sm font-black uppercase tracking-[0.25em] text-white">
-              ALL PROMOS
-            </h1>
-          </div>
-          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest hidden sm:inline">
-            {filteredPromos.length} AKTIF
-          </span>
+      <main className="pb-20 md:pb-12">
+        {/* Page title */}
+        <div className="max-w-7xl mx-auto px-4 pt-6 pb-3">
+          <h1 className="text-heading-1 font-bold text-text-primary">
+            Promo
+          </h1>
         </div>
-      </div>
 
-      <main className="pb-12">
         {/* Banner carousel */}
-        <div className="max-w-7xl mx-auto px-4 pt-6">
+        <div className="max-w-7xl mx-auto px-4 pt-2">
           <BannerCarousel banners={banners} />
         </div>
 
@@ -183,14 +165,6 @@ export default function PromoPage() {
           )}
         </div>
       </main>
-
-      <footer className="border-t-4 border-[#dc2626] bg-[#0a0a0a] py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500 font-mono">
-            BORN TO FIGHT · BUILT TO LAST · 2024
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

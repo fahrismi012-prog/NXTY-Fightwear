@@ -99,7 +99,7 @@ export default function OrderListClient({ orders }: Props) {
           Pesanan
         </h1>
         <p className="text-sm text-neutral-400 mt-2">
-          Daftar pesanan masuk NXTY Fightwear. Total {orders.length} pesanan.
+          Daftar pesanan masuk Anxiety Fightwear. Total {orders.length} pesanan.
         </p>
       </div>
 

@@ -12,12 +12,18 @@ interface UIContextValue {
   cartOpen: boolean;
   filterOpen: boolean;
   searchOpen: boolean;
+  megaMenuOpen: boolean;
+  searchModalOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
   openFilter: () => void;
   closeFilter: () => void;
   openSearch: () => void;
   closeSearch: () => void;
+  openMegaMenu: () => void;
+  closeMegaMenu: () => void;
+  openSearchModal: () => void;
+  closeSearchModal: () => void;
 }
 
 const UIContext = createContext<UIContextValue | null>(null);
@@ -26,6 +32,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   const openCart = useCallback(() => setCartOpen(true), []);
   const closeCart = useCallback(() => setCartOpen(false), []);
@@ -33,6 +41,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const closeFilter = useCallback(() => setFilterOpen(false), []);
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const openMegaMenu = useCallback(() => setMegaMenuOpen(true), []);
+  const closeMegaMenu = useCallback(() => setMegaMenuOpen(false), []);
+  const openSearchModal = useCallback(() => setSearchModalOpen(true), []);
+  const closeSearchModal = useCallback(() => setSearchModalOpen(false), []);
 
   return (
     <UIContext.Provider
@@ -40,12 +52,18 @@ export function UIProvider({ children }: { children: ReactNode }) {
         cartOpen,
         filterOpen,
         searchOpen,
+        megaMenuOpen,
+        searchModalOpen,
         openCart,
         closeCart,
         openFilter,
         closeFilter,
         openSearch,
         closeSearch,
+        openMegaMenu,
+        closeMegaMenu,
+        openSearchModal,
+        closeSearchModal,
       }}
     >
       {children}

@@ -23,7 +23,7 @@ export default function NewCategoryPage() {
           Tambah Kategori
         </h1>
         <p className="text-sm text-neutral-400 mt-2">
-          Buat kategori baru untuk mengelompokkan produk NXTY Fightwear.
+          Buat kategori baru untuk mengelompokkan produk Anxiety Fightwear.
         </p>
       </div>
 

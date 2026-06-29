@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Promotion } from "@/types";
+import { Button } from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/IconButton";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 interface BannerCarouselProps {
   banners: Promotion[];
@@ -22,13 +25,12 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
   }, [banners.length]);
 
   if (banners.length === 0) return null;
-  const current = banners[index];
 
   const next = () => setIndex((i) => (i + 1) % banners.length);
   const prev = () => setIndex((i) => (i - 1 + banners.length) % banners.length);
 
   return (
-    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-[#161616] border-2 border-[#dc2626] overflow-hidden group">
+    <div className="relative w-full min-h-[280px] sm:aspect-[21/9] bg-surface-1 rounded-card overflow-hidden">
       {banners.map((b, i) => (
         <div
           key={b.id}
@@ -44,41 +46,42 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
             sizes="100vw"
           />
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/95 via-[#0a0a0a]/70 to-transparent" />
-          {/* Stripes */}
-          <div className="absolute inset-0 bg-stripes-red pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-canvas/95 via-canvas/70 to-transparent" />
+
           {/* Content */}
-          <div className="absolute inset-0 flex items-center">
+          <div className="absolute inset-0 flex items-center py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
               <div className="max-w-md">
                 {b.badge && (
-                  <div className="inline-block bg-[#dc2626] text-white text-[10px] font-black tracking-[0.3em] px-2.5 py-1 mb-3 border border-[#0a0a0a]">
+                  <div className="inline-block bg-brand-red text-white text-caption font-bold px-2.5 py-1 mb-3 rounded-subtle">
                     {b.badge}
                   </div>
                 )}
-                <p className="text-[10px] font-mono text-[#dc2626] tracking-[0.3em] uppercase mb-2">
-                  // PROMO / 0{i + 1}
-                </p>
-                <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tighter italic mb-2 leading-[0.85]">
+                <Eyebrow color="red" className="mb-2">
+                  Promo
+                </Eyebrow>
+                <h2 className="text-heading-1 font-bold text-text-primary mb-2">
                   {b.title}
                 </h2>
                 {b.subtitle && (
-                  <p className="text-sm sm:text-base font-black text-white uppercase tracking-wide mb-2">
+                  <p className="text-body-lg font-semibold text-text-primary mb-2">
                     {b.subtitle}
                   </p>
                 )}
                 {b.description && (
-                  <p className="text-xs sm:text-sm text-neutral-300 mb-4 leading-relaxed line-clamp-2">
+                  <p className="text-body text-text-secondary mb-4 leading-relaxed line-clamp-2">
                     {b.description}
                   </p>
                 )}
                 {b.ctaHref && (
-                  <Link
-                    href={b.ctaHref}
-                    className="inline-flex items-center gap-2 bg-[#dc2626] hover:bg-white hover:text-[#dc2626] text-white px-5 py-3 text-xs font-black uppercase tracking-[0.25em] transition-colors"
-                  >
-                    {b.ctaLabel || "LIHAT PROMO"}
-                    <ChevronRight className="w-4 h-4" />
+                  <Link href={b.ctaHref}>
+                    <Button
+                      variant="primary"
+                      size="md"
+                      rightIcon={<ChevronRight className="w-4 h-4" />}
+                    >
+                      {b.ctaLabel || "Lihat Promo"}
+                    </Button>
                   </Link>
                 )}
               </div>
@@ -90,28 +93,31 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
       {/* Arrows */}
       {banners.length > 1 && (
         <>
-          <button
-            onClick={prev}
-            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-[#0a0a0a]/80 hover:bg-[#dc2626] border border-[#262626] hover:border-[#dc2626] flex items-center justify-center transition-colors"
+          <IconButton
+            icon={<ChevronLeft className="w-5 h-5" />}
             aria-label="Previous"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={next}
-            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-[#0a0a0a]/80 hover:bg-[#dc2626] border border-[#262626] hover:border-[#dc2626] flex items-center justify-center transition-colors"
+            variant="solid"
+            size="lg"
+            onClick={prev}
+            className="absolute left-3 top-1/2 -translate-y-1/2"
+          />
+          <IconButton
+            icon={<ChevronRight className="w-5 h-5" />}
             aria-label="Next"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+            variant="solid"
+            size="lg"
+            onClick={next}
+            className="absolute right-3 top-1/2 -translate-y-1/2"
+          />
+          
           {/* Indicators */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
             {banners.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setIndex(i)}
-                className={`h-1 transition-all ${
-                  i === index ? "w-8 bg-[#dc2626]" : "w-3 bg-[#262626] hover:bg-[#404040]"
+                className={`h-1.5 rounded-full transition-all ${
+                  i === index ? "w-8 bg-brand-red" : "w-3 bg-surface-2 hover:bg-border-default"
                 }`}
                 aria-label={`Slide ${i + 1}`}
               />

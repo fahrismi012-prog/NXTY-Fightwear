@@ -79,7 +79,7 @@ export default async function AdminDashboardPage() {
           Ringkasan Toko
         </h1>
         <p className="text-sm text-neutral-400 mt-2">
-          Pantau performa NXTY Fightwear secara real-time.
+          Pantau performa Anxiety Fightwear secara real-time.
         </p>
       </div>
 

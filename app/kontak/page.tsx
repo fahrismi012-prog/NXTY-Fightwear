@@ -1,23 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { ChevronLeft, Mail, MessageCircle, MapPin, Clock } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 
 export default function KontakPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <div className="sticky top-0 z-30 bg-[#0a0a0a] border-b border-[#262626]">
-        <div className="max-w-2xl mx-auto px-4 h-12 flex items-center gap-3">
-          <Link href="/" className="p-1 -ml-1">
-            <ChevronLeft className="w-5 h-5 text-neutral-400" />
-          </Link>
-          <h1 className="text-sm font-bold text-white">Kontak</h1>
-        </div>
-      </div>
-
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-6">
         <p className="text-sm text-neutral-400 mb-6 text-center leading-relaxed">
-          Ada pertanyaan atau perlu bantuan? Hubungi tim NXTY Fightwear.
+          Ada pertanyaan atau perlu bantuan? Hubungi tim Anxiety Fightwear.
         </p>
 
         <div className="flex flex-col gap-3">
@@ -27,7 +17,7 @@ export default function KontakPage() {
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-0.5">email</p>
-              <p className="text-sm font-medium text-white">support@nxtyfightwear.id</p>
+              <p className="text-sm font-medium text-white">anxietyfightwear@gmail.com</p>
             </div>
           </div>
 

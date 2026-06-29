@@ -42,12 +42,13 @@ export default function NotFound() {
         <div className="max-w-md w-full text-center relative z-10 space-y-8">
           {/* Logo */}
           <div className="flex items-center justify-center gap-2">
-            <span className="text-[#dc2626] font-black text-4xl tracking-tighter italic">
-              NXTY
-            </span>
-            <span className="font-black text-lg uppercase tracking-[0.25em] text-white border-l-2 border-[#dc2626] pl-3">
-              FIGHTWEAR
-            </span>
+            <img
+              src="/brand/logo-full.png"
+              alt="NXTY Fightwear"
+              className="h-12 object-contain"
+              width={200}
+              height={48}
+            />
           </div>
 
           {/* Error Icon */}
@@ -109,13 +110,14 @@ export default function NotFound() {
       <footer className="border-t-4 border-[#dc2626] bg-[#0a0a0a]">
         <div className="bg-stripes-red">
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-black text-[#dc2626] italic tracking-tighter">
-                NXTY
-              </span>
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white border-l-2 border-[#dc2626] pl-2">
-                FIGHTWEAR
-              </span>
+            <div className="flex items-center gap-2">
+              <img
+                src="/brand/logo-full.png"
+                alt="NXTY Fightwear"
+                className="h-8 object-contain"
+                width={200}
+                height={32}
+              />
             </div>
             <div className="text-center sm:text-right">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 font-mono">

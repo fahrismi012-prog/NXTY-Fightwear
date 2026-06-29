@@ -4,8 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronLeft, CreditCard, Loader2, AlertCircle } from "lucide-react";
+import { ChevronLeft, CreditCard, Loader2, AlertCircle, Shield, RotateCcw, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { PriceTag } from "@/components/ui/PriceTag";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Card } from "@/components/ui/Card";
+import { TrustStrip } from "@/components/TrustStrip";
 
 interface FormData {
   name: string;
@@ -17,19 +23,11 @@ interface FormData {
 }
 
 interface FormErrors {
-  name?: string; // nama
+  name?: string;
   email?: string;
   phone?: string;
   address?: string;
   city?: string;
-}
-
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(price);
 }
 
 function validateEmail(email: string): boolean {
@@ -59,6 +57,13 @@ declare global {
 const MIDTRANS_CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
+// Trust items untuk checkout
+const CHECKOUT_TRUST_ITEMS = [
+  { icon: <Shield className="w-5 h-5" />, label: "Pembayaran Aman" },
+  { icon: <RotateCcw className="w-5 h-5" />, label: "Garansi 30 Hari" },
+  { icon: <MessageCircle className="w-5 h-5" />, label: "Support WhatsApp" },
+];
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCart();
@@ -73,6 +78,7 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [summaryExpanded, setSummaryExpanded] = useState(false);
 
   // Load Midtrans Snap script
   useEffect(() => {
@@ -91,18 +97,19 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
-          <AlertCircle className="w-10 h-10 text-red-500 mx-auto mb-3" />
-          <h1 className="text-lg font-bold text-white mb-2">Keranjang Kosong</h1>
-          <p className="text-sm text-neutral-400 mb-4">
+          <div className="w-16 h-16 bg-surface-1 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-error-500" />
+          </div>
+          <h1 className="text-heading-3 font-bold text-text-primary mb-2">Keranjang Kosong</h1>
+          <p className="text-body text-text-muted mb-6">
             Kamu belum menambahkan produk. Yuk lihat katalog kami.
           </p>
-          <Link
-            href="/"
-            className="inline-block px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl"
-          >
-            Lihat Produk
+          <Link href="/">
+            <Button variant="primary" size="lg">
+              Lihat Produk
+            </Button>
           </Link>
         </div>
       </div>
@@ -111,7 +118,7 @@ export default function CheckoutPage() {
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
-    if (!form.name.trim()) newErrors.name = "nama wajib diisi";
+    if (!form.name.trim()) newErrors.name = "Nama wajib diisi";
     if (!form.email.trim()) {
       newErrors.email = "Email wajib diisi";
     } else if (!validateEmail(form.email)) {
@@ -122,8 +129,8 @@ export default function CheckoutPage() {
     } else if (!validatePhone(form.phone)) {
       newErrors.phone = "Nomor HP minimal 10 digit";
     }
-    if (!form.address.trim()) newErrors.address = "alamat wajib diisi";
-    if (!form.city.trim()) newErrors.city = "kota wajib diisi";
+    if (!form.address.trim()) newErrors.address = "Alamat wajib diisi";
+    if (!form.city.trim()) newErrors.city = "Kota wajib diisi";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -195,194 +202,190 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pb-24 md:pb-0">
+    <div className="min-h-screen bg-canvas pb-28 md:pb-8">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-[#0a0a0a] border-b border-[#262626]">
-        <div className="max-w-2xl mx-auto px-4 h-12 flex items-center gap-3">
-          <Link href="/" className="p-1 -ml-1">
-            <ChevronLeft className="w-5 h-5 text-neutral-400" />
-          </Link>
-          <h1 className="text-sm font-bold text-white">Checkout</h1>
+      <div className="sticky top-0 z-30 bg-canvas border-b border-border-subtle">
+        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
+          <button
+            onClick={() => router.back()}
+            className="w-10 h-10 flex items-center justify-center text-text-muted hover:text-text-primary transition-colors"
+            aria-label="Kembali"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-heading-3 font-semibold text-text-primary">Checkout</h1>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-6">
-        {/* Order summary */}
-        <div className="bg-[#161616] border border-[#262626] rounded-xl p-4 mb-6">
-          <h2 className="text-sm font-bold text-white mb-3">Ringkasan Pesanan</h2>
-          <div className="flex flex-col gap-3">
-            {items.map((item, idx) => (
-              <div key={`${item.productId}-${idx}`} className="flex gap-3">
-                <div className="relative w-14 h-14 bg-[#121212] rounded-lg overflow-hidden flex-shrink-0">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                    sizes="56px"
-                  />
+        {/* Order summary - collapsible on mobile */}
+        <Card variant="default" padding="md" className="mb-6">
+          <button
+            onClick={() => setSummaryExpanded(!summaryExpanded)}
+            className="w-full flex items-center justify-between md:pointer-events-none"
+          >
+            <h2 className="text-body font-semibold text-text-primary">Ringkasan Pesanan</h2>
+            <div className="flex items-center gap-2">
+              <span className="text-body-sm text-text-muted">
+                {items.length} item · <PriceTag price={totalPrice} size="md" />
+              </span>
+              <span className="md:hidden text-text-muted">
+                {summaryExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </span>
+            </div>
+          </button>
+          
+          <div className={`mt-4 ${summaryExpanded ? 'block' : 'hidden md:block'}`}>
+            <div className="flex flex-col gap-3">
+              {items.map((item, idx) => (
+                <div key={`${item.productId}-${idx}`} className="flex gap-3">
+                  <div className="relative w-14 h-14 bg-surface-2 rounded-subtle overflow-hidden flex-shrink-0">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      sizes="56px"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-body font-medium text-text-primary truncate">{item.name}</p>
+                    <p className="text-body-sm text-text-muted">
+                      {item.size} · {item.color} · {item.quantity}x
+                    </p>
+                  </div>
+                  <div className="text-body font-semibold text-text-primary tabular-nums">
+                    {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(item.price * item.quantity)}
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">{item.name}</p>
-                  <p className="text-xs text-neutral-500">
-                    {item.size} · {item.color} · {item.quantity}x
-                  </p>
-                </div>
-                <div className="text-sm font-bold text-white">
-                  {formatPrice(item.price * item.quantity)}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="border-t border-border-subtle mt-4 pt-4 flex items-center justify-between">
+              <span className="text-body font-medium text-text-secondary">Total</span>
+              <PriceTag price={totalPrice} size="lg" />
+            </div>
           </div>
-          <div className="border-t border-[#262626] mt-3 pt-3 flex items-center justify-between">
-            <span className="text-sm font-medium text-neutral-400">Total</span>
-            <span className="text-lg font-black text-white">{formatPrice(totalPrice)}</span>
-          </div>
-        </div>
+        </Card>
 
         {/* Form */}
-        <form id="checkout-form" onSubmit={handleSubmit} className="space-y-4">
-          <h2 className="text-sm font-bold text-white mb-1">Data Pembeli</h2>
-
-          {/* Name */}
+        <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6">
+          {/* Section: Informasi Kontak */}
           <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">nama Lengkap</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="nama lengkap kamu"
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600"
-            />
-            {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+            <p className="text-heading-3 font-semibold text-text-primary mb-4">Informasi Kontak</p>
+            <div className="space-y-4">
+              <Input
+                label="Nama Lengkap"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Nama lengkap kamu"
+                error={errors.name}
+              />
+              <Input
+                label="Email"
+                type="email"
+                inputMode="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="email@contoh.com"
+                error={errors.email}
+              />
+              <Input
+                label="Nomor HP"
+                type="tel"
+                inputMode="tel"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="08123456789"
+                error={errors.phone}
+              />
+            </div>
           </div>
 
-          {/* Email */}
+          {/* Section: Alamat Pengiriman */}
           <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="email@contoh.com"
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600"
-            />
-            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+            <p className="text-heading-3 font-semibold text-text-primary mb-4">Alamat Pengiriman</p>
+            <div className="space-y-4">
+              <Textarea
+                label="Alamat Lengkap"
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+                placeholder="Jl. Contoh No. 123, RT 001/RW 002"
+                rows={3}
+                error={errors.address}
+              />
+              <Input
+                label="Kota / Kabupaten"
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                placeholder="Jakarta Selatan"
+                error={errors.city}
+              />
+            </div>
           </div>
 
-          {/* Phone */}
+          {/* Section: Catatan */}
           <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">Nomor HP</label>
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              placeholder="08123456789"
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600"
-            />
-            {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
-          </div>
-
-          {/* Address */}
-          <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">alamat Lengkap</label>
-            <textarea
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              placeholder="Jl. Contoh No. 123, RT 001/RW 002"
-              rows={3}
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600 resize-none"
-            />
-            {errors.address && <p className="text-xs text-red-500 mt-1">{errors.address}</p>}
-          </div>
-
-          {/* City */}
-          <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">kota</label>
-            <input
-              type="text"
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              placeholder="Jakarta Selatan"
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600"
-            />
-            {errors.city && <p className="text-xs text-red-500 mt-1">{errors.city}</p>}
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="text-xs font-medium text-neutral-400 mb-1 block">
-              Catatan <span className="text-neutral-600">(opsional)</span>
-            </label>
-            <textarea
+            <Textarea
+              label="Catatan (opsional)"
               name="notes"
               value={form.notes}
               onChange={handleChange}
               placeholder="Catatan untuk pengiriman..."
               rows={2}
-              className="w-full bg-[#161616] text-white text-sm rounded-lg px-4 py-2.5 border border-[#262626] focus:border-red-500 focus:outline-none placeholder:text-neutral-600 resize-none"
             />
           </div>
 
+          {/* Trust Strip */}
+          <TrustStrip variant="compact" items={CHECKOUT_TRUST_ITEMS} />
+
           {/* Error message */}
           {errorMsg && (
-            <div className="bg-red-900/20 border border-red-600/30 rounded-lg px-4 py-3 text-sm text-red-400">
+            <div className="bg-error-500/10 border border-error-500/30 rounded-subtle px-4 py-3 text-body text-error-500">
               {errorMsg}
             </div>
           )}
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="hidden md:flex w-full py-3 bg-red-600 hover:bg-red-700 disabled:bg-red-800/50 text-white font-bold text-sm rounded-xl items-center justify-center gap-2 transition-colors"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Memproses...
-              </>
-            ) : (
-              <>
-                <CreditCard className="w-4 h-4" />
-                Bayar Sekarang
-              </>
-            )}
-          </button>
-
-          <p className="text-xs text-neutral-600 text-center">
-            Pembayaran akan diproses melalui midtrans checkout sandbox.
-          </p>
+          {/* Desktop submit button */}
+          <div className="hidden md:block">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
+              loading={loading}
+              leftIcon={<CreditCard className="w-4 h-4" />}
+            >
+              Bayar Sekarang
+            </Button>
+            <p className="text-caption text-text-muted text-center mt-3">
+              Pembayaran aman via Midtrans
+            </p>
+          </div>
         </form>
       </div>
 
       {/* Mobile sticky bottom action bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0a] border-t-2 border-[#dc2626] p-3 pb-[env(safe-area-inset-bottom)]">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-canvas border-t border-border-subtle p-4 pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] text-neutral-500 uppercase tracking-wider">Total</p>
-            <p className="text-base font-black text-white truncate">{formatPrice(totalPrice)}</p>
+            <p className="text-caption text-text-muted">Total</p>
+            <PriceTag price={totalPrice} size="md" />
           </div>
-          <button
+          <Button
             type="submit"
             form="checkout-form"
-            disabled={loading}
-            className="px-5 py-3.5 bg-[#dc2626] text-white text-sm font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors min-h-[48px] disabled:opacity-60 flex items-center justify-center gap-2"
+            variant="primary"
+            size="lg"
+            loading={loading}
+            className="min-w-[140px]"
           >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                BAYAR
-              </>
-            ) : (
-              "Bayar"
-            )}
-          </button>
+            Bayar Sekarang
+          </Button>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export default async function KategoriListPage() {
             Kategori
           </h1>
           <p className="text-sm text-neutral-400 mt-2">
-            Kelola kategori produk NXTY Fightwear.
+            Kelola kategori produk Anxiety Fightwear.
           </p>
         </div>
         <Link

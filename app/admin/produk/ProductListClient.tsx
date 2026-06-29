@@ -115,7 +115,7 @@ export default function ProductListClient({ products, categories }: Props) {
             Produk
           </h1>
           <p className="text-sm text-neutral-400 mt-2">
-            Kelola produk NXTY Fightwear. Total {products.length} produk.
+            Kelola produk Anxiety Fightwear. Total {products.length} produk.
           </p>
         </div>
         <Link

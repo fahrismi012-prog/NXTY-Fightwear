@@ -133,7 +133,7 @@ export default async function PromoListPage({ searchParams }: PageProps) {
             Promo
           </h1>
           <p className="text-sm text-neutral-400 mt-2">
-            Kelola banner, flash sale, voucher, bundle, dan add-on NXTY
+            Kelola banner, flash sale, voucher, bundle, dan add-on Anxiety
             Fightwear.
           </p>
         </div>

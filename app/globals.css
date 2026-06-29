@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @theme inline {
+  /* ============================================================
+     LEGACY TOKENS — dipertahankan untuk backward compatibility.
+     Komponen lama masih merefer ke ini. Akan di-deprecate seiring
+     migrasi komponen ke tokens baru di bawah.
+     ============================================================ */
   --color-background: #0a0a0a;
   --color-foreground: #ededed;
   --color-card: #161616;
@@ -17,13 +22,141 @@
   --color-input: #262626;
   --color-ring: #dc2626;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* Legacy radius — brand voice sharp. Existing utilities
+     rounded-sm/md/lg tetap = 0 untuk tidak merusak komponen lama. */
   --radius-sm: 0;
   --radius-md: 0;
   --radius-lg: 0;
+
+  /* ============================================================
+     DESIGN FOUNDATION TOKENS — premium-minimal photography-led.
+     Aturan pemakaian:
+     - bg-canvas       : background utama halaman
+     - bg-surface-1    : card, panel elevated tipis
+     - bg-surface-2    : card elevated atau hover state
+     - text-primary    : konten utama
+     - text-secondary  : konten supportive
+     - text-muted      : metadata, helper text
+     - border-subtle   : separator antar baris
+     - border-default  : outline card/input default
+     - border-strong   : input focus / selected
+     ============================================================ */
+
+  /* Brand (unchanged) */
+  --color-brand-black: #0a0a0a;
+  --color-brand-white: #ffffff;
+  --color-brand-red: #dc2626;
+  --color-brand-red-hover: #b91c1c;
+
+  /* Neutral scale untuk dark theme */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
+
+  /* Semantic colors */
+  --color-success-500: #16a34a;
+  --color-success-600: #15803d;
+  --color-warning-500: #ca8a04;
+  --color-warning-600: #a16207;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  /* Surface aliases (semantic naming, refer ke neutral scale) */
+  --color-canvas: #0a0a0a;
+  --color-surface-1: #171717;
+  --color-surface-2: #262626;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d4d4d4;
+  --color-text-muted: #737373;
+  --color-border-subtle: #262626;
+  --color-border-default: #404040;
+  --color-border-strong: #737373;
+
+  /* ============================================================
+     TYPOGRAPHY SCALE
+     Token utility: text-display-1, text-display-2, text-heading-1, dst.
+     Setiap token define font-size + line-height untuk Tailwind v4.
+     Weight dan tracking dipakai via class terpisah.
+     ============================================================ */
+  --text-display-1: 2.5rem;          /* 40px mobile */
+  --text-display-1--line-height: 0.95;
+  --text-display-2: 2rem;             /* 32px mobile */
+  --text-display-2--line-height: 1.0;
+  --text-heading-1: 1.5rem;           /* 24px */
+  --text-heading-1--line-height: 1.15;
+  --text-heading-2: 1.25rem;          /* 20px */
+  --text-heading-2--line-height: 1.2;
+  --text-heading-3: 1.125rem;         /* 18px */
+  --text-heading-3--line-height: 1.3;
+  --text-body-lg: 1.0625rem;          /* 17px */
+  --text-body-lg--line-height: 1.6;
+  --text-body: 0.9375rem;             /* 15px */
+  --text-body--line-height: 1.6;
+  --text-body-sm: 0.8125rem;          /* 13px */
+  --text-body-sm--line-height: 1.5;
+  --text-caption: 0.75rem;            /* 12px */
+  --text-caption--line-height: 1.4;
+  --text-eyebrow: 0.6875rem;          /* 11px */
+  --text-eyebrow--line-height: 1.2;
+  --text-price-md: 1rem;              /* 16px */
+  --text-price-md--line-height: 1.1;
+  --text-price-lg: 1.5rem;            /* 24px */
+  --text-price-lg--line-height: 1.1;
+  --text-price-xl: 2rem;              /* 32px */
+  --text-price-xl--line-height: 1.1;
+
+  /* ============================================================
+     FONT FAMILIES
+     ============================================================ */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ============================================================
+     SPACING — section padding aliases.
+     Token utility: p-section-y-mobile, py-section-y-desktop, dst.
+     ============================================================ */
+  --spacing-section-y-mobile: 3rem;    /* 48px */
+  --spacing-section-y-desktop: 5rem;   /* 80px */
+  --spacing-section-y-hero: 6rem;      /* 96px */
+  --spacing-container-x-mobile: 1rem;  /* 16px */
+  --spacing-container-x-desktop: 2rem; /* 32px */
+
+  /* ============================================================
+     RADIUS — token baru.
+     Legacy --radius-sm/md/lg tetap = 0 untuk brand voice sharp.
+     Token baru: subtle (4px), card (8px) untuk premium feel.
+     ============================================================ */
+  --radius-subtle: 0.25rem;   /* 4px */
+  --radius-card: 0.5rem;      /* 8px */
+
+  /* ============================================================
+     MOTION — duration & easing.
+     Token utility: duration-fast, duration-normal, duration-slow,
+                    ease-out-smooth, ease-in-smooth, ease-in-out-smooth
+     ============================================================ */
+  --animate-duration-fast: 150ms;
+  --animate-duration-normal: 200ms;
+  --animate-duration-slow: 300ms;
+
+  /* ============================================================
+     SHADOW — dark theme appropriate.
+     ============================================================ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
 }
 
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
 body {
   background-color: #0a0a0a;
   color: #ededed;
@@ -39,7 +172,26 @@ html {
   outline-offset: 2px;
 }
 
-/* Brutalist Combat - custom animations */
+/* ============================================================
+   REDUCED MOTION — respect user preference globally.
+   Override semua transition dan animasi durasi → instant.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   LEGACY ANIMATIONS — brutalist style.
+   Akan dihapus seiring komponen yang masih pakai diredesign
+   di fase 3 (discovery-redesign) dan fase 4.
+   ============================================================ */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -85,6 +237,12 @@ html {
 .animate-skeleton-pulse {
   animation: skeleton-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* ============================================================
+   LEGACY UTILITIES — brutalist patterns.
+   Akan dihapus di fase 3-4. Untuk sekarang dipertahankan agar
+   komponen lama (HeroSection, FlashSale, BrandIntro) tidak break.
+   ============================================================ */
 
 /* Diagonal stripes pattern - red accent */
 .bg-stripes-red {

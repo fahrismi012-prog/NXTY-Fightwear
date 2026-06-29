@@ -1,29 +1,48 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { Suspense, useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import productsData from "@/data/products.json";
 import promotionsData from "@/data/promotions.json";
 import type { Product, Promotion } from "@/types";
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import BrandIntroSection from "@/components/BrandIntroSection";
 import CategoryPills from "@/components/CategoryPills";
 import ProductGrid from "@/components/ProductGrid";
 import ScrollToTop from "@/components/ScrollToTop";
 import BannerCarousel from "@/components/BannerCarousel";
 import FlashSaleSection from "@/components/FlashSaleSection";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const PROMO_MARQUEE = [
-  "PREMIUM GEAR",
-  "FAST SHIPPING",
-  "100% AUTHENTIC",
-  "FIGHT SPIRIT",
-  "INDONESIAN BRAND",
-  "LIMITED DROP",
+  "Premium Gear",
+  "Fast Shipping",
+  "100% Authentic",
+  "Fight Spirit",
+  "Indonesian Brand",
+  "Limited Drop",
 ];
 
 export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    const q = searchParams?.get("q") ?? "";
+    const cat = searchParams?.get("category");
+    setSearchQuery(q);
+    setActiveCategory(cat || null);
+  }, [searchParams]);
 
   const categories = useMemo(() => {
     const set = new Set(productsData.products.map((p) => p.category));
@@ -47,10 +66,6 @@ export default function Home() {
     return result;
   }, [searchQuery, activeCategory]);
 
-  const handleSearch = useCallback((query: string) => {
-    setSearchQuery(query);
-  }, []);
-
   const banners: Promotion[] = useMemo(
     () =>
       (promotionsData.promotions as Promotion[]).filter((p) => p.type === "banner"),
@@ -64,26 +79,26 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pb-20 md:pb-0">
-      <Navbar onSearch={handleSearch} />
+    <div className="min-h-screen bg-canvas">
       <ScrollToTop />
       <HeroSection />
+      <BrandIntroSection />
 
       {/* Marquee promo strip */}
       <div
         id="categories"
-        className="bg-[#dc2626] text-white overflow-hidden border-b-2 border-[#0a0a0a]"
+        className="bg-brand-red text-white overflow-hidden"
       >
-        <div className="flex animate-marquee whitespace-nowrap py-2.5">
+        <div className="flex animate-marquee whitespace-nowrap py-3">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center shrink-0">
               {PROMO_MARQUEE.map((t, j) => (
                 <span
                   key={j}
-                  className="px-6 text-xs sm:text-sm font-black uppercase tracking-[0.25em] flex items-center gap-6"
+                  className="px-6 text-body-sm font-semibold flex items-center gap-6"
                 >
                   {t}
-                  <span className="text-[#0a0a0a] text-base leading-none">◆</span>
+                  <span className="text-canvas/40">◆</span>
                 </span>
               ))}
             </div>
@@ -91,7 +106,7 @@ export default function Home() {
         </div>
       </div>
 
-      <main id="catalog" className="pb-12">
+      <main id="catalog" className="pb-20 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 pt-8 space-y-10">
           {/* Banner carousel */}
           {banners.length > 0 && (
@@ -104,28 +119,29 @@ export default function Home() {
           ))}
 
           {/* Section header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-2 border-[#dc2626]">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-border-subtle">
             <div>
-              <p className="text-[10px] font-black text-[#dc2626] uppercase tracking-[0.3em] mb-1 font-mono">
-                // CATALOG / 2024
-              </p>
-              <h2 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tighter italic">
-                {activeCategory || "SEMUA PRODUK"}
+              <Eyebrow color="red" className="mb-1">
+                Katalog
+              </Eyebrow>
+              <h2 className="text-heading-1 font-bold text-text-primary">
+                {activeCategory || "Semua Produk"}
               </h2>
-              <p className="text-xs text-neutral-500 mt-1.5 font-mono uppercase tracking-widest">
-                {String(filteredProducts.length).padStart(2, "0")} PRODUK DITEMUKAN
+              <p className="text-body-sm text-text-muted mt-1">
+                {filteredProducts.length} produk ditemukan
               </p>
             </div>
             {(searchQuery || activeCategory) && (
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   setSearchQuery("");
                   setActiveCategory(null);
                 }}
-                className="text-[11px] text-[#dc2626] font-black uppercase tracking-[0.25em] border-2 border-[#dc2626] px-3 py-2 hover:bg-[#dc2626] hover:text-white transition-colors self-start"
               >
-                ATUR ULANG
-              </button>
+                Atur Ulang
+              </Button>
             )}
           </div>
 
@@ -142,30 +158,6 @@ export default function Home() {
           <ProductGrid products={filteredProducts} />
         </div>
       </main>
-
-      {/* Brutalist footer */}
-      <footer className="border-t-4 border-[#dc2626] bg-[#0a0a0a] mt-8">
-        <div className="bg-stripes-red">
-          <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black text-[#dc2626] italic tracking-tighter">
-                NXTY
-              </span>
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-white border-l-2 border-[#dc2626] pl-2">
-                FIGHTWEAR
-              </span>
-            </div>
-            <div className="text-center sm:text-right">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500 font-mono">
-                LAHIR UNTUK BERTEMPUR · DIBUAT TAHAN LAMA
-              </p>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-700 mt-1">
-                © 2024 NXTY · ALL RIGHTS RESERVED
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

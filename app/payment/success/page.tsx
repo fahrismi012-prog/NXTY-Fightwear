@@ -16,7 +16,7 @@ function SuccessContent() {
       </div>
       <h1 className="text-xl font-black text-white mb-2">Pembayaran berhasil!</h1>
       <p className="text-sm text-neutral-400 mb-1">
-        Terima kasih sudah berbelanja di NXTY Fightwear.
+        Terima kasih sudah berbelanja di Anxiety Fightwear.
       </p>
       <p className="text-xs text-neutral-600 mb-6">Order ID: {orderId}</p>
 

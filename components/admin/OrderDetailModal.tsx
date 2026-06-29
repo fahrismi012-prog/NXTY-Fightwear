@@ -209,7 +209,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           order_id: order.id,
-          origin: process.env.NEXT_PUBLIC_STORE_ORIGIN || "Bandung",
+          origin: process.env.NEXT_PUBLIC_STORE_ORIGIN || "Lembang",
           destination:
             address.city || address.province || address.postal_code || "",
           weight: Math.max(totalWeight, 1),

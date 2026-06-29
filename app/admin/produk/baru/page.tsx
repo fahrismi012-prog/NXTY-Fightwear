@@ -35,7 +35,7 @@ export default async function NewProductPage() {
           Tambah Produk
         </h1>
         <p className="text-sm text-neutral-400 mt-2">
-          Buat produk baru untuk toko NXTY Fightwear.
+          Buat produk baru untuk toko Anxiety Fightwear.
         </p>
       </div>
 

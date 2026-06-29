@@ -1,28 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, Target, Flame, Shield } from "lucide-react";
+import { Target, Flame, Shield } from "lucide-react";
 
 export default function TentangKamiPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <div className="sticky top-0 z-30 bg-[#0a0a0a] border-b border-[#262626]">
-        <div className="max-w-2xl mx-auto px-4 h-12 flex items-center gap-3">
-          <Link href="/" className="p-3 -ml-2">
-            <ChevronLeft className="w-5 h-5 text-neutral-400" />
-          </Link>
-          <h1 className="text-sm font-bold text-white">Tentang Kami</h1>
-        </div>
-      </div>
-
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-black text-white mb-2">NXTY Fightwear</h2>
+          <img
+            src="/brand/logo-full.png"
+            alt="NXTY Fightwear"
+            className="h-16 object-contain mx-auto mb-2"
+            width={300}
+            height={64}
+          />
           <p className="text-sm text-red-500 font-medium">Born to Fight. Built to Last.</p>
         </div>
 
         <p className="text-sm text-neutral-400 leading-relaxed mb-6 text-center">
-          NXTY Fightwear adalah UMKM lokal yang menghadirkan perlengkapan latihan dan fightwear berkualitas untuk atlet combat sports, pencak silat, dan bela diri di Indonesia. Dari sarung tinju, hand wrap, matras, deker, hingga seragam pencak silat — setiap produk dirancang untuk performa maksimal.
+          Anxiety Fightwear adalah brand peralatan olahraga beladiri asal Bandung yang berdiri sejak tahun 2014. Seluruh produk diproduksi di pabrik milik kami sendiri sehingga kualitas tetap terjaga dengan harga yang kompetitif.
         </p>
 
         <div className="flex flex-col gap-3 mb-6">
@@ -33,7 +30,7 @@ export default function TentangKamiPage() {
             <div>
               <h3 className="text-sm font-bold text-white mb-1">Misi Kami</h3>
               <p className="text-xs text-neutral-400 leading-relaxed">
-                Menyediakan peralatan olahraga berkualitas tinggi dengan harga terjangkau, sehingga setiap fighter bisa latihan dengan gear terbaik tanpa harus merogoh kocek dalam.
+                Menyediakan peralatan olahraga berkualitas tinggi dengan harga terjangkau, sehingga setiap fighter bisa latihan dengan gear terbaik.
               </p>
             </div>
           </div>

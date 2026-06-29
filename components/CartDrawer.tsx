@@ -2,25 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2, X, ShoppingBag, ArrowRight } from "lucide-react";
+import { Minus, Plus, Trash2, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
+import { PriceTag } from "@/components/ui/PriceTag";
+import { Button } from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/IconButton";
 
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(price);
-}
-
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
+  const { items, removeFromCart, updateQuantity, totalPrice } = useCart();
 
   return (
     <>
@@ -33,66 +28,60 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         onClick={onClose}
       />
 
-      {/* Drawer - brutalist: no rounded, hard borders */}
+      {/* Drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#0a0a0a] border-l-2 border-[#dc2626] z-50 transition-transform duration-300 flex flex-col",
+          "fixed top-0 right-0 h-full w-full sm:w-[420px] bg-canvas border-l border-border-default z-50 transition-transform duration-300 flex flex-col",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 h-16 border-b-2 border-[#dc2626] bg-[#0a0a0a]">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-[#dc2626]" />
-            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-white">
-              KERANJANG
-              <span className="ml-2 text-[#dc2626] font-mono">
-                [{String(items.length).padStart(2, "0")}]
-              </span>
+        <div className="flex items-center justify-between px-4 h-16 border-b border-border-subtle bg-canvas">
+          <div className="flex items-center gap-3">
+            <ShoppingBag className="w-5 h-5 text-brand-red" />
+            <h2 className="text-heading-3 font-semibold text-text-primary">
+              Keranjang
             </h2>
+            {items.length > 0 && (
+              <span className="text-body-sm font-semibold text-text-muted">
+                ({items.length})
+              </span>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="w-9 h-9 border-2 border-[#262626] flex items-center justify-center hover:bg-[#dc2626] hover:border-[#dc2626]"
+          <IconButton
+            icon={<X className="w-5 h-5" />}
             aria-label="Tutup"
-          >
-            <X className="w-4 h-4" />
-          </button>
+            onClick={onClose}
+            variant="ghost"
+          />
         </div>
 
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-4 py-3">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-4">
-              <div className="w-16 h-16 border-2 border-[#262626] flex items-center justify-center mb-4 bg-stripes-red">
-                <ShoppingBag className="w-7 h-7 text-neutral-700" />
+              <div className="w-16 h-16 bg-surface-1 rounded-full flex items-center justify-center mb-4">
+                <ShoppingBag className="w-8 h-8 text-text-muted" />
               </div>
-              <p className="text-xl font-black text-white uppercase tracking-tighter mb-1">
-                KOSONG
+              <p className="text-heading-3 font-bold text-text-primary mb-2">
+                Keranjang kosong
               </p>
-              <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-6">
-                // keranjang kosong
+              <p className="text-body-sm text-text-muted mb-6">
+                Yuk mulai belanja
               </p>
-              <button
-                onClick={onClose}
-                className="px-5 py-3 bg-[#dc2626] text-white text-xs font-black uppercase tracking-[0.25em] hover:bg-white hover:text-[#dc2626] transition-colors"
-              >
-                MULAI BELANJA →
-              </button>
+              <Button variant="primary" size="md" onClick={onClose}>
+                Mulai Belanja
+              </Button>
             </div>
           ) : (
-            <div className="flex flex-col gap-0 border-2 border-[#262626]">
+            <div className="flex flex-col gap-0 border border-border-subtle rounded-card overflow-hidden">
               {items.map((item, idx) => (
                 <div
                   key={`${item.productId}-${item.size}-${item.color}-${idx}`}
-                  className="flex gap-3 bg-[#0a0a0a] p-4 border-b-2 border-[#262626] last:border-b-0"
+                  className="flex gap-3 bg-canvas p-4 border-b border-border-subtle last:border-b-0"
                 >
-                  {/* Index */}
-                  <div className="text-[10px] font-mono font-black text-[#dc2626] pt-1 w-5 shrink-0">
-                    {String(idx + 1).padStart(2, "0")}
-                  </div>
                   {/* Image */}
-                  <div className="relative w-20 h-20 bg-[#161616] overflow-hidden shrink-0 border border-[#262626]">
+                  <div className="relative w-20 h-20 bg-surface-1 overflow-hidden shrink-0 rounded-subtle">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -104,16 +93,17 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/products/${item.slug}`}
-                      className="text-xs font-black text-white line-clamp-2 uppercase block hover:text-[#dc2626]"
+                      className="text-body font-semibold text-text-primary line-clamp-2 block hover:text-brand-red transition-colors"
                       onClick={onClose}
                     >
                       {item.name}
                     </Link>
-                    <p className="text-[10px] font-mono text-neutral-500 mt-1 uppercase tracking-wider">
+                    <p className="text-body-sm text-text-muted mt-1">
                       {item.size} · {item.color}
                     </p>
                     <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-stretch border border-[#262626]">
+                      {/* Quantity Stepper */}
+                      <div className="flex items-stretch border border-border-default rounded-subtle">
                         <button
                           onClick={() =>
                             updateQuantity(
@@ -123,12 +113,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               item.quantity - 1
                             )
                           }
-                          className="w-9 h-9 flex items-center justify-center text-neutral-400 hover:bg-[#dc2626] hover:text-white"
+                          className="w-11 h-11 flex items-center justify-center text-text-muted hover:bg-surface-1 hover:text-text-primary transition-colors rounded-l-subtle"
                           aria-label="Kurangi"
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus className="w-4 h-4" />
                         </button>
-                        <span className="w-9 text-center text-xs font-mono font-black text-white flex items-center justify-center border-l border-r border-[#262626]">
+                        <span className="w-11 text-center text-body-sm font-semibold text-text-primary flex items-center justify-center border-l border-r border-border-default">
                           {item.quantity}
                         </span>
                         <button
@@ -140,25 +130,23 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               item.quantity + 1
                             )
                           }
-                          className="w-9 h-9 flex items-center justify-center text-neutral-400 hover:bg-[#dc2626] hover:text-white"
+                          className="w-11 h-11 flex items-center justify-center text-text-muted hover:bg-surface-1 hover:text-text-primary transition-colors rounded-r-subtle"
                           aria-label="Tambah"
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus className="w-4 h-4" />
                         </button>
                       </div>
-                      <span className="text-sm font-black text-white font-mono">
-                        {formatPrice(item.price * item.quantity)}
-                      </span>
+                      <PriceTag price={item.price * item.quantity} size="md" />
                     </div>
                   </div>
                   <button
                     onClick={() =>
                       removeFromCart(item.productId, item.size, item.color)
                     }
-                    className="self-start p-1 text-neutral-500 hover:text-[#dc2626]"
+                    className="self-start p-2.5 text-text-muted hover:text-error-500 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Hapus"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               ))}
@@ -168,37 +156,26 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t-2 border-[#dc2626] bg-[#0a0a0a] px-4 py-4 space-y-3">
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-400">
-                SUBTOTAL
+          <div className="border-t border-border-subtle bg-canvas px-4 py-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-border-subtle pb-3">
+              <span className="text-body-sm font-medium text-text-secondary">
+                Subtotal
               </span>
-              <span className="text-xl font-black text-white font-mono tracking-tight">
-                {formatPrice(totalPrice)}
-              </span>
+              <PriceTag price={totalPrice} size="lg" />
             </div>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="flex flex-col gap-2">
+              <Link href="/checkout" onClick={onClose} className="w-full">
+                <Button variant="primary" size="lg" fullWidth>
+                  Checkout Sekarang
+                </Button>
+              </Link>
               <Link
                 href="/cart"
                 onClick={onClose}
-                className="w-full py-3 border-2 border-[#262626] text-white text-xs font-black uppercase tracking-[0.25em] flex items-center justify-center gap-2 hover:bg-[#161616] hover:border-[#dc2626] transition-colors"
+                className="text-body-sm text-text-muted text-center block hover:text-text-primary transition-colors"
               >
-                LIHAT CART PAGE
+                Lihat keranjang lengkap
               </Link>
-              <Link
-                href="/checkout"
-                onClick={onClose}
-                className="w-full py-3.5 bg-[#dc2626] text-white text-xs font-black uppercase tracking-[0.25em] flex items-center justify-center gap-2 hover:bg-white hover:text-[#dc2626] transition-colors"
-              >
-                CHECKOUT SEKARANG
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <button
-                onClick={clearCart}
-                className="w-full py-2 text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500 hover:text-[#dc2626]"
-              >
-                HAPUS SEMUA
-              </button>
             </div>
           </div>
         )}

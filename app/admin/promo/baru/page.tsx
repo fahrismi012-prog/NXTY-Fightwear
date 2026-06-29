@@ -44,7 +44,7 @@ export default async function NewPromoPage() {
         </h1>
         <p className="text-sm text-neutral-400 mt-2">
           Buat banner, flash sale, voucher, bundle, atau add-on baru untuk
-          toko NXTY Fightwear.
+          toko Anxiety Fightwear.
         </p>
       </div>
 
