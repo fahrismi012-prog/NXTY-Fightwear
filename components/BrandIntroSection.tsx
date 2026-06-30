@@ -1,75 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Factory, Calendar, Banknote, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export default function BrandIntroSection() {
   return (
-    <section className="bg-surface-1 py-12 sm:py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-          {/* Logo Brand */}
-          <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
+    <section className="bg-surface-1 py-10 sm:py-14">
+      <div className="max-w-2xl mx-auto px-4">
+
+        {/* Baris atas: logo kiri + welcome + deskripsi singkat di kanan */}
+        <div className="flex items-start gap-5 mb-6">
+          {/* Logo — bulat/kotak, ukuran tetap */}
+          <div className="shrink-0 w-28 h-28 sm:w-36 sm:h-36">
             <img
               src="/brand/logo-full.png"
-              alt="NXTY Fightwear"
-              className="h-24 sm:h-28 md:h-36 w-auto object-contain"
+              alt="Anxiety Fightwear"
+              className="w-full h-full object-contain"
               width={313}
               height={113}
             />
           </div>
 
-          {/* Brand Info */}
-          <div className="flex-1 space-y-6">
-            {/* Header */}
-            <div>
-              <p className="text-body-lg text-brand-red font-semibold mb-1">
-                Welcome to Anxiety Fightwear
-              </p>
-            </div>
-
-            {/* Description */}
-            <p className="text-body text-text-secondary leading-relaxed">
-              Anxiety Fightwear adalah brand peralatan olahraga beladiri asal Bandung yang berdiri sejak tahun 2014. Seluruh produk diproduksi di pabrik milik kami sendiri sehingga kualitas tetap terjaga dengan harga yang kompetitif.
+          {/* Teks kanan: WELCOME + deskripsi singkat */}
+          <div className="flex-1 pt-1">
+            <h2 className="text-body-lg font-bold text-text-primary uppercase tracking-wide mb-2">
+              Welcome
+            </h2>
+            <p className="text-body-sm text-text-secondary leading-relaxed">
+              Anxiety Fightwear adalah brand peralatan olahraga beladiri yang berasal dari Bandung. Berdiri sejak 2014 dan kami memproduksi barang di pabrik kami sendiri sehingga dapat menjamin kualitas dan harga yang bersaing.
             </p>
-
-            {/* CTA */}
-            <div>
-              <Link href="/products/search">
-                <Button
-                  variant="primary"
-                  size="md"
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
-                >
-                  Lihat Katalog
-                </Button>
-              </Link>
-            </div>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-border-subtle">
-              <Card variant="default" padding="sm" className="text-center">
-                <Factory className="w-6 h-6 text-brand-red mx-auto mb-2" />
-                <p className="text-body-sm font-semibold text-text-primary">Produksi Sendiri</p>
-              </Card>
-              <Card variant="default" padding="sm" className="text-center">
-                <Calendar className="w-6 h-6 text-brand-red mx-auto mb-2" />
-                <p className="text-body-sm font-semibold text-text-primary">Berdiri 2014</p>
-              </Card>
-              <Card variant="default" padding="sm" className="text-center">
-                <Banknote className="w-6 h-6 text-brand-red mx-auto mb-2" />
-                <p className="text-body-sm font-semibold text-text-primary">Harga Bersaing</p>
-              </Card>
-              <Card variant="default" padding="sm" className="text-center">
-                <Check className="w-6 h-6 text-brand-red mx-auto mb-2" />
-                <p className="text-body-sm font-semibold text-text-primary">Kualitas Terjaga</p>
-              </Card>
-            </div>
           </div>
         </div>
+
+        {/* Teks panjang full-width di bawah */}
+        <p className="text-body-sm text-text-secondary leading-relaxed mb-6">
+          Dari sarung tinju, hand wrap, matras, deker, seragam pencak silat, hingga perlengkapan taekwondo dan karate — setiap produk dirancang dengan standar kualitas tinggi untuk mendukung performa atlet di semua level.
+        </p>
+
+        {/* CTA */}
+        <Link href="/#catalog">
+          <Button
+            variant="primary"
+            size="md"
+            rightIcon={<ArrowRight className="w-4 h-4" />}
+          >
+            Lihat Katalog
+          </Button>
+        </Link>
+
       </div>
     </section>
   );

@@ -19,7 +19,7 @@ export default function TentangKamiPage() {
         </div>
 
         <p className="text-sm text-neutral-400 leading-relaxed mb-6 text-center">
-          Anxiety Fightwear adalah brand peralatan olahraga beladiri asal Bandung yang berdiri sejak tahun 2014. Seluruh produk diproduksi di pabrik milik kami sendiri sehingga kualitas tetap terjaga dengan harga yang kompetitif.
+          Anxiety Fightwear adalah brand peralatan olahraga beladiri yang berasal dari Bandung. Berdiri sejak 2014 dan kami memproduksi barang di pabrik kami sendiri sehingga dapat menjamin kualitas dan harga yang bersaing.
         </p>
 
         <div className="flex flex-col gap-3 mb-6">

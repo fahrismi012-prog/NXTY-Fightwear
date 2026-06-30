@@ -3,15 +3,11 @@
 import { Suspense, useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import productsData from "@/data/products.json";
-import promotionsData from "@/data/promotions.json";
-import type { Product, Promotion } from "@/types";
-import HeroSection from "@/components/HeroSection";
+import type { Product } from "@/types";
 import BrandIntroSection from "@/components/BrandIntroSection";
 import CategoryPills from "@/components/CategoryPills";
 import ProductGrid from "@/components/ProductGrid";
 import ScrollToTop from "@/components/ScrollToTop";
-import BannerCarousel from "@/components/BannerCarousel";
-import FlashSaleSection from "@/components/FlashSaleSection";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
@@ -22,6 +18,16 @@ const PROMO_MARQUEE = [
   "Fight Spirit",
   "Indonesian Brand",
   "Limited Drop",
+];
+
+// Urutan kategori yang diprioritaskan sesuai permintaan klien
+const PRIORITY_CATEGORIES = [
+  "Pencak Silat",
+  "Taekwondo",
+  "Karate",
+  "Muaythai",
+  "Boxing",
+  "Matras",
 ];
 
 export default function Home() {
@@ -46,7 +52,11 @@ function HomeContent() {
 
   const categories = useMemo(() => {
     const set = new Set(productsData.products.map((p) => p.category));
-    return Array.from(set).sort();
+    const all = Array.from(set);
+    // Tampilkan priority categories duluan dalam urutan yang ditentukan,
+    // lalu sisanya alfabet
+    const rest = all.filter((c) => !PRIORITY_CATEGORIES.includes(c)).sort();
+    return [...PRIORITY_CATEGORIES, ...rest];
   }, []);
 
   const filteredProducts = useMemo<Product[]>(() => {
@@ -66,22 +76,9 @@ function HomeContent() {
     return result;
   }, [searchQuery, activeCategory]);
 
-  const banners: Promotion[] = useMemo(
-    () =>
-      (promotionsData.promotions as Promotion[]).filter((p) => p.type === "banner"),
-    []
-  );
-
-  const flashSales: Promotion[] = useMemo(
-    () =>
-      (promotionsData.promotions as Promotion[]).filter((p) => p.type === "flash_sale"),
-    []
-  );
-
   return (
     <div className="min-h-screen bg-canvas">
       <ScrollToTop />
-      <HeroSection />
       <BrandIntroSection />
 
       {/* Marquee promo strip */}
@@ -108,15 +105,6 @@ function HomeContent() {
 
       <main id="catalog" className="pb-20 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 pt-8 space-y-10">
-          {/* Banner carousel */}
-          {banners.length > 0 && (
-            <BannerCarousel banners={banners} />
-          )}
-
-          {/* Flash sales */}
-          {flashSales.map((fs) => (
-            <FlashSaleSection key={fs.id} promotion={fs} />
-          ))}
 
           {/* Section header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-border-subtle">

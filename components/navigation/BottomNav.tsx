@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, LayoutGrid, Heart, ShoppingBag, User } from "lucide-react";
+import { Home, LayoutGrid, Tag, ShoppingBag, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useWishlist } from "@/contexts/WishlistContext";
 import { useUI } from "@/contexts/UIContext";
 import { getCurrentUser, onAuthStateChange } from "@/lib/supabase/customer";
 import { cn } from "@/lib/utils";
@@ -43,7 +42,6 @@ type Tab = LinkTab | ActionTab;
 export function BottomNav() {
   const pathname = usePathname();
   const { totalItems: cartCount } = useCart();
-  const { totalItems: wishlistCount, hydrated: wishlistHydrated } = useWishlist();
   const { openCart, openFilter } = useUI();
   const [accountHref, setAccountHref] = useState("/masuk");
 
@@ -88,12 +86,11 @@ export function BottomNav() {
       onClick: openFilter,
     },
     {
-      key: "wishlist",
-      label: "Wishlist",
-      icon: Heart,
+      key: "kategori",
+      label: "Kategori",
+      icon: Tag,
       type: "link",
-      href: "/wishlist",
-      badge: wishlistHydrated ? wishlistCount : undefined,
+      href: "/#categories",
     },
     {
       key: "keranjang",

@@ -26,7 +26,6 @@ import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", label: "Beranda" },
-  { href: "/promo", label: "Promo" },
   { href: "/tentang-kami", label: "Cerita" },
   { href: "/kontak", label: "Kontak" },
 ];

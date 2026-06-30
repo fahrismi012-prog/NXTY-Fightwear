@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-import { ChevronRight, Grid3x3, Tag } from "lucide-react";
+import { ChevronRight, Grid3x3 } from "lucide-react";
 import { Sheet, Eyebrow } from "@/components/ui";
 import { useUI } from "@/contexts/UIContext";
 import productsData from "@/data/products.json";
@@ -112,31 +112,7 @@ export function MegaMenuSheet() {
           ))}
         </ul>
 
-        {/* Bottom action — promo */}
-        <Link
-          href="/promo"
-          onClick={closeMegaMenu}
-          className={cn(
-            "flex items-center gap-3 px-3 py-3 mt-3",
-            "bg-surface-1 hover:bg-surface-2 rounded-card",
-            "transition-colors duration-fast",
-            "min-h-[56px]"
-          )}
-        >
-          <span
-            className={cn(
-              "w-12 h-12 shrink-0 inline-flex items-center justify-center",
-              "bg-brand-red text-white rounded-subtle"
-            )}
-            aria-hidden
-          >
-            <Tag className="w-5 h-5" />
-          </span>
-          <span className="flex-1 text-body font-semibold text-text-primary">
-            Promo Aktif
-          </span>
-          <ChevronRight className="w-5 h-5 text-text-muted" aria-hidden />
-        </Link>
+        {/* Bottom action — promo dihapus */}
       </div>
     </Sheet>
   );

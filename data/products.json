@@ -1,443 +1,29 @@
 {
   "products": [
     {
-      "id": "prod_001",
-      "name": "NXTY Pro Boxing Gloves 12oz",
-      "slug": "nxty-pro-boxing-gloves-12oz",
-      "category": "Sarung Tinju",
-      "description": "Sarung tinju profesional dengan lapisan busa gel multi-density untuk perlindungan maksimal. Material sintetik premium tahan lama. Cocok untuk latihan harian maupun pertandingan.",
-      "price": 549000,
-      "originalPrice": 699000,
-      "sizes": ["10oz", "12oz", "14oz", "16oz"],
-      "colors": ["Hitam", "Merah", "Putih"],
+      "id": "prod_030",
+      "name": "Seragam Pencak Silat IPSI Premium",
+      "slug": "seragam-pencak-silat-ipsi-premium",
+      "category": "Pencak Silat",
+      "description": "Seragam pencak silat standar IPSI kualitas premium. Bahan katun adem, jahitan rapi, warna tidak luntur. Cocok untuk latihan, ujian kenaikan sabuk, dan pertandingan.",
+      "price": 200000,
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "colors": ["Hitam", "Putih"],
       "images": [
         "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1517438476312-10d79c077509?auto=format&fit=crop&w=800&q=80"
       ],
-      "rating": 4.8,
-      "reviewsCount": 124,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_002",
-      "name": "NXTY Elite Boxing Gloves 16oz",
-      "slug": "nxty-elite-boxing-gloves-16oz",
-      "category": "Sarung Tinju",
-      "description": "Seri Elite dengan kulit PU premium, ventilasi mesh di jempol, dan wrist wrap yang bisa disesuaikan. Ringan namun memberikan impact absorption terbaik.",
-      "price": 749000,
-      "sizes": ["14oz", "16oz"],
-      "colors": ["Hitam", "Biru Navy", "Merah Maroon"],
-      "images": [
-        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.9,
-      "reviewsCount": 87,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_003",
-      "name": "NXTY Kids Boxing Gloves 8oz",
-      "slug": "nxty-kids-boxing-gloves-8oz",
-      "category": "Sarung Tinju",
-      "description": "Sarung tinju khusus anak-anak dengan busa lembut dan desain colorful. Sistem pengaman thumb lock untuk keamanan latihan.",
-      "price": 329000,
-      "sizes": ["6oz", "8oz"],
-      "colors": ["Merah", "Biru", "Hitam"],
-      "images": [
-        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 45,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_004",
-      "name": "NXTY Elastic Hand Wrap 4.5m",
-      "slug": "nxty-elastic-hand-wrap-4-5m",
-      "category": "Hand Wrap",
-      "description": "Hand wrap elastis panjang 4.5 meter dengan velcro premium. Melindungi pergelangan tangan dan jari saat latihan striking. Material breathable.",
-      "price": 89000,
-      "originalPrice": 129000,
-      "sizes": ["4.5m"],
-      "colors": ["Hitam", "Merah", "Putih", "Biru", "Abu-abu"],
-      "images": [
-        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 210,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_005",
-      "name": "NXTY Mexican Style Hand Wrap 5m",
-      "slug": "nxty-mexican-style-hand-wrap-5m",
-      "category": "Hand Wrap",
-      "description": "Gaya Mexican dengan stretch semi-elastic. Lebih tebal dan nyaman untuk latihan intensif. Panjang 5 meter untuk wrapping maksimal.",
-      "price": 119000,
-      "sizes": ["5m"],
-      "colors": ["Hitam", "Merah", "Putih", "Camo"],
-      "images": [
-        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 156,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_006",
-      "name": "NXTY Compression Rashguard Long Sleeve",
-      "slug": "nxty-compression-rashguard-long-sleeve",
-      "category": "Rashguard",
-      "description": "Rashguard kompresi lengan panjang dengan teknologi moisture-wicking. Melindungi kulit dari mat rash dan membantu recovery otot.",
-      "price": 399000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Hitam", "Hitam-Merah", "Abu Gelap"],
-      "images": [
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.9,
-      "reviewsCount": 98,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_007",
-      "name": "NXTY Classic Rashguard Short Sleeve",
-      "slug": "nxty-classic-rashguard-short-sleeve",
-      "category": "Rashguard",
-      "description": "Rashguard lengan pendek klasik. Flatlock stitching untuk kenyamanan maksimal. Ideal untuk BJJ, wrestling, dan MMA grappling.",
-      "price": 349000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Putih", "Hitam", "Merah"],
-      "images": [
-        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 73,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_008",
-      "name": "NXTY Camo Rashguard Series",
-      "slug": "nxty-camo-rashguard-series",
-      "category": "Rashguard",
-      "description": "Rashguard dengan motif camo eksklusif NXTY. Sublimated print yang tidak pudar setelah dicuci berkali-kali. SPF 50+ sun protection.",
-      "price": 429000,
-      "sizes": ["M", "L", "XL"],
-      "colors": ["Urban Camo", "Forest Camo", "Desert Camo"],
-      "images": [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 52,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_009",
-      "name": "NXTY Pro Fight Shorts V2",
-      "slug": "nxty-pro-fight-shorts-v2",
-      "category": "Celana Tarung",
-      "description": "Celana fight pro dengan split side untuk mobilitas maksimal. Waistband elastis + drawstring. Material rip-stop ringan dan cepat kering.",
-      "price": 379000,
-      "originalPrice": 459000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Hitam", "Hitam-Merah", "Abu Gelap", "Biru Navy"],
-      "images": [
-        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 134,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_010",
-      "name": "NXTY Grappling Shorts",
-      "slug": "nxty-grappling-shorts",
-      "category": "Celana Tarung",
-      "description": "Celana grappling tanpa pocket dan zipper untuk safety di mat. Compression liner opsional. Pas untuk BJJ dan wrestling.",
-      "price": 329000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Hitam", "Putih", "Merah"],
-      "images": [
-        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.5,
-      "reviewsCount": 61,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_011",
-      "name": "NXTY Premium Shin Guards",
-      "slug": "nxty-premium-shin-guards",
-      "category": "Pelindung Kaki",
-      "description": "Pelindung tulang kering premium dengan busa EVA molding anatomis. Tiga strap hook-and-loop untuk fit aman. Cocok untuk Muay Thai dan kickboxing.",
-      "price": 459000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Hitam", "Hitam-Putih", "Hitam-Merah"],
-      "images": [
-        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 89,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_012",
-      "name": "NXTY Instep Shin Guards",
-      "slug": "nxty-instep-shin-guards",
-      "category": "Pelindung Kaki",
-      "description": "Pelindung tulang kering yang juga melindungi instep (telapak kaki). Desain slip-on elastis dengan pad tambahan di depan.",
-      "price": 289000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Hitam", "Biru"],
-      "images": [
-        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.4,
-      "reviewsCount": 42,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_013",
-      "name": "NXTY Gel Mouth Guard Pro",
-      "slug": "nxty-gel-mouth-guard-pro",
-      "category": "Pelindung Gigi",
-      "description": "Pelindung gigi gel thermoplastic yang bisa di-boil-and-bite untuk custom fit. Perlindungan gigi dan rahang maksimal. Termasuk case higienis.",
-      "price": 99000,
-      "originalPrice": 149000,
-      "sizes": ["Junior", "Adult"],
-      "colors": ["Bening", "Hitam", "Merah", "Biru"],
-      "images": [
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 178,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_014",
-      "name": "NXTY Double Mouth Guard",
-      "slug": "nxty-double-mouth-guard",
-      "category": "Pelindung Gigi",
-      "description": "Pelindung gigi ganda untuk rahang atas dan bawah. Direkomendasikan untuk sparring berat dan pertandingan. Material food-grade BPA free.",
-      "price": 129000,
-      "sizes": ["Adult"],
-      "colors": ["Hitam", "Merah", "Putih"],
-      "images": [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.5,
-      "reviewsCount": 67,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_015",
-      "name": "NXTY Combat Gym Bag 50L",
-      "slug": "nxty-combat-gym-bag-50l",
-      "category": "Tas Gym",
-      "description": "Tas gym combat 50 liter dengan kompartemen khusus untuk sarung tinju dan shin guard. Material tarpaulin waterproof dan shoulder strap padded.",
-      "price": 499000,
-      "sizes": ["50L"],
-      "colors": ["Hitam", "Camo", "Biru Navy"],
-      "images": [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 112,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_016",
-      "name": "NXTY Duffel Bag 35L",
-      "slug": "nxty-duffel-bag-35l",
-      "category": "Tas Gym",
-      "description": "Duffel bag compact 35 liter, pas untuk latihan harian. Side pocket untuk botol minum dan hand wrap.",
-      "price": 359000,
-      "sizes": ["35L"],
-      "colors": ["Hitam", "Abu Gelap", "Merah"],
-      "images": [
-        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.5,
-      "reviewsCount": 54,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_017",
-      "name": "NXTY Training Hoodie",
-      "slug": "nxty-training-hoodie",
-      "category": "Pakaian Olahraga",
-      "description": "Hoodie latihan dengan fleece tebal. Sempurna untuk warm-up dan post-workout. Logo NXTY embossed di dada. Unisex modern fit.",
-      "price": 449000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Hitam", "Abu Gelap", "Biru Navy"],
-      "images": [
-        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 91,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_018",
-      "name": "NXTY Jogger Pants Pro",
-      "slug": "nxty-jogger-pants-pro",
-      "category": "Pakaian Olahraga",
-      "description": "Jogger pants dengan tapered fit dan ankle zip. Material French terry yang lembut namun tahan lama.",
-      "price": 379000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Hitam", "Abu Tua", "Olive"],
-      "images": [
-        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 68,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_019",
-      "name": "NXTY Performance Tank Top",
-      "slug": "nxty-performance-tank-top",
-      "category": "Pakaian Olahraga",
-      "description": "Tank top performance dengan mesh panel di punggung untuk ventilasi maksimal. Material anti-bau dan quick-dry.",
-      "price": 249000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Hitam", "Putih", "Merah", "Abu Gelap"],
-      "images": [
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.5,
-      "reviewsCount": 83,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_020",
-      "name": "NXTY Focus Mitts Pair",
-      "slug": "nxty-focus-mitts-pair",
-      "category": "Aksesoris Latihan",
-      "description": "Focus mitts sepasang untuk latihan kombinasi dan presisi. Backing busa gel tebal. Handle contour untuk pelatih.",
-      "price": 299000,
-      "originalPrice": 379000,
-      "sizes": ["Standard"],
-      "colors": ["Hitam-Merah", "Hitam-Putih", "Hitam-Kuning"],
-      "images": [
-        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 104,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_021",
-      "name": "NXTY Jump Rope Speed",
-      "slug": "nxty-jump-rope-speed",
-      "category": "Aksesoris Latihan",
-      "description": "Jump rope speed dengan ball bearing dan cable steel coated. Panjang adjustable. Handle ergonomis anti-slip.",
-      "price": 149000,
-      "sizes": ["Adjustable"],
-      "colors": ["Hitam", "Merah", "Biru"],
-      "images": [
-        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 155,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_022",
-      "name": "NXTY Thai Pads Pair",
-      "slug": "nxty-thai-pads-pair",
-      "category": "Aksesoris Latihan",
-      "description": "Thai pads sepasang dengan foam density tinggi untuk menahan low kicks dan knees. Velcro straps yang kuat.",
-      "price": 549000,
-      "sizes": ["Standard"],
-      "colors": ["Hitam-Merah", "Hitam-Biru", "Hitam-Kuning"],
-      "images": [
-        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 76,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_023",
-      "name": "NXTY Hand Wrap Glove Inner",
-      "slug": "nxty-hand-wrap-glove-inner",
-      "category": "Hand Wrap",
-      "description": "Inner glove dengan bantalan gel yang bisa dipakai sebagai alternatif hand wrap. Quick slip on/off.",
-      "price": 169000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Hitam", "Putih", "Merah"],
-      "images": [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.4,
-      "reviewsCount": 38,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_024",
-      "name": "NXTY Abdominal Guard",
-      "slug": "nxty-abdominal-guard",
-      "category": "Pelindung",
-      "description": "Pelindung perut/groin cup dengan shell polycarbonate dan gel liner. Waistband elastis adjustable.",
-      "price": 189000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Putih", "Hitam"],
-      "images": [
-        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.5,
-      "reviewsCount": 62,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_025",
-      "name": "Matras Beladiri Puzzle Evamat 3cm",
-      "slug": "matras-beladiri-evamat-3cm",
-      "category": "Matras",
-      "description": "Matras beladiri puzzle evamat tebal 3cm. Cocok untuk pencak silat, taekwondo, karate, muay thai, playground, dan tinju. Mudah dipasang & dilepas, permukaan anti-slip.",
-      "price": 145000,
-      "sizes": ["100x100cm"],
-      "colors": ["Merah-Biru", "Hijau-Kuning"],
-      "images": [
-        "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.9,
-      "reviewsCount": 492,
+      "rating": 5.0,
+      "reviewsCount": 84,
       "featured": true,
       "inStock": true
     },
     {
       "id": "prod_026",
-      "name": "NXTY Deker Pelindung Kaki Pencak Silat & TKD",
+      "name": "Deker Pelindung Kaki Pencak Silat",
       "slug": "nxty-deker-pelindung-kaki",
       "category": "Pencak Silat",
-      "description": "Deker / pelindung kaki untuk pencak silat dan Tae Kwon Do. Bantalan tebal, tali pengikat kuat, bahan kulit sintetis tahan lama. Nyaman dipakai untuk latihan tendangan.",
+      "description": "Deker / pelindung kaki untuk pencak silat. Bantalan tebal, tali pengikat kuat, bahan kulit sintetis tahan lama. Nyaman dipakai untuk latihan tendangan.",
       "price": 55000,
       "sizes": ["S", "M", "L", "XL"],
       "colors": ["Hitam", "Merah", "Biru"],
@@ -451,7 +37,7 @@
     },
     {
       "id": "prod_027",
-      "name": "NXTY Arm Guard Pelindung Lengan",
+      "name": "Arm Guard Pelindung Lengan Pencak Silat",
       "slug": "nxty-arm-guard-pelindung-lengan",
       "category": "Pencak Silat",
       "description": "Arm guard / pelindung lengan untuk pencak silat. Melindungi lengan dari benturan saat latihan dan pertandingan. Bahan elastis yang mengikuti bentuk lengan.",
@@ -467,76 +53,8 @@
       "inStock": true
     },
     {
-      "id": "prod_028",
-      "name": "NXTY Sinca Pelindung Kemaluan Wanita",
-      "slug": "nxty-sinca-pelindung-wanita",
-      "category": "Pelindung",
-      "description": "Sinca / pelindung kemaluan wanita untuk pencak silat dan bela diri. Desain ergonomis, nyaman dipakai, perlindungan optimal.",
-      "price": 55000,
-      "sizes": ["All Size"],
-      "colors": ["Putih", "Hitam", "Pink"],
-      "images": [
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.9,
-      "reviewsCount": 250,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_029",
-      "name": "NXTY Gentle Cup Groin Guard Laki-laki",
-      "slug": "nxty-gentle-cup-groin-guard",
-      "category": "Pelindung",
-      "description": "Gentle cup / groin guard untuk pelindung kemaluan laki-laki. Cocok untuk sparring, pertandingan, dan latihan bela diri. Shell keras dengan busa peredam.",
-      "price": 55000,
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Putih", "Hitam"],
-      "images": [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 750,
-      "featured": false,
-      "inStock": true
-    },
-    {
-      "id": "prod_030",
-      "name": "Seragam Pencak Silat IPSI Premium",
-      "slug": "seragam-pencak-silat-ipsi-premium",
-      "category": "Pencak Silat",
-      "description": "Seragam pencak silat standar IPSI kualitas premium. Bahan katun adem, jahitan rapi, warna tidak luntur. Cocok untuk latihan, ujian kenaikan sabuk, dan pertandingan.",
-      "price": 200000,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Hitam", "Putih"],
-      "images": [
-        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 5.0,
-      "reviewsCount": 84,
-      "featured": true,
-      "inStock": true
-    },
-    {
-      "id": "prod_031",
-      "name": "NXTY Pecing Pad Kicking Shield",
-      "slug": "nxty-pecing-pad-kicking-shield",
-      "category": "Aksesoris Latihan",
-      "description": "Pecing pad / kicking shield untuk latihan tendangan silat dan taekwondo. Bantalan tebal dan lebar, handle kokoh di belakang untuk pelatih pegang.",
-      "price": 140000,
-      "sizes": ["Standard"],
-      "colors": ["Hitam-Merah", "Hitam-Biru"],
-      "images": [
-        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
-      ],
-      "rating": 5.0,
-      "reviewsCount": 30,
-      "featured": false,
-      "inStock": true
-    },
-    {
       "id": "prod_032",
-      "name": "Sarung Toya dan Golok NXTY Pencak Silat",
+      "name": "Sarung Toya dan Golok Pencak Silat",
       "slug": "sarung-toya-dan-golok-nxty",
       "category": "Pencak Silat",
       "description": "Sarung toya dan golok untuk latihan pencak silat. Terbuat dari kayu berkualitas dengan lapisan pernis halus. Panjang standar untuk latihan dan seni.",
@@ -552,53 +70,404 @@
       "inStock": true
     },
     {
-      "id": "prod_033",
-      "name": "Papan Pelampung Renang Anak",
-      "slug": "papan-pelampung-renang-anak",
-      "category": "Renang",
-      "description": "Papan pelampung renang anak dengan kualitas terbaik. Busa плотный, ringan, tidak mudah rusak. Warna cerah yang disukai anak.",
-      "price": 15000,
-      "sizes": ["Anak"],
-      "colors": ["Biru-Kuning", "Pink-Putih", "Hijau-Orange"],
+      "id": "prod_028",
+      "name": "Sinca Pelindung Kemaluan Wanita Pencak Silat",
+      "slug": "nxty-sinca-pelindung-wanita",
+      "category": "Pencak Silat",
+      "description": "Sinca / pelindung kemaluan wanita untuk pencak silat dan bela diri. Desain ergonomis, nyaman dipakai, perlindungan optimal.",
+      "price": 55000,
+      "sizes": ["All Size"],
+      "colors": ["Putih", "Hitam", "Pink"],
       "images": [
-        "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
       ],
       "rating": 4.9,
-      "reviewsCount": 11,
+      "reviewsCount": 250,
       "featured": false,
       "inStock": true
     },
     {
-      "id": "prod_034",
-      "name": "Pelampung Berenang Anak-anak",
-      "slug": "pelampung-berenang-anak",
-      "category": "Renang",
-      "description": "Pelampung renang untuk anak-anak. Desain lucu dan aman, bahan PVC tebal, katup pengaman anti-kebocoran.",
-      "price": 32500,
-      "sizes": ["Anak"],
-      "colors": ["Biru", "Pink", "Kuning", "Hijau"],
+      "id": "prod_029",
+      "name": "Gentle Cup Groin Guard Pencak Silat",
+      "slug": "nxty-gentle-cup-groin-guard",
+      "category": "Pencak Silat",
+      "description": "Gentle cup / groin guard untuk laki-laki. Cocok untuk sparring, pertandingan pencak silat dan bela diri. Shell keras dengan busa peredam.",
+      "price": 55000,
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Putih", "Hitam"],
       "images": [
-        "https://images.unsplash.com/photo-1565992441121-4367c2967103?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
       ],
-      "rating": 5.0,
-      "reviewsCount": 42,
+      "rating": 4.8,
+      "reviewsCount": 750,
       "featured": false,
       "inStock": true
     },
     {
-      "id": "prod_035",
-      "name": "Pelampung Pinggang Terapi Renang",
-      "slug": "pelampung-pinggang-terapi",
-      "category": "Renang",
-      "description": "Pelampung pinggang untuk terapi renang anak dan dewasa. Mendukung postur tubuh di air, cocok untuk latihan rehabilitasi dan pemula.",
-      "price": 25000,
-      "sizes": ["Anak", "Dewasa"],
-      "colors": ["Biru", "Orange", "Pink"],
+      "id": "prod_036",
+      "name": "Seragam Taekwondo Dobok Premium",
+      "slug": "seragam-taekwondo-dobok-premium",
+      "category": "Taekwondo",
+      "description": "Dobok taekwondo premium bahan campuran polyester dan katun, ringan dan tidak mudah kusut. Jahitan penguat di bagian siku dan lutut. Cocok untuk latihan dan pertandingan.",
+      "price": 185000,
+      "originalPrice": 230000,
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "colors": ["Putih"],
       "images": [
-        "https://images.unsplash.com/photo-1438029071396-1e831a7fa6d8?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1564460576398-ef55d99548b2?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
       ],
-      "rating": 5.0,
-      "reviewsCount": 20,
+      "rating": 4.9,
+      "reviewsCount": 312,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_037",
+      "name": "Pelindung Kaki Taekwondo Instep Guard",
+      "slug": "pelindung-kaki-taekwondo-instep",
+      "category": "Taekwondo",
+      "description": "Pelindung kaki / instep guard khusus taekwondo. Desain ringan dan pas di kaki, tidak mengganggu kecepatan tendangan. Bahan foam EVA lembut.",
+      "price": 75000,
+      "sizes": ["S", "M", "L"],
+      "colors": ["Hitam", "Merah", "Biru"],
+      "images": [
+        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 198,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_038",
+      "name": "Pelindung Dada Taekwondo Hogu",
+      "slug": "pelindung-dada-taekwondo-hogu",
+      "category": "Taekwondo",
+      "description": "Body protector / hogu taekwondo standar WTF. Pelindung dada dan perut dari serangan tendangan. Tali pengikat di bahu dan samping pinggang.",
+      "price": 250000,
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Merah", "Biru"],
+      "images": [
+        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 145,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_039",
+      "name": "Pelindung Lengan dan Tangan Taekwondo",
+      "slug": "pelindung-lengan-tangan-taekwondo",
+      "category": "Taekwondo",
+      "description": "Forearm and hand guard set untuk taekwondo. Melindungi lengan bawah dan punggung tangan dari benturan. Bahan busa dengan lapisan kulit sintetis.",
+      "price": 95000,
+      "sizes": ["S", "M", "L"],
+      "colors": ["Merah", "Biru", "Hitam"],
+      "images": [
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 87,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_040",
+      "name": "Seragam Karate Gi Premium",
+      "slug": "seragam-karate-gi-premium",
+      "category": "Karate",
+      "description": "Karate gi premium bahan canvas tebal 12oz. Jahitan dobel di semua titik tekanan. Tersedia untuk kelas latihan (putih) maupun kumite (ultra-ringan). Cocok untuk semua aliran karate.",
+      "price": 210000,
+      "originalPrice": 260000,
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "colors": ["Putih"],
+      "images": [
+        "https://images.unsplash.com/photo-1564460576398-ef55d99548b2?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 265,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_041",
+      "name": "Pelindung Kaki Karate Foot Protector",
+      "slug": "pelindung-kaki-karate-foot-protector",
+      "category": "Karate",
+      "description": "Foot protector karate standar WKF. Melindungi punggung kaki saat kumite. Bahan busa nitrile ringan, desain slip-on elastis.",
+      "price": 65000,
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Merah", "Biru", "Putih"],
+      "images": [
+        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 176,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_042",
+      "name": "Pelindung Tangan Karate Glove Kumite",
+      "slug": "pelindung-tangan-karate-kumite",
+      "category": "Karate",
+      "description": "Karate glove / pelindung tangan untuk kumite. Foam tipis namun efektif meredam benturan. Desain open-finger untuk genggaman tetap bebas.",
+      "price": 75000,
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Merah", "Biru"],
+      "images": [
+        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 134,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_043",
+      "name": "Pelindung Tulang Kering Karate",
+      "slug": "pelindung-tulang-kering-karate",
+      "category": "Karate",
+      "description": "Shin guard karate untuk latihan dan kumite. Bahan busa EVA yang ringan, tidak membebani kaki saat bergerak cepat.",
+      "price": 80000,
+      "sizes": ["S", "M", "L"],
+      "colors": ["Merah", "Biru", "Hitam"],
+      "images": [
+        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 92,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_001",
+      "name": "Sarung Tinju Muay Thai Pro 12oz",
+      "slug": "nxty-pro-boxing-gloves-12oz",
+      "category": "Muaythai",
+      "description": "Sarung tinju Muay Thai profesional dengan lapisan busa gel multi-density. Cocok untuk latihan pad, bag, dan sparring Muay Thai.",
+      "price": 549000,
+      "originalPrice": 699000,
+      "sizes": ["10oz", "12oz", "14oz", "16oz"],
+      "colors": ["Hitam", "Merah", "Putih"],
+      "images": [
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 124,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_011",
+      "name": "Shin Guard Muay Thai Premium",
+      "slug": "nxty-premium-shin-guards",
+      "category": "Muaythai",
+      "description": "Pelindung tulang kering premium dengan busa EVA molding anatomis. Tiga strap hook-and-loop untuk fit aman. Cocok untuk Muay Thai dan kickboxing.",
+      "price": 459000,
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Hitam", "Hitam-Putih", "Hitam-Merah"],
+      "images": [
+        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 89,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_044",
+      "name": "Thai Pads Muay Thai Sepasang",
+      "slug": "nxty-thai-pads-pair",
+      "category": "Muaythai",
+      "description": "Thai pads sepasang dengan foam density tinggi untuk menahan low kicks, knees, dan elbows. Velcro straps yang kuat, handle ergonomis.",
+      "price": 549000,
+      "sizes": ["Standard"],
+      "colors": ["Hitam-Merah", "Hitam-Biru", "Hitam-Kuning"],
+      "images": [
+        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 76,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_004",
+      "name": "Hand Wrap Muay Thai Elastis 4.5m",
+      "slug": "nxty-elastic-hand-wrap-4-5m",
+      "category": "Muaythai",
+      "description": "Hand wrap elastis 4.5 meter dengan velcro premium. Melindungi pergelangan tangan dan jari saat latihan striking Muay Thai. Material breathable.",
+      "price": 89000,
+      "originalPrice": 129000,
+      "sizes": ["4.5m"],
+      "colors": ["Hitam", "Merah", "Putih", "Biru", "Abu-abu"],
+      "images": [
+        "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 210,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_045",
+      "name": "Celana Muay Thai Fight Shorts",
+      "slug": "nxty-muaythai-fight-shorts",
+      "category": "Muaythai",
+      "description": "Celana fight shorts Muay Thai dengan desain slit tinggi untuk mobilitas tendangan maksimal. Material satin ringan, waistband elastis kuat.",
+      "price": 379000,
+      "originalPrice": 459000,
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "colors": ["Hitam", "Hitam-Merah", "Biru Navy"],
+      "images": [
+        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 134,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_002",
+      "name": "Sarung Tinju Boxing Elite 16oz",
+      "slug": "nxty-elite-boxing-gloves-16oz",
+      "category": "Boxing",
+      "description": "Seri Elite dengan kulit PU premium, ventilasi mesh di jempol, dan wrist wrap yang bisa disesuaikan. Ringan namun memberikan impact absorption terbaik untuk latihan boxing.",
+      "price": 749000,
+      "sizes": ["14oz", "16oz"],
+      "colors": ["Hitam", "Biru Navy", "Merah Maroon"],
+      "images": [
+        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 87,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_003",
+      "name": "Sarung Tinju Boxing Anak 8oz",
+      "slug": "nxty-kids-boxing-gloves-8oz",
+      "category": "Boxing",
+      "description": "Sarung tinju khusus anak-anak dengan busa lembut dan desain colorful. Sistem pengaman thumb lock untuk keamanan latihan boxing sejak dini.",
+      "price": 329000,
+      "sizes": ["6oz", "8oz"],
+      "colors": ["Merah", "Biru", "Hitam"],
+      "images": [
+        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 45,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_020",
+      "name": "Focus Mitts Boxing Sepasang",
+      "slug": "nxty-focus-mitts-pair",
+      "category": "Boxing",
+      "description": "Focus mitts sepasang untuk latihan kombinasi dan presisi boxing. Backing busa gel tebal. Handle contour untuk pelatih.",
+      "price": 299000,
+      "originalPrice": 379000,
+      "sizes": ["Standard"],
+      "colors": ["Hitam-Merah", "Hitam-Putih", "Hitam-Kuning"],
+      "images": [
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 104,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_005",
+      "name": "Hand Wrap Boxing Mexican Style 5m",
+      "slug": "nxty-mexican-style-hand-wrap-5m",
+      "category": "Boxing",
+      "description": "Gaya Mexican dengan stretch semi-elastic. Lebih tebal dan nyaman untuk latihan boxing intensif. Panjang 5 meter untuk wrapping maksimal.",
+      "price": 119000,
+      "sizes": ["5m"],
+      "colors": ["Hitam", "Merah", "Putih", "Camo"],
+      "images": [
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 156,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_013",
+      "name": "Pelindung Gigi Boxing Gel Pro",
+      "slug": "nxty-gel-mouth-guard-pro",
+      "category": "Boxing",
+      "description": "Pelindung gigi gel thermoplastic boil-and-bite untuk custom fit. Perlindungan gigi dan rahang maksimal saat sparring boxing. Termasuk case higienis.",
+      "price": 99000,
+      "originalPrice": 149000,
+      "sizes": ["Junior", "Adult"],
+      "colors": ["Bening", "Hitam", "Merah", "Biru"],
+      "images": [
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 178,
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "prod_025",
+      "name": "Matras Beladiri Puzzle Evamat 3cm",
+      "slug": "matras-beladiri-evamat-3cm",
+      "category": "Matras",
+      "description": "Matras beladiri puzzle evamat tebal 3cm. Cocok untuk pencak silat, taekwondo, karate, muay thai, boxing, dan playground. Mudah dipasang & dilepas, permukaan anti-slip.",
+      "price": 145000,
+      "sizes": ["100x100cm"],
+      "colors": ["Merah-Biru", "Hijau-Kuning"],
+      "images": [
+        "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 492,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_046",
+      "name": "Matras Roll Beladiri 5cm",
+      "slug": "matras-roll-beladiri-5cm",
+      "category": "Matras",
+      "description": "Matras roll tebal 5cm, mudah digulung dan disimpan. Cocok untuk semua jenis beladiri. Material EVA anti-selip permukaan atas, anti-slip bawah.",
+      "price": 450000,
+      "sizes": ["100x200cm", "120x200cm"],
+      "colors": ["Merah", "Biru", "Hijau"],
+      "images": [
+        "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 167,
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "prod_047",
+      "name": "Matras Tatami Judo BJJ 4cm",
+      "slug": "matras-tatami-judo-bjj-4cm",
+      "category": "Matras",
+      "description": "Matras tatami tebal 4cm dengan tekstur permukaan khas tatami. Empuk dan aman untuk bantingan. Cocok untuk judo, BJJ, dan gulat.",
+      "price": 195000,
+      "sizes": ["100x100cm"],
+      "colors": ["Biru-Putih", "Hijau-Kuning", "Merah-Biru"],
+      "images": [
+        "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 283,
       "featured": false,
       "inStock": true
     }

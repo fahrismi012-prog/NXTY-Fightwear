@@ -1,7 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+
+// Icon mapping per kategori
+const CATEGORY_ICONS: Record<string, string> = {
+  "Pencak Silat": "🥋",
+  "Taekwondo":    "🦵",
+  "Karate":       "✊",
+  "Muaythai":     "🥊",
+  "Boxing":       "🥊",
+  "Matras":       "🟩",
+};
 
 interface CategoryPillsProps {
   categories: string[];
@@ -14,83 +23,50 @@ export default function CategoryPills({
   activeCategory,
   onSelect,
 }: CategoryPillsProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const checkScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = el;
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
-      setCanScrollLeft(scrollLeft > 10);
-    };
-
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [categories]);
-
   return (
-    <div className="relative w-full -mx-4 sm:mx-0">
-      {/* Left-edge gradient fade */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute top-0 left-0 bottom-0 w-12 bg-gradient-to-r from-canvas via-canvas/80 to-transparent z-10 transition-opacity duration-200",
-          canScrollLeft ? "opacity-100" : "opacity-0"
-        )}
-      />
+    <div className="w-full">
+      {/* Grid 3 kolom — semua kategori langsung terlihat */}
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+        {/* Tombol "Semua" */}
+        <button
+          onClick={() => onSelect(null)}
+          className={cn(
+            "flex flex-col items-center justify-center gap-1.5",
+            "py-3 px-2 rounded-card border transition-all min-h-[72px]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red",
+            activeCategory === null
+              ? "bg-brand-red border-brand-red text-white"
+              : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-red hover:text-brand-red"
+          )}
+        >
+          <span className="text-xl leading-none">🛒</span>
+          <span className="text-[11px] font-semibold leading-tight text-center">
+            Semua
+          </span>
+        </button>
 
-      {/* Right-edge gradient fade */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute top-0 right-0 bottom-0 w-12 bg-gradient-to-l from-canvas via-canvas/80 to-transparent z-10 transition-opacity duration-200",
-          canScrollRight ? "opacity-100" : "opacity-0"
-        )}
-      />
-
-      {/* Scrollable container - full width on mobile, contained on desktop */}
-      <div
-        ref={scrollRef}
-        className="w-full overflow-x-auto scrollbar-hide overflow-y-visible"
-        style={{ WebkitOverflowScrolling: "touch" }}
-      >
-        <div className="flex gap-2 px-4 sm:px-0 py-2">
+        {/* Kategori */}
+        {categories.map((cat) => (
           <button
-            onClick={() => onSelect(null)}
+            key={cat}
+            onClick={() => onSelect(cat)}
             className={cn(
-              "shrink-0 px-3.5 py-1.5 text-body-sm font-medium rounded-full border transition-all min-h-[36px]",
-              activeCategory === null
+              "flex flex-col items-center justify-center gap-1.5",
+              "py-3 px-2 rounded-card border transition-all min-h-[72px]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red",
+              activeCategory === cat
                 ? "bg-brand-red border-brand-red text-white"
                 : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-red hover:text-brand-red"
             )}
           >
-            Semua
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => onSelect(cat)}
-              className={cn(
-                "shrink-0 px-3.5 py-1.5 text-body-sm font-medium rounded-full border transition-all whitespace-nowrap min-h-[36px]",
-                activeCategory === cat
-                  ? "bg-brand-red border-brand-red text-white"
-                  : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-red hover:text-brand-red"
-              )}
-            >
+            <span className="text-xl leading-none">
+              {CATEGORY_ICONS[cat] ?? "📦"}
+            </span>
+            <span className="text-[11px] font-semibold leading-tight text-center line-clamp-2">
               {cat}
-            </button>
-          ))}
-        </div>
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );
