@@ -10,21 +10,21 @@ export default function BrandIntroSection() {
       <div className="max-w-2xl mx-auto px-4">
 
         {/* Baris atas: logo kiri + welcome + deskripsi singkat di kanan */}
-        <div className="flex items-start gap-5 mb-6">
-          {/* Logo — bulat/kotak, ukuran tetap */}
-          <div className="shrink-0 w-28 h-28 sm:w-36 sm:h-36">
+        <div className="flex items-center gap-4 sm:gap-5 mb-6">
+          {/* Logo */}
+          <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-brand-green rounded-xl flex items-center justify-center px-3 shadow-sm">
             <img
               src="/brand/logo-full.png"
               alt="Anxiety Fightwear"
-              className="w-full h-full object-contain"
+              className="w-full h-auto object-contain"
               width={313}
               height={113}
             />
           </div>
 
           {/* Teks kanan: WELCOME + deskripsi singkat */}
-          <div className="flex-1 pt-1">
-            <h2 className="text-body-lg font-bold text-text-primary uppercase tracking-wide mb-2">
+          <div className="flex-1">
+            <h2 className="text-heading-2 font-bold text-text-primary uppercase tracking-wide mb-1.5">
               Welcome
             </h2>
             <p className="text-body-sm text-text-secondary leading-relaxed">

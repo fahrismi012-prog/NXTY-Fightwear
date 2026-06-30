@@ -92,7 +92,7 @@ export default function ProductDetailPage() {
         {/* Back button mobile */}
         <button
           onClick={() => router.back()}
-          className="md:hidden fixed top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-surface-2 backdrop-blur-sm rounded-full border border-border-strong shadow-md"
+          className="md:hidden fixed top-[4.5rem] left-4 z-30 w-11 h-11 flex items-center justify-center bg-white rounded-full border border-border-default shadow-md"
           aria-label="Kembali"
         >
           <ChevronLeft className="w-7 h-7 text-text-primary" strokeWidth={2.5} />
@@ -282,7 +282,7 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Mobile sticky bottom action bar */}
-      <div className="md:hidden fixed bottom-16 left-0 right-0 z-30 bg-canvas border-t border-border-subtle p-3 pb-[calc(env(safe-area-inset-bottom)+12px)]">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-brand-green p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-lg">
         <div className="flex items-stretch gap-2">
           {/* Quantity selector compact */}
           <div className="flex items-stretch border border-border-default rounded-subtle">
@@ -309,7 +309,7 @@ export default function ProductDetailPage() {
           <Button
             variant="secondary"
             size="md"
-            className="flex-1"
+            className="flex-1 text-text-primary"
             onClick={handleAddToCart}
             disabled={!canAdd || adding !== null}
             leftIcon={adding === "cart" ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
@@ -321,7 +321,7 @@ export default function ProductDetailPage() {
           <Button
             variant="primary"
             size="md"
-            className="flex-[1.4]"
+            className="flex-[1.4] !text-white"
             onClick={handleBuyNow}
             disabled={!canAdd || adding !== null}
             leftIcon={adding === "buy" ? <Check className="w-4 h-4" /> : <Zap className="w-4 h-4 fill-current" />}

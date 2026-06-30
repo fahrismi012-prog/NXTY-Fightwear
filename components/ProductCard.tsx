@@ -69,7 +69,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     <div className="group relative flex flex-col h-full bg-canvas border border-border-subtle overflow-hidden transition-all hover:border-brand-green rounded-card">
       {/* Promo badge */}
       {isPromo && (
-        <div className="absolute top-2 right-2 z-10 bg-brand-green text-text-primary text-caption font-bold px-2 py-1 rounded-subtle">
+        <div className="absolute top-2 right-2 z-10 bg-[#40916c] text-white text-caption font-bold px-2 py-1 rounded-subtle">
           Promo
         </div>
       )}
@@ -123,7 +123,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             fullWidth
             onClick={handleBuyNow}
             leftIcon={<Zap className="w-3.5 h-3.5" />}
-            className="h-9 text-body-sm gap-1.5"
+            className="h-9 text-body-sm gap-1.5 text-white"
           >
             Beli
           </Button>

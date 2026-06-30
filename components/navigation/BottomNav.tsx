@@ -66,7 +66,8 @@ export function BottomNav() {
   const shouldHide =
     pathname?.startsWith("/admin") ||
     pathname?.startsWith("/checkout") ||
-    pathname?.startsWith("/payment");
+    pathname?.startsWith("/payment") ||
+    pathname?.startsWith("/products/");
   if (shouldHide) return null;
 
   const tabs: Tab[] = [

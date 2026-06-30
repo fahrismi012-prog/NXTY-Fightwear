@@ -73,7 +73,7 @@ export function Footer() {
               Terima kasih! Anda telah berlangganan newsletter kami.
             </p>
           ) : (
-            <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <input
                 type="email"
                 value={email}
@@ -81,22 +81,21 @@ export function Footer() {
                 placeholder="Alamat Email"
                 required
                 className={cn(
-                  "w-full bg-transparent border-b border-white/40",
-                  "text-body-sm text-white placeholder:text-white/50",
-                  "py-2.5 outline-none",
-                  "focus:border-white transition-colors duration-fast"
+                  "w-full bg-white rounded-subtle px-4 py-3",
+                  "text-body-sm text-text-primary placeholder:text-text-muted",
+                  "border border-white outline-none",
+                  "focus:ring-2 focus:ring-white/50 transition-colors duration-fast"
                 )}
               />
               <button
                 type="submit"
                 className={cn(
-                  "relative w-full sm:max-w-xs py-3.5",
-                  "border border-white text-white",
-                  "text-body-sm font-semibold text-center",
-                  "hover:bg-white hover:text-[#1b4332]",
+                  "w-full sm:max-w-xs py-3",
+                  "bg-brand-green !text-white",
+                  "text-body-sm font-bold text-center rounded-subtle",
+                  "hover:bg-brand-green-hover",
                   "transition-colors duration-fast",
-                  "[clip-path:polygon(0_0,calc(100%-12px)_0,100%_100%,12px_100%)]",
-                  "focus-visible:outline-none"
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 )}
               >
                 Berlangganan

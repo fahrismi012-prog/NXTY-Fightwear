@@ -41,10 +41,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   };
 
   const iconMap = {
-    success: <CheckCircle className="w-4 h-4 text-[#dc2626]" />,
-    info: <CheckCircle className="w-4 h-4 text-white" />,
-    cart: <ShoppingCart className="w-4 h-4 text-[#dc2626]" />,
-    buy: <Zap className="w-4 h-4 text-[#dc2626]" />,
+    success: <CheckCircle className="w-4 h-4 text-brand-green" />,
+    info: <CheckCircle className="w-4 h-4 text-brand-green" />,
+    cart: <ShoppingCart className="w-4 h-4 text-brand-green" />,
+    buy: <Zap className="w-4 h-4 text-brand-green" />,
   };
 
   const labelMap = {
@@ -62,27 +62,27 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((t) => (
           <div
             key={t.id}
-            className="pointer-events-auto bg-[#0a0a0a] border-2 border-[#dc2626] p-3 flex items-start gap-3 shadow-[4px_4px_0_#dc2626] animate-[slideIn_0.25s_ease-out]"
+            className="pointer-events-auto bg-white border border-border-subtle rounded-card p-3 flex items-start gap-3 shadow-lg animate-[slideIn_0.25s_ease-out]"
           >
-            <div className="w-8 h-8 border border-[#262626] flex items-center justify-center shrink-0 bg-[#161616]">
+            <div className="w-8 h-8 rounded-subtle flex items-center justify-center shrink-0 bg-brand-green/10">
               {iconMap[t.type]}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#dc2626] mb-0.5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-green mb-0.5">
                 {labelMap[t.type]}
               </p>
-              <p className="text-xs font-black text-white uppercase tracking-wide">
+              <p className="text-body-sm font-semibold text-text-primary">
                 {t.message}
               </p>
               {t.description && (
-                <p className="text-[10px] text-neutral-500 mt-0.5 font-mono">
+                <p className="text-caption text-text-muted mt-0.5">
                   {t.description}
                 </p>
               )}
             </div>
             <button
               onClick={() => dismiss(t.id)}
-              className="text-neutral-500 hover:text-white p-1 -mr-1 -mt-1"
+              className="text-text-muted hover:text-text-primary p-1 -mr-1 -mt-1"
               aria-label="Dismiss"
             >
               <X className="w-3 h-3" />

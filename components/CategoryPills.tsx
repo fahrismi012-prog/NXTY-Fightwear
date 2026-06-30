@@ -33,7 +33,7 @@ export default function CategoryPills({
           className={cn(
             "flex flex-col items-center justify-center gap-1.5",
             "py-3 px-2 rounded-card border transition-all min-h-[72px]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green",
             activeCategory === null
               ? "bg-brand-green border-brand-green text-white"
               : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
@@ -53,7 +53,7 @@ export default function CategoryPills({
             className={cn(
               "flex flex-col items-center justify-center gap-1.5",
               "py-3 px-2 rounded-card border transition-all min-h-[72px]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green",
               activeCategory === cat
                 ? "bg-brand-green border-brand-green text-white"
                 : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
