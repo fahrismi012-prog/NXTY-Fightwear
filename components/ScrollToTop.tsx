@@ -17,7 +17,7 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed bottom-24 right-3 lg:bottom-6 lg:right-6 z-30 w-11 h-11 bg-[#dc2626] hover:bg-white text-white hover:text-[#dc2626] border-2 border-[#dc2626] flex items-center justify-center transition-all shadow-[3px_3px_0_#0a0a0a] ${
+      className={`fixed bottom-24 right-3 lg:bottom-6 lg:right-6 z-30 w-11 h-11 bg-brand-green hover:bg-white text-text-primary hover:text-brand-green border-2 border-brand-green flex items-center justify-center transition-all shadow-[3px_3px_0_#0a0a0a] ${
         visible
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-2 pointer-events-none"

@@ -208,10 +208,10 @@ export function Sheet({
               aria-label="Tutup"
               className={cn(
                 "w-10 h-10 -mr-2 inline-flex items-center justify-center",
-                "text-text-secondary hover:text-white",
+                "text-text-secondary hover:text-text-primary",
                 "rounded-subtle",
                 "transition-colors duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
               )}
             >
               <X size={20} />

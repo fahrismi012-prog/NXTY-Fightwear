@@ -29,10 +29,10 @@ export default async function AlamatEditPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-white uppercase tracking-tight mb-2">
+      <h1 className="text-2xl font-black text-text-primary uppercase tracking-tight mb-2">
         Edit Alamat
       </h1>
-      <p className="text-sm text-neutral-400 mb-6">
+      <p className="text-sm text-text-muted mb-6">
         Perbarui alamat pengiriman
       </p>
       <AddressForm

@@ -69,7 +69,7 @@ export function Footer() {
             Daftar newsletter kami untuk mendapatkan info produk terbaru, drop koleksi, dan penawaran eksklusif.
           </p>
           {submitted ? (
-            <p className="text-body-sm text-brand-red font-semibold">
+            <p className="text-body-sm text-brand-green font-semibold">
               Terima kasih! Anda telah berlangganan newsletter kami.
             </p>
           ) : (

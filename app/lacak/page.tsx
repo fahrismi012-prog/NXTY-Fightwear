@@ -81,29 +81,29 @@ export default function LacakPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-neutral-400 hover:text-white mb-4 text-sm"
+          className="inline-flex items-center gap-1 text-text-muted hover:text-text-primary mb-4 text-sm"
         >
           <ChevronLeft className="w-4 h-4" />
           Kembali
         </Link>
 
-        <h1 className="text-2xl font-black text-white uppercase tracking-tight mb-2">
+        <h1 className="text-2xl font-black text-text-primary uppercase tracking-tight mb-2">
           Lacak Pesanan
         </h1>
-        <p className="text-sm text-neutral-400 mb-6">
+        <p className="text-sm text-text-muted mb-6">
           Masukkan Order ID dan email yang dipakai saat checkout
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-[#161616] border-2 border-[#262626] p-4 space-y-4 mb-6"
+          className="bg-surface-1 border-2 border-border-subtle p-4 space-y-4 mb-6"
         >
           <div>
-            <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+            <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
               Order ID
             </label>
             <input
@@ -112,12 +112,12 @@ export default function LacakPage() {
               onChange={(e) => setOrderId(e.target.value)}
               placeholder="NXTY-xxxxx"
               required
-              className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none placeholder:text-neutral-600 font-mono text-sm"
+              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600 font-mono text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+            <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
               Email
             </label>
             <input
@@ -126,12 +126,12 @@ export default function LacakPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@contoh.com"
               required
-              className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none placeholder:text-neutral-600"
+              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
             />
           </div>
 
           {error && (
-            <div className="border border-[#dc2626] text-[#dc2626] text-xs p-2">
+            <div className="border border-brand-green text-brand-green text-xs p-2">
               {error}
             </div>
           )}
@@ -139,7 +139,7 @@ export default function LacakPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#dc2626] text-white font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:bg-[#262626] disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+            className="w-full py-3 bg-brand-green text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
           >
             {loading ? (
               <span className="inline-flex items-center gap-2">
@@ -154,30 +154,30 @@ export default function LacakPage() {
         {order && (
           <div className="space-y-4">
             {/* Status badge */}
-            <div className="bg-[#161616] border-2 border-[#262626] p-4">
+            <div className="bg-surface-1 border-2 border-border-subtle p-4">
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-wider text-neutral-500">
                     Order
                   </p>
-                  <p className="text-sm font-mono font-bold text-white">
+                  <p className="text-sm font-mono font-bold text-text-primary">
                     {order.id}
                   </p>
                 </div>
-                <span className="bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-wider px-2 py-1">
+                <span className="bg-brand-green text-text-primary text-[10px] font-black uppercase tracking-wider px-2 py-1">
                   {STATUS_LABEL[order.status] || order.status}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
                   <p className="text-neutral-500 mb-0.5">Total</p>
-                  <p className="text-white font-bold">
+                  <p className="text-text-primary font-bold">
                     {formatPrice(order.total)}
                   </p>
                 </div>
                 <div>
                   <p className="text-neutral-500 mb-0.5">Tanggal</p>
-                  <p className="text-white font-bold">
+                  <p className="text-text-primary font-bold">
                     {new Date(order.created_at).toLocaleDateString("id-ID", {
                       day: "numeric",
                       month: "short",
@@ -189,25 +189,25 @@ export default function LacakPage() {
             </div>
 
             {/* Items */}
-            <div className="bg-[#161616] border-2 border-[#262626] p-4">
-              <h3 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+            <div className="bg-surface-1 border-2 border-border-subtle p-4">
+              <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
                 Items
               </h3>
               <div className="space-y-2">
                 {order.items?.map((item: any, i: number) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between text-xs py-2 border-b border-[#262626] last:border-b-0"
+                    className="flex items-center justify-between text-xs py-2 border-b border-border-subtle last:border-b-0"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-bold truncate">
+                      <p className="text-text-primary font-bold truncate">
                         {item.name}
                       </p>
                       <p className="text-neutral-500">
                         {item.size} · {item.color} · ×{item.quantity}
                       </p>
                     </div>
-                    <p className="text-white font-bold ml-2">
+                    <p className="text-text-primary font-bold ml-2">
                       {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
@@ -217,8 +217,8 @@ export default function LacakPage() {
 
             {/* Tracking timeline */}
             {events.length > 0 && (
-              <div className="bg-[#161616] border-2 border-[#262626] p-4">
-                <h3 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+              <div className="bg-surface-1 border-2 border-border-subtle p-4">
+                <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
                   Tracking Pengiriman
                 </h3>
                 {order.shipping?.waybill && (
@@ -232,14 +232,14 @@ export default function LacakPage() {
 
             {/* Address */}
             {order.customer_address && (
-              <div className="bg-[#161616] border-2 border-[#262626] p-4">
+              <div className="bg-surface-1 border-2 border-border-subtle p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-4 h-4 text-[#dc2626]" />
-                  <h3 className="text-xs font-black uppercase tracking-wider text-white">
+                  <MapPin className="w-4 h-4 text-brand-green" />
+                  <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">
                     Alamat Pengiriman
                   </h3>
                 </div>
-                <p className="text-xs text-neutral-400">
+                <p className="text-xs text-text-muted">
                   {order.customer_address.street}, {order.customer_address.city}
                   , {order.customer_address.province}{" "}
                   {order.customer_address.postal_code}

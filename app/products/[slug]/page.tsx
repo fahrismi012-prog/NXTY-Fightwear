@@ -112,7 +112,7 @@ export default function ProductDetailPage() {
                 priority
               />
               {isPromo && (
-                <div className="absolute top-3 right-3 bg-brand-red text-white text-eyebrow font-bold uppercase tracking-[0.08em] px-2.5 py-1.5 rounded-subtle">
+                <div className="absolute top-3 right-3 bg-brand-green text-text-primary text-eyebrow font-bold uppercase tracking-[0.08em] px-2.5 py-1.5 rounded-subtle">
                   Promo
                 </div>
               )}
@@ -134,7 +134,7 @@ export default function ProductDetailPage() {
             {/* Rating */}
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border-subtle">
               <div className="flex items-center gap-1.5">
-                <Star className="w-4 h-4 fill-brand-red text-brand-red" />
+                <Star className="w-4 h-4 fill-brand-red text-brand-green" />
                 <span className="text-body-sm font-semibold text-text-primary">
                   {product.rating.toFixed(1)}
                 </span>
@@ -167,7 +167,7 @@ export default function ProductDetailPage() {
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-body-sm font-semibold text-text-primary">Ukuran</p>
                   {selectedSize && (
-                    <span className="text-body-sm font-semibold text-brand-red">
+                    <span className="text-body-sm font-semibold text-brand-green">
                       {selectedSize}
                     </span>
                   )}
@@ -179,8 +179,8 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedSize(size)}
                       className={`min-w-[3.5rem] px-4 py-3 text-body-sm font-semibold rounded-subtle border transition-all min-h-[44px] ${
                         selectedSize === size
-                          ? "bg-brand-red border-brand-red text-white"
-                          : "bg-transparent border-border-default text-text-secondary hover:border-brand-red hover:text-brand-red"
+                          ? "bg-brand-green border-brand-green text-text-primary"
+                          : "bg-transparent border-border-default text-text-secondary hover:border-brand-green hover:text-brand-green"
                       }`}
                     >
                       {size}
@@ -196,7 +196,7 @@ export default function ProductDetailPage() {
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-body-sm font-semibold text-text-primary">Warna</p>
                   {selectedColor && (
-                    <span className="text-body-sm font-semibold text-brand-red">
+                    <span className="text-body-sm font-semibold text-brand-green">
                       {selectedColor}
                     </span>
                   )}
@@ -208,8 +208,8 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedColor(color)}
                       className={`px-4 py-3 text-body-sm font-semibold rounded-subtle border transition-all min-h-[44px] ${
                         selectedColor === color
-                          ? "bg-brand-red border-brand-red text-white"
-                          : "bg-transparent border-border-default text-text-secondary hover:border-brand-red hover:text-brand-red"
+                          ? "bg-brand-green border-brand-green text-text-primary"
+                          : "bg-transparent border-border-default text-text-secondary hover:border-brand-green hover:text-brand-green"
                       }`}
                     >
                       {color}

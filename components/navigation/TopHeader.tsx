@@ -97,7 +97,7 @@ export function TopHeader() {
         className={cn(
           "border-b transition-colors duration-fast",
           scrolled
-            ? "bg-canvas/85 backdrop-blur-md border-border-subtle"
+            ? "bg-canvas/95 backdrop-blur-md border-border-subtle shadow-sm"
             : "bg-canvas border-transparent"
         )}
       >
@@ -130,7 +130,7 @@ export function TopHeader() {
               "text-text-muted text-body-sm",
               "hover:border-border-strong",
               "transition-colors duration-fast",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
             )}
           >
             <Search size={16} className="shrink-0" aria-hidden />
@@ -184,8 +184,8 @@ export function TopHeader() {
                     "rounded-subtle",
                     "transition-colors duration-fast",
                     isActive
-                      ? "text-brand-red"
-                      : "text-text-secondary hover:text-white hover:bg-surface-1"
+                      ? "text-brand-green font-semibold"
+                      : "text-text-secondary hover:text-text-primary hover:bg-surface-1"
                   )}
                 >
                   {link.label}
@@ -210,7 +210,7 @@ export function TopHeader() {
                 "text-text-secondary hover:text-white hover:bg-surface-1",
                 "rounded-subtle",
                 "transition-colors duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
               )}
             >
               <Heart className="w-5 h-5" aria-hidden />

@@ -67,22 +67,22 @@ export default function Sheet({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0a0a0a] border-t-2 border-[#dc2626] transition-transform duration-300 flex flex-col",
+          "md:hidden fixed bottom-0 left-0 right-0 z-50 bg-canvas border-t-2 border-brand-green transition-transform duration-300 flex flex-col",
           fullHeight ? "h-[90vh]" : "max-h-[80vh]",
           isOpen ? "translate-y-0" : "translate-y-full"
         )}
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between px-4 h-12 border-b-2 border-[#dc2626] bg-[#0a0a0a] shrink-0">
-            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-white">
+          <div className="flex items-center justify-between px-4 h-12 border-b-2 border-brand-green bg-canvas shrink-0">
+            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-text-primary">
               {title}
             </h2>
             <button
               type="button"
               onClick={onClose}
               aria-label="Tutup"
-              className="w-10 h-10 -mr-2 flex items-center justify-center text-neutral-400 hover:text-[#dc2626] active:scale-95 transition-all"
+              className="w-10 h-10 -mr-2 flex items-center justify-center text-text-muted hover:text-brand-green active:scale-95 transition-all"
             >
               <X size={20} />
             </button>

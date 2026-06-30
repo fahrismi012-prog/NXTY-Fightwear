@@ -8,7 +8,7 @@ import Skeleton from "./Skeleton";
  */
 export default function SkeletonBanner() {
   return (
-    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-[#161616] border-2 border-[#dc2626] overflow-hidden">
+    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-surface-1 border-2 border-brand-green overflow-hidden">
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/95 via-[#0a0a0a]/70 to-transparent" />
       {/* Stripes */}
@@ -18,7 +18,7 @@ export default function SkeletonBanner() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
           <div className="max-w-md">
             {/* Badge skeleton */}
-            <div className="inline-block bg-[#dc2626] mb-3">
+            <div className="inline-block bg-brand-green mb-3">
               <Skeleton className="w-20 h-6" height="24px" />
             </div>
 

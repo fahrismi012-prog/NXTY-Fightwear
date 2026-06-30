@@ -33,19 +33,19 @@ export type IconButtonProps = IconButtonOwnProps &
 const variantClasses: Record<IconButtonVariant, string> = {
   ghost: [
     "bg-transparent text-text-secondary",
-    "hover:bg-surface-1 hover:text-white",
+    "hover:bg-surface-1 hover:text-text-primary",
     "active:bg-surface-2",
     "disabled:text-neutral-600 disabled:hover:bg-transparent",
   ].join(" "),
   solid: [
-    "bg-brand-red text-white",
-    "hover:bg-brand-red-hover",
-    "active:bg-brand-red-hover",
+    "bg-brand-green text-text-primary",
+    "hover:bg-brand-green-hover",
+    "active:bg-brand-green-hover",
     "disabled:bg-neutral-800 disabled:text-neutral-600",
   ].join(" "),
   outline: [
-    "bg-transparent text-white border border-border-default",
-    "hover:border-brand-red hover:text-brand-red",
+    "bg-transparent text-text-primary border border-border-default",
+    "hover:border-brand-green hover:text-brand-green",
     "active:bg-surface-1",
     "disabled:border-neutral-700 disabled:text-neutral-600",
   ].join(" "),
@@ -80,7 +80,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
         "relative inline-flex items-center justify-center shrink-0",
         "rounded-subtle",
         "transition-colors duration-fast",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
         "disabled:cursor-not-allowed",
         variantClasses[variant],
         sizeClasses[size],
@@ -98,7 +98,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
           className={cn(
             "absolute -top-1 -right-1",
             "min-w-[18px] h-[18px] px-1",
-            "bg-brand-red text-white",
+            "bg-brand-green text-text-primary",
             "rounded-full",
             "text-[10px] font-bold leading-none",
             "inline-flex items-center justify-center",

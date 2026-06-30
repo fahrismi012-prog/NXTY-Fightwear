@@ -52,7 +52,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0a0a0a",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -63,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
-        className={`${inter.variable} antialiased min-h-screen bg-[#0a0a0a] text-white selection:bg-[#dc2626] selection:text-white`}
+        className={`${inter.variable} antialiased min-h-screen bg-canvas text-text-primary selection:bg-brand-green selection:text-white`}
       >
         <CartProvider>
           <WishlistProvider>

@@ -63,7 +63,7 @@ export default async function PesananDetailPage({
     <div>
       <Link
         href="/akun/pesanan"
-        className="inline-flex items-center gap-1 text-neutral-400 hover:text-white mb-4 text-sm"
+        className="inline-flex items-center gap-1 text-text-muted hover:text-text-primary mb-4 text-sm"
       >
         <ChevronLeft className="w-4 h-4" />
         Kembali
@@ -74,7 +74,7 @@ export default async function PesananDetailPage({
           <p className="text-[10px] font-black uppercase tracking-wider text-neutral-500">
             Order ID
           </p>
-          <p className="text-sm font-mono font-bold text-white">{order.id}</p>
+          <p className="text-sm font-mono font-bold text-text-primary">{order.id}</p>
           <p className="text-xs text-neutral-500 mt-1">
             {new Date(order.created_at).toLocaleString("id-ID", {
               day: "numeric",
@@ -89,23 +89,23 @@ export default async function PesananDetailPage({
       </div>
 
       {/* Items */}
-      <div className="bg-[#161616] border-2 border-[#262626] p-4 mb-3">
-        <h3 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+      <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
+        <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
           Items
         </h3>
         <div className="space-y-2">
           {order.items?.map((item: { name: string; size: string; color: string; quantity: number; price: number }, i: number) => (
             <div
               key={i}
-              className="flex items-center justify-between text-xs py-2 border-b border-[#262626] last:border-b-0"
+              className="flex items-center justify-between text-xs py-2 border-b border-border-subtle last:border-b-0"
             >
               <div className="flex-1 min-w-0">
-                <p className="text-white font-bold truncate">{item.name}</p>
+                <p className="text-text-primary font-bold truncate">{item.name}</p>
                 <p className="text-neutral-500">
                   {item.size} · {item.color} · ×{item.quantity}
                 </p>
               </div>
-              <p className="text-white font-bold ml-2">
+              <p className="text-text-primary font-bold ml-2">
                 {formatPrice(item.price * item.quantity)}
               </p>
             </div>
@@ -115,21 +115,21 @@ export default async function PesananDetailPage({
 
       {/* Shipping info */}
       {order.shipping && (
-        <div className="bg-[#161616] border-2 border-[#262626] p-4 mb-3">
-          <h3 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+        <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
+          <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
             Pengiriman
           </h3>
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div>
               <p className="text-neutral-500 mb-0.5">Kurir</p>
-              <p className="text-white font-bold">
+              <p className="text-text-primary font-bold">
                 {order.shipping.courier?.toUpperCase()} {order.shipping.service}
               </p>
             </div>
             {order.shipping.waybill && (
               <div>
                 <p className="text-neutral-500 mb-0.5">No. Resi</p>
-                <p className="text-white font-mono font-bold">
+                <p className="text-text-primary font-mono font-bold">
                   {order.shipping.waybill}
                 </p>
               </div>
@@ -137,12 +137,12 @@ export default async function PesananDetailPage({
             {order.shipping.etd && (
               <div>
                 <p className="text-neutral-500 mb-0.5">Estimasi</p>
-                <p className="text-white font-bold">{order.shipping.etd} hari</p>
+                <p className="text-text-primary font-bold">{order.shipping.etd} hari</p>
               </div>
             )}
             <div>
               <p className="text-neutral-500 mb-0.5">Ongkir</p>
-              <p className="text-white font-bold">
+              <p className="text-text-primary font-bold">
                 {formatPrice(order.shipping_cost || 0)}
               </p>
             </div>
@@ -152,8 +152,8 @@ export default async function PesananDetailPage({
 
       {/* Tracking timeline */}
       {events.length > 0 && (
-        <div className="bg-[#161616] border-2 border-[#262626] p-4 mb-3">
-          <h3 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+        <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
+          <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
             Tracking Pengiriman
           </h3>
           <TrackingTimeline events={events} />
@@ -162,18 +162,18 @@ export default async function PesananDetailPage({
 
       {/* Address */}
       {order.customer_address && (
-        <div className="bg-[#161616] border-2 border-[#262626] p-4 mb-3">
+        <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
           <div className="flex items-center gap-2 mb-2">
-            <MapPin className="w-4 h-4 text-[#dc2626]" />
-            <h3 className="text-xs font-black uppercase tracking-wider text-white">
+            <MapPin className="w-4 h-4 text-brand-green" />
+            <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">
               Alamat Pengiriman
             </h3>
           </div>
-          <p className="text-sm font-bold text-white">{order.customer_name}</p>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-sm font-bold text-text-primary">{order.customer_name}</p>
+          <p className="text-xs text-text-muted mt-1">
             {order.customer_address.phone}
           </p>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-xs text-text-muted mt-1">
             {order.customer_address.street}, {order.customer_address.city},{" "}
             {order.customer_address.province} {order.customer_address.postal_code}
           </p>
@@ -181,26 +181,26 @@ export default async function PesananDetailPage({
       )}
 
       {/* Total */}
-      <div className="bg-[#161616] border-2 border-[#dc2626] p-4">
+      <div className="bg-surface-1 border-2 border-brand-green p-4">
         <div className="flex justify-between text-xs mb-1">
           <span className="text-neutral-500">Subtotal</span>
-          <span className="text-white font-bold">
+          <span className="text-text-primary font-bold">
             {formatPrice(
               (order.total || 0) - (order.shipping_cost || 0)
             )}
           </span>
         </div>
-        <div className="flex justify-between text-xs mb-2 pb-2 border-b border-[#262626]">
+        <div className="flex justify-between text-xs mb-2 pb-2 border-b border-border-subtle">
           <span className="text-neutral-500">Ongkir</span>
-          <span className="text-white font-bold">
+          <span className="text-text-primary font-bold">
             {formatPrice(order.shipping_cost || 0)}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-xs font-black uppercase tracking-wider text-white">
+          <span className="text-xs font-black uppercase tracking-wider text-text-primary">
             Total
           </span>
-          <span className="text-lg font-black text-white">
+          <span className="text-lg font-black text-text-primary">
             {formatPrice(order.total || 0)}
           </span>
         </div>

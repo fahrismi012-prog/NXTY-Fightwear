@@ -38,12 +38,12 @@ interface CustomerAddressJSON {
 }
 
 const STATUS_BADGES: Record<OrderStatus, string> = {
-  pending: "bg-[#161616] text-yellow-300 border-yellow-300",
-  paid: "bg-[#161616] text-blue-300 border-blue-300",
-  processed: "bg-[#161616] text-purple-300 border-purple-300",
-  shipped: "bg-[#161616] text-cyan-300 border-cyan-300",
+  pending: "bg-surface-1 text-yellow-300 border-yellow-300",
+  paid: "bg-surface-1 text-blue-300 border-blue-300",
+  processed: "bg-surface-1 text-purple-300 border-purple-300",
+  shipped: "bg-surface-1 text-cyan-300 border-cyan-300",
   delivered: "bg-green-500 text-[#0a0a0a] border-green-500",
-  cancelled: "bg-[#dc2626] text-white border-[#dc2626]",
+  cancelled: "bg-brand-green text-text-primary border-brand-green",
 };
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
@@ -252,14 +252,14 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-3xl bg-[#0a0a0a] border-2 border-white my-4">
+      <div className="relative w-full max-w-3xl bg-canvas border-2 border-white my-4">
         {/* Header */}
-        <div className="bg-[#dc2626] border-b-2 border-white px-4 py-3 flex items-center justify-between gap-3 sticky top-0 z-10">
+        <div className="bg-brand-green border-b-2 border-white px-4 py-3 flex items-center justify-between gap-3 sticky top-0 z-10">
           <div className="min-w-0">
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/80 mb-1">
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-text-primary/80 mb-1">
               Detail Pesanan
             </p>
-            <p className="text-xs font-mono font-black text-white truncate">
+            <p className="text-xs font-mono font-black text-text-primary truncate">
               {order.id}
             </p>
           </div>
@@ -267,7 +267,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Tutup"
-            className="shrink-0 w-9 h-9 inline-flex items-center justify-center bg-[#0a0a0a] text-white border-2 border-white hover:bg-white hover:text-[#dc2626] transition-colors"
+            className="shrink-0 w-9 h-9 inline-flex items-center justify-center bg-canvas text-text-primary border-2 border-white hover:bg-white hover:text-brand-green transition-colors"
           >
             <X size={16} strokeWidth={2.5} />
           </button>
@@ -276,8 +276,8 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         <div className="p-4 md:p-6 space-y-5">
           {/* Meta row: status + tanggal */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="bg-[#161616] border-2 border-[#262626] p-3">
-              <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <div className="bg-surface-1 border-2 border-border-subtle p-3">
+              <p className="text-[9px] font-black uppercase tracking-widest text-text-muted mb-1">
                 Status
               </p>
               <span
@@ -286,11 +286,11 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                 {STATUS_LABELS[order.status]}
               </span>
             </div>
-            <div className="bg-[#161616] border-2 border-[#262626] p-3">
-              <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <div className="bg-surface-1 border-2 border-border-subtle p-3">
+              <p className="text-[9px] font-black uppercase tracking-widest text-text-muted mb-1">
                 Tanggal Order
               </p>
-              <p className="text-xs font-black text-white">
+              <p className="text-xs font-black text-text-primary">
                 {formatDate(order.created_at)}
               </p>
             </div>
@@ -321,11 +321,11 @@ export default function OrderDetailModal({ order, onClose }: Props) {
           {/* Address */}
           <section>
             <SectionHeader icon={MapPin} title="Alamat Pengiriman" />
-            <div className="bg-[#161616] border-2 border-[#262626] p-3">
+            <div className="bg-surface-1 border-2 border-border-subtle p-3">
               {address ? (
                 <div className="space-y-1">
                   {address.recipient_name ? (
-                    <p className="text-sm font-black text-white">
+                    <p className="text-sm font-black text-text-primary">
                       {address.recipient_name}
                       {address.label ? (
                         <span className="ml-2 inline-block bg-white text-[#0a0a0a] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider">
@@ -344,7 +344,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                       {address.street || address.address}
                     </p>
                   ) : null}
-                  <p className="text-[11px] text-neutral-400">
+                  <p className="text-[11px] text-text-muted">
                     {[address.city, address.province, address.postal_code]
                       .filter(Boolean)
                       .join(", ")}
@@ -361,7 +361,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                 </p>
               )}
               {order.notes ? (
-                <div className="mt-3 pt-3 border-t-2 border-[#262626] flex gap-2 items-start">
+                <div className="mt-3 pt-3 border-t-2 border-border-subtle flex gap-2 items-start">
                   <FileText
                     size={12}
                     strokeWidth={2.5}
@@ -377,14 +377,14 @@ export default function OrderDetailModal({ order, onClose }: Props) {
           <section>
             <SectionHeader icon={Package} title={`Item Pesanan (${items.length})`} />
             {items.length === 0 ? (
-              <div className="bg-[#161616] border-2 border-[#262626] p-4 text-xs text-neutral-500 italic">
+              <div className="bg-surface-1 border-2 border-border-subtle p-4 text-xs text-neutral-500 italic">
                 Tidak ada item.
               </div>
             ) : (
-              <div className="bg-[#161616] border-2 border-[#262626] divide-y-2 divide-[#262626]">
+              <div className="bg-surface-1 border-2 border-border-subtle divide-y-2 divide-[#262626]">
                 {items.map((it, idx) => (
                   <div key={`${it.productId}-${idx}`} className="p-3 flex gap-3">
-                    <div className="w-12 h-12 shrink-0 border-2 border-[#262626] bg-[#0a0a0a] overflow-hidden flex items-center justify-center">
+                    <div className="w-12 h-12 shrink-0 border-2 border-border-subtle bg-canvas overflow-hidden flex items-center justify-center">
                       {it.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -401,10 +401,10 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-white truncate">
+                      <p className="text-sm font-black text-text-primary truncate">
                         {it.name}
                       </p>
-                      <p className="text-[10px] text-neutral-400 mt-0.5">
+                      <p className="text-[10px] text-text-muted mt-0.5">
                         {[
                           it.size ? `Size: ${it.size}` : null,
                           it.color ? `Color: ${it.color}` : null,
@@ -417,7 +417,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                       </p>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="text-sm font-black text-white font-mono">
+                      <p className="text-sm font-black text-text-primary font-mono">
                         {formatRupiah(it.price * it.qty)}
                       </p>
                     </div>
@@ -431,11 +431,11 @@ export default function OrderDetailModal({ order, onClose }: Props) {
           <section>
             <SectionHeader icon={Truck} title="Pengiriman & Total" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="bg-[#161616] border-2 border-[#262626] p-3 space-y-1.5">
-                <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400">
+              <div className="bg-surface-1 border-2 border-border-subtle p-3 space-y-1.5">
+                <p className="text-[9px] font-black uppercase tracking-widest text-text-muted">
                   Kurir
                 </p>
-                <p className="text-xs font-black text-white uppercase">
+                <p className="text-xs font-black text-text-primary uppercase">
                   {shipping.courier
                     ? `${shipping.courier}${
                         shipping.service ? ` · ${shipping.service}` : ""
@@ -443,12 +443,12 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                     : "Belum dipilih"}
                 </p>
                 {shipping.etd ? (
-                  <p className="text-[10px] text-neutral-400">
+                  <p className="text-[10px] text-text-muted">
                     ETD: {shipping.etd} hari
                   </p>
                 ) : null}
                 {shipping.weight ? (
-                  <p className="text-[10px] text-neutral-400">
+                  <p className="text-[10px] text-text-muted">
                     Berat: {shipping.weight}g
                   </p>
                 ) : null}
@@ -458,10 +458,10 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                   </p>
                 ) : null}
               </div>
-              <div className="bg-[#161616] border-2 border-[#262626] p-3 space-y-1">
+              <div className="bg-surface-1 border-2 border-border-subtle p-3 space-y-1">
                 <Row label="Subtotal" value={formatRupiah(order.subtotal)} />
                 <Row label="Ongkir" value={formatRupiah(order.shipping_cost)} />
-                <div className="border-t-2 border-[#262626] my-1.5" />
+                <div className="border-t-2 border-border-subtle my-1.5" />
                 <Row label="Total" value={formatRupiah(order.total)} bold />
               </div>
             </div>
@@ -476,7 +476,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                   type="button"
                   onClick={handleTrack}
                   disabled={trackingLoading}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-white text-[#0a0a0a] border-2 border-white px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-[#0a0a0a] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-white text-[#0a0a0a] border-2 border-white px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-canvas hover:text-text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {trackingLoading ? (
                     <Loader2 size={14} className="animate-spin" />
@@ -492,7 +492,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                     status={trackingStatus ?? undefined}
                   />
                   {trackingError ? (
-                    <p className="mt-2 text-[11px] text-[#dc2626] font-bold">
+                    <p className="mt-2 text-[11px] text-brand-green font-bold">
                       {trackingError}
                     </p>
                   ) : null}
@@ -500,7 +500,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                     type="button"
                     onClick={handleTrack}
                     disabled={trackingLoading}
-                    className="mt-3 inline-flex items-center gap-2 bg-[#0a0a0a] text-white border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-50"
+                    className="mt-3 inline-flex items-center gap-2 bg-canvas text-text-primary border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-50"
                   >
                     {trackingLoading ? (
                       <Loader2 size={12} className="animate-spin" />
@@ -516,11 +516,11 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         </div>
 
         {/* Footer actions */}
-        <div className="border-t-2 border-white p-4 flex flex-wrap items-center gap-2 justify-end sticky bottom-0 bg-[#0a0a0a]">
+        <div className="border-t-2 border-white p-4 flex flex-wrap items-center gap-2 justify-end sticky bottom-0 bg-canvas">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white border-2 border-white px-4 py-3 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors"
+            className="inline-flex items-center gap-2 bg-canvas text-text-primary border-2 border-white px-4 py-3 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors"
           >
             Tutup
           </button>
@@ -529,7 +529,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
               type="button"
               onClick={handleGenerateAwb}
               disabled={generatingAwb}
-              className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-3 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 bg-brand-green text-text-primary border-2 border-brand-green px-4 py-3 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {generatingAwb ? (
                 <Loader2 size={14} className="animate-spin" />
@@ -554,11 +554,11 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center gap-2 mb-2">
-      <Icon size={14} strokeWidth={2.5} className="text-[#dc2626]" />
-      <h2 className="text-[10px] font-black uppercase tracking-widest text-white">
+      <Icon size={14} strokeWidth={2.5} className="text-brand-green" />
+      <h2 className="text-[10px] font-black uppercase tracking-widest text-text-primary">
         {title}
       </h2>
-      <div className="flex-1 h-px bg-[#262626]" />
+      <div className="flex-1 h-px bg-surface-2" />
     </div>
   );
 }
@@ -573,14 +573,14 @@ function InfoBlock({
   value: string;
 }) {
   return (
-    <div className="bg-[#161616] border-2 border-[#262626] p-3">
+    <div className="bg-surface-1 border-2 border-border-subtle p-3">
       <div className="flex items-center gap-1.5 mb-1">
         <Icon size={10} strokeWidth={2.5} className="text-neutral-500" />
-        <p className="text-[9px] font-black uppercase tracking-widest text-neutral-400">
+        <p className="text-[9px] font-black uppercase tracking-widest text-text-muted">
           {label}
         </p>
       </div>
-      <p className="text-xs font-bold text-white break-all">{value}</p>
+      <p className="text-xs font-bold text-text-primary break-all">{value}</p>
     </div>
   );
 }
@@ -590,14 +590,14 @@ function Row({ label, value, bold }: { label: string; value: string; bold?: bool
     <div className="flex items-center justify-between gap-2">
       <span
         className={`text-[10px] font-black uppercase tracking-wider ${
-          bold ? "text-white" : "text-neutral-400"
+          bold ? "text-text-primary" : "text-text-muted"
         }`}
       >
         {label}
       </span>
       <span
         className={`text-xs font-mono ${
-          bold ? "font-black text-white" : "text-neutral-300"
+          bold ? "font-black text-text-primary" : "text-neutral-300"
         }`}
       >
         {value}

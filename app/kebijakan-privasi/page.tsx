@@ -9,7 +9,7 @@ export default function KebijakanPrivasiPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-red mb-2">Legal</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Legal</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-1">Kebijakan Privasi</h1>
         <p className="text-caption text-text-muted mb-8">Terakhir diperbarui: Juni 2026</p>
 
@@ -41,7 +41,7 @@ export default function KebijakanPrivasiPage() {
 
           <div>
             <h2 className="text-body font-bold text-text-primary mb-2">6. Hak Anda</h2>
-            <p>Anda berhak mengakses, memperbarui, atau meminta penghapusan data pribadi Anda. Hubungi kami di <a href="mailto:anxietyfightwear@gmail.com" className="text-brand-red hover:underline">anxietyfightwear@gmail.com</a> untuk permintaan terkait data.</p>
+            <p>Anda berhak mengakses, memperbarui, atau meminta penghapusan data pribadi Anda. Hubungi kami di <a href="mailto:anxietyfightwear@gmail.com" className="text-brand-green hover:underline">anxietyfightwear@gmail.com</a> untuk permintaan terkait data.</p>
           </div>
 
           <div>
@@ -51,7 +51,7 @@ export default function KebijakanPrivasiPage() {
 
           <div>
             <h2 className="text-body font-bold text-text-primary mb-2">8. Hubungi Kami</h2>
-            <p>Jika ada pertanyaan tentang kebijakan privasi ini, hubungi kami di <a href="mailto:anxietyfightwear@gmail.com" className="text-brand-red hover:underline">anxietyfightwear@gmail.com</a>.</p>
+            <p>Jika ada pertanyaan tentang kebijakan privasi ini, hubungi kami di <a href="mailto:anxietyfightwear@gmail.com" className="text-brand-green hover:underline">anxietyfightwear@gmail.com</a>.</p>
           </div>
         </div>
 

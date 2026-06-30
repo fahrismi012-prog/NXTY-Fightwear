@@ -63,7 +63,7 @@ export function MegaMenuSheet() {
           <span
             className={cn(
               "w-12 h-12 shrink-0 inline-flex items-center justify-center",
-              "bg-brand-red text-white rounded-subtle"
+              "bg-brand-green text-text-primary rounded-subtle"
             )}
             aria-hidden
           >

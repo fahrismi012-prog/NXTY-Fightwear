@@ -53,11 +53,11 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
       : `Rp ${(voucher.discountValue ?? 0).toLocaleString("id-ID")}`;
 
   return (
-    <div className="relative bg-[#0a0a0a] border-2 border-[#262626] hover:border-[#dc2626] transition-colors group">
+    <div className="relative bg-canvas border-2 border-border-subtle hover:border-brand-green transition-colors group">
       {/* Left perforated decoration */}
       <div className="absolute top-0 bottom-0 left-0 w-2 flex flex-col justify-between py-2">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="w-2 h-2 bg-[#dc2626]" />
+          <div key={i} className="w-2 h-2 bg-brand-green" />
         ))}
       </div>
 
@@ -65,20 +65,20 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
         <div className="flex-1 min-w-0">
           {/* Type badge */}
           <div className="flex items-center gap-1.5 mb-2">
-            <Ticket className="w-3 h-3 text-[#dc2626]" />
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#dc2626]">
+            <Ticket className="w-3 h-3 text-brand-green" />
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-brand-green">
               {voucher.discountType === "percentage" ? "DISCOUNT" : "CASHBACK"}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter italic mb-1">
+          <h3 className="text-2xl sm:text-3xl font-black text-text-primary uppercase tracking-tighter italic mb-1">
             {discountLabel}
-            <span className="text-[#dc2626]"> OFF</span>
+            <span className="text-brand-green"> OFF</span>
           </h3>
 
           {/* Subtitle */}
-          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2 font-mono">
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2 font-mono">
             {voucher.subtitle}
           </p>
 
@@ -89,23 +89,23 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
 
           {/* Code */}
           <div className="flex items-center gap-2 mb-3">
-            <div className="flex-1 border border-dashed border-[#262626] px-3 py-1.5 bg-[#161616]">
+            <div className="flex-1 border border-dashed border-border-subtle px-3 py-1.5 bg-surface-1">
               <span className="text-[10px] font-black text-neutral-500 uppercase tracking-wider mr-2">
                 CODE:
               </span>
-              <span className="text-xs font-black text-white font-mono tracking-wider">
+              <span className="text-xs font-black text-text-primary font-mono tracking-wider">
                 {voucher.code}
               </span>
             </div>
             <button
               onClick={handleCopy}
-              className="w-8 h-8 border border-[#262626] flex items-center justify-center hover:bg-[#dc2626] hover:border-[#dc2626] transition-colors"
+              className="w-8 h-8 border border-border-subtle flex items-center justify-center hover:bg-brand-green hover:border-brand-green transition-colors"
               aria-label="Copy code"
             >
               {copied ? (
-                <Check className="w-3 h-3 text-[#dc2626]" />
+                <Check className="w-3 h-3 text-brand-green" />
               ) : (
-                <Copy className="w-3 h-3 text-neutral-400" />
+                <Copy className="w-3 h-3 text-text-muted" />
               )}
             </button>
           </div>
@@ -124,8 +124,8 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
           disabled={claimed}
           className={`shrink-0 px-3 py-2 border-2 flex flex-col items-center justify-center min-w-[68px] transition-all ${
             claimed
-              ? "bg-[#262626] border-[#262626] text-neutral-500 cursor-default"
-              : "bg-[#dc2626] border-[#dc2626] text-white hover:bg-white hover:text-[#dc2626]"
+              ? "bg-surface-2 border-border-subtle text-neutral-500 cursor-default"
+              : "bg-brand-green border-brand-green text-text-primary hover:bg-white hover:text-brand-green"
           }`}
         >
           {claimed ? (

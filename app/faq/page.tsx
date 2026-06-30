@@ -69,7 +69,7 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-red mb-2">Bantuan</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Bantuan</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-3">FAQ</h1>
         <p className="text-body text-text-secondary leading-relaxed mb-8">
           Pertanyaan yang sering ditanyakan. Tidak menemukan jawaban? Hubungi kami langsung.
@@ -86,7 +86,7 @@ export default function FAQPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="mailto:anxietyfightwear@gmail.com"
-              className="inline-flex items-center justify-center px-5 py-2.5 bg-brand-red text-white text-body-sm font-semibold rounded-subtle hover:bg-brand-red-hover transition-colors"
+              className="inline-flex items-center justify-center px-5 py-2.5 bg-brand-green text-text-primary text-body-sm font-semibold rounded-subtle hover:bg-brand-green-hover transition-colors"
             >
               Email Kami
             </a>
@@ -94,7 +94,7 @@ export default function FAQPage() {
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-5 py-2.5 border border-border-default text-text-secondary text-body-sm font-semibold rounded-subtle hover:border-brand-red hover:text-brand-red transition-colors"
+              className="inline-flex items-center justify-center px-5 py-2.5 border border-border-default text-text-secondary text-body-sm font-semibold rounded-subtle hover:border-brand-green hover:text-brand-green transition-colors"
             >
               WhatsApp
             </a>

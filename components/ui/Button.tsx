@@ -38,28 +38,28 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: [
-    "bg-brand-red text-white",
-    "hover:bg-brand-red-hover",
-    "active:bg-brand-red-hover",
-    "disabled:bg-neutral-800 disabled:text-neutral-600",
+    "bg-brand-green text-white",
+    "hover:bg-brand-green-hover",
+    "active:bg-brand-green-hover",
+    "disabled:bg-neutral-200 disabled:text-neutral-400",
   ].join(" "),
   secondary: [
-    "bg-transparent text-white border border-white",
-    "hover:bg-white hover:text-brand-black",
-    "active:bg-neutral-200 active:text-brand-black",
-    "disabled:border-neutral-700 disabled:text-neutral-600 disabled:hover:bg-transparent",
+    "bg-transparent text-text-primary border border-border-default",
+    "hover:bg-surface-1 hover:border-brand-green hover:text-brand-green",
+    "active:bg-surface-2",
+    "disabled:border-neutral-200 disabled:text-neutral-400 disabled:hover:bg-transparent",
   ].join(" "),
   ghost: [
     "bg-transparent text-text-secondary",
-    "hover:text-white hover:bg-surface-1",
+    "hover:text-text-primary hover:bg-surface-1",
     "active:bg-surface-2",
-    "disabled:text-neutral-600 disabled:hover:bg-transparent",
+    "disabled:text-neutral-400 disabled:hover:bg-transparent",
   ].join(" "),
   destructive: [
     "bg-error-500 text-white",
     "hover:bg-error-600",
     "active:bg-error-600",
-    "disabled:bg-neutral-800 disabled:text-neutral-600",
+    "disabled:bg-neutral-200 disabled:text-neutral-400",
   ].join(" "),
 };
 
@@ -94,7 +94,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     "inline-flex items-center justify-center font-semibold",
     "rounded-subtle",
     "transition-colors duration-fast",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
     "disabled:cursor-not-allowed",
     "select-none whitespace-nowrap",
     // Variant + size

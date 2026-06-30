@@ -35,10 +35,10 @@ export default async function AkunProfilePage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-white uppercase tracking-tight mb-2">
+      <h1 className="text-2xl font-black text-text-primary uppercase tracking-tight mb-2">
         Profil Saya
       </h1>
-      <p className="text-sm text-neutral-400 mb-6">
+      <p className="text-sm text-text-muted mb-6">
         Kelola informasi akun Anda
       </p>
 

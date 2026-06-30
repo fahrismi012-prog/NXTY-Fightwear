@@ -57,8 +57,8 @@ export default function MobileFilterSheet({
               className={cn(
                 "w-full text-left px-4 py-3 border-2 font-black uppercase tracking-wider text-sm transition-colors min-h-[44px]",
                 active === null
-                  ? "bg-[#dc2626] border-[#dc2626] text-white"
-                  : "bg-transparent border-[#262626] text-neutral-300 hover:border-[#dc2626] hover:text-[#dc2626]"
+                  ? "bg-brand-green border-brand-green text-text-primary"
+                  : "bg-transparent border-border-subtle text-neutral-300 hover:border-brand-green hover:text-brand-green"
               )}
             >
               Semua Kategori
@@ -69,15 +69,15 @@ export default function MobileFilterSheet({
               <button
                 type="button"
                 onClick={() => handleSelect(cat)}
-                className="w-full text-left px-4 py-3 border-2 border-[#262626] bg-transparent text-neutral-300 hover:border-[#dc2626] hover:text-[#dc2626] font-black uppercase tracking-wider text-sm transition-colors min-h-[44px] flex items-center justify-between"
+                className="w-full text-left px-4 py-3 border-2 border-border-subtle bg-transparent text-neutral-300 hover:border-brand-green hover:text-brand-green font-black uppercase tracking-wider text-sm transition-colors min-h-[44px] flex items-center justify-between"
               >
                 <span>
-                  <span className="text-[10px] text-[#dc2626] mr-2">
+                  <span className="text-[10px] text-brand-green mr-2">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   {cat}
                 </span>
-                <span className="text-[#dc2626]" aria-hidden>
+                <span className="text-brand-green" aria-hidden>
                   →
                 </span>
               </button>

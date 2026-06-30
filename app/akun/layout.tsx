@@ -16,36 +16,36 @@ export default async function AkunLayout({
   const userEmail = user.email;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-canvas">
       <div className="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
         {/* Sidebar nav (desktop) */}
         <aside className="md:w-60 shrink-0">
           <nav className="md:sticky md:top-20 flex md:flex-col gap-2 overflow-x-auto scrollbar-hide">
             <Link
               href="/akun"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-white bg-[#161616] border-2 border-[#262626] hover:border-[#dc2626] min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
             >
-              <User className="w-3.5 h-3.5 text-[#dc2626]" />
+              <User className="w-3.5 h-3.5 text-brand-green" />
               Profil
             </Link>
             <Link
               href="/akun/pesanan"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-white bg-[#161616] border-2 border-[#262626] hover:border-[#dc2626] min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
             >
-              <Package className="w-3.5 h-3.5 text-[#dc2626]" />
+              <Package className="w-3.5 h-3.5 text-brand-green" />
               Pesanan Saya
             </Link>
             <Link
               href="/akun/alamat"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-white bg-[#161616] border-2 border-[#262626] hover:border-[#dc2626] min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
             >
-              <MapPin className="w-3.5 h-3.5 text-[#dc2626]" />
+              <MapPin className="w-3.5 h-3.5 text-brand-green" />
               Alamat Saya
             </Link>
             <form action="/api/customer/logout" method="post" className="md:mt-4">
               <button
                 type="submit"
-                className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-[#dc2626] bg-transparent border-2 border-[#262626] hover:border-[#dc2626] hover:bg-[#dc2626] hover:text-white w-full min-w-fit"
+                className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-brand-green bg-transparent border-2 border-border-subtle hover:border-brand-green hover:bg-brand-green hover:text-text-primary w-full min-w-fit"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Logout

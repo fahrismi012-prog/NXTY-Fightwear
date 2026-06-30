@@ -53,30 +53,30 @@ export default function FlashSaleSection({ promotion }: FlashSaleSectionProps) {
   };
 
   return (
-    <Card variant="outlined" padding="none" className="border-brand-red overflow-hidden">
+    <Card variant="outlined" padding="none" className="border-brand-green overflow-hidden">
       {/* Header */}
-      <div className="bg-brand-red px-4 py-4 sm:px-6 sm:py-5">
+      <div className="bg-brand-green px-4 py-4 sm:px-6 sm:py-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-canvas rounded-subtle flex items-center justify-center">
-              <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-brand-red animate-pulse" />
+              <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-brand-green animate-pulse" />
             </div>
             <div>
               <Eyebrow color="white" className="mb-0.5 opacity-80">
                 Waktu Terbatas
               </Eyebrow>
-              <h2 className="text-heading-2 font-bold text-white">
+              <h2 className="text-heading-2 font-bold text-text-primary">
                 {promotion.title}
               </h2>
               {promotion.subtitle && (
-                <p className="text-body-sm text-white/80 font-medium mt-0.5">
+                <p className="text-body-sm text-text-primary/80 font-medium mt-0.5">
                   {promotion.subtitle}
                 </p>
               )}
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-body-sm font-medium text-white/80 hidden sm:inline">
+            <span className="text-body-sm font-medium text-text-primary/80 hidden sm:inline">
               Berakhir dalam:
             </span>
             {promotion.endTime && <CountdownTimer endTime={promotion.endTime} size="sm" />}
@@ -130,13 +130,13 @@ export default function FlashSaleSection({ promotion }: FlashSaleSectionProps) {
                   <div className="mb-3">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-caption text-text-muted">Stok</span>
-                      <span className="text-caption font-semibold text-brand-red">
+                      <span className="text-caption font-semibold text-brand-green">
                         {stock} tersisa
                       </span>
                     </div>
                     <div className="h-1.5 bg-surface-2 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-brand-red transition-all duration-500 rounded-full"
+                        className="h-full bg-brand-green transition-all duration-500 rounded-full"
                         style={{ width: `${stockPercent}%` }}
                       />
                     </div>
@@ -162,7 +162,7 @@ export default function FlashSaleSection({ promotion }: FlashSaleSectionProps) {
         <div className="mt-4 text-center">
           <Link
             href="/promo"
-            className="inline-flex items-center gap-2 text-body-sm font-semibold text-text-primary hover:text-brand-red transition-colors"
+            className="inline-flex items-center gap-2 text-body-sm font-semibold text-text-primary hover:text-brand-green transition-colors"
           >
             Lihat Semua Promo
             <ArrowRight className="w-4 h-4" />

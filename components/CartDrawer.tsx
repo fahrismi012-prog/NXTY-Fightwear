@@ -38,7 +38,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 h-16 border-b border-border-subtle bg-canvas">
           <div className="flex items-center gap-3">
-            <ShoppingBag className="w-5 h-5 text-brand-red" />
+            <ShoppingBag className="w-5 h-5 text-brand-green" />
             <h2 className="text-heading-3 font-semibold text-text-primary">
               Keranjang
             </h2>
@@ -93,7 +93,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/products/${item.slug}`}
-                      className="text-body font-semibold text-text-primary line-clamp-2 block hover:text-brand-red transition-colors"
+                      className="text-body font-semibold text-text-primary line-clamp-2 block hover:text-brand-green transition-colors"
                       onClick={onClose}
                     >
                       {item.name}

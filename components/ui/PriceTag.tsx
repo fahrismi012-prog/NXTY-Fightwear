@@ -91,7 +91,7 @@ export function PriceTag({
             <span
               className={cn(
                 "inline-flex items-center justify-center",
-                "rounded-subtle bg-brand-red text-white",
+                "rounded-subtle bg-brand-green text-text-primary",
                 "text-eyebrow font-bold uppercase tracking-[0.08em]",
                 "px-1.5 py-0.5"
               )}

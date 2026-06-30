@@ -9,7 +9,7 @@ export default function B2BPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-red mb-2">Kemitraan</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Kemitraan</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-3">B2B / Grosir</h1>
         <p className="text-body text-text-secondary leading-relaxed mb-8">
           Anxiety Fightwear membuka peluang kemitraan untuk gym, perguruan bela diri, sekolah olahraga, dan reseller yang ingin menyediakan perlengkapan beladiri berkualitas dengan harga kompetitif.
@@ -51,13 +51,13 @@ export default function B2BPage() {
           </div>
         </div>
 
-        <div className="bg-brand-red rounded-card p-6 text-center">
-          <h2 className="text-body-lg font-bold text-white mb-2">Hubungi Kami Sekarang</h2>
-          <p className="text-body-sm text-white/80 mb-4">Tim kami siap membantu kebutuhan grosir Anda</p>
+        <div className="bg-brand-green rounded-card p-6 text-center">
+          <h2 className="text-body-lg font-bold text-text-primary mb-2">Hubungi Kami Sekarang</h2>
+          <p className="text-body-sm text-text-primary/80 mb-4">Tim kami siap membantu kebutuhan grosir Anda</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="mailto:anxietyfightwear@gmail.com"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-brand-red text-body-sm font-bold rounded-subtle hover:bg-neutral-100 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 bg-white text-brand-green text-body-sm font-bold rounded-subtle hover:bg-neutral-100 transition-colors"
             >
               anxietyfightwear@gmail.com
             </a>
@@ -65,7 +65,7 @@ export default function B2BPage() {
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white text-body-sm font-bold rounded-subtle hover:bg-white hover:text-brand-red transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-text-primary text-body-sm font-bold rounded-subtle hover:bg-white hover:text-brand-green transition-colors"
             >
               WhatsApp
             </a>

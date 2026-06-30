@@ -26,7 +26,7 @@ export default function Skeleton({
 
   return (
     <div
-      className={`${animationClass} bg-[#262626] rounded-none ${className}`}
+      className={`${animationClass} bg-surface-2 rounded-none ${className}`}
       style={{ width, height }}
       role="status"
       aria-label="Loading"

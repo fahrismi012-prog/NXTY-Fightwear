@@ -49,19 +49,19 @@ export default function ProfileForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Email
         </label>
         <input
           type="email"
           value={email}
           disabled
-          className="w-full bg-[#161616] text-neutral-500 px-3 py-3 border-2 border-[#262626]"
+          className="w-full bg-surface-1 text-neutral-500 px-3 py-3 border-2 border-border-subtle"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Nama Lengkap
         </label>
         <input
@@ -69,12 +69,12 @@ export default function ProfileForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nama Anda"
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Nomor HP
         </label>
         <input
@@ -82,7 +82,7 @@ export default function ProfileForm({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="08xxx"
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
         />
       </div>
 
@@ -92,7 +92,7 @@ export default function ProfileForm({
         </div>
       )}
       {error && (
-        <div className="border border-[#dc2626] text-[#dc2626] text-xs p-2">
+        <div className="border border-brand-green text-brand-green text-xs p-2">
           {error}
         </div>
       )}
@@ -100,7 +100,7 @@ export default function ProfileForm({
       <button
         type="submit"
         disabled={loading}
-        className="flex items-center gap-2 px-5 py-3 bg-[#dc2626] text-white text-sm font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:bg-[#262626] disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+        className="flex items-center gap-2 px-5 py-3 bg-brand-green text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
       >
         {loading ? (
           <>

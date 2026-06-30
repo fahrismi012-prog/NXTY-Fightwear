@@ -74,7 +74,7 @@ export function MobileSearchSheet() {
                   type="button"
                   onClick={() => setQuery("")}
                   aria-label="Hapus pencarian"
-                  className="pointer-events-auto inline-flex items-center justify-center w-7 h-7 text-text-muted hover:text-white rounded-subtle"
+                  className="pointer-events-auto inline-flex items-center justify-center w-7 h-7 text-text-muted hover:text-text-primary rounded-subtle"
                 >
                   <X className="w-4 h-4" />
                 </button>

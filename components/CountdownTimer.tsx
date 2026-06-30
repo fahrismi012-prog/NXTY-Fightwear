@@ -42,7 +42,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
 
   if (time.ended) {
     return (
-      <div className="inline-flex items-center gap-2 bg-[#262626] px-3 py-1.5 border border-[#262626]">
+      <div className="inline-flex items-center gap-2 bg-surface-2 px-3 py-1.5 border border-border-subtle">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">
           PROMO BERAKHIR
         </span>
@@ -67,7 +67,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
         aria-hidden
         suppressHydrationWarning
       >
-        <div className={`${s.box} bg-[#0a0a0a] border-2 border-[#262626] flex items-center justify-center`}>
+        <div className={`${s.box} bg-canvas border-2 border-border-subtle flex items-center justify-center`}>
           <span className={`${s.text} font-black text-neutral-700 font-mono leading-none`}>
             --
           </span>
@@ -79,38 +79,38 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
   return (
     <div className="inline-flex items-center gap-1.5">
       {time.days > 0 && (
-        <div className={`${s.box} bg-[#dc2626] flex flex-col items-center justify-center`}>
-          <span className={`${s.text} font-black text-white font-mono leading-none`}>
+        <div className={`${s.box} bg-brand-green flex flex-col items-center justify-center`}>
+          <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
             {String(time.days).padStart(2, "0")}
           </span>
-          <span className={`${s.label} font-black uppercase text-white/80 tracking-wider`}>
+          <span className={`${s.label} font-black uppercase text-text-primary/80 tracking-wider`}>
             HARI
           </span>
         </div>
       )}
-      <div className={`${s.box} bg-[#0a0a0a] border-2 border-[#dc2626] flex flex-col items-center justify-center`}>
-        <span className={`${s.text} font-black text-white font-mono leading-none`}>
+      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+        <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.hours).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
           JAM
         </span>
       </div>
-      <span className="text-[#dc2626] font-black text-2xl">:</span>
-      <div className={`${s.box} bg-[#0a0a0a] border-2 border-[#dc2626] flex flex-col items-center justify-center`}>
-        <span className={`${s.text} font-black text-white font-mono leading-none`}>
+      <span className="text-brand-green font-black text-2xl">:</span>
+      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+        <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.minutes).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
           MENIT
         </span>
       </div>
-      <span className="text-[#dc2626] font-black text-2xl">:</span>
-      <div className={`${s.box} bg-[#0a0a0a] border-2 border-[#dc2626] flex flex-col items-center justify-center`}>
-        <span className={`${s.text} font-black text-white font-mono leading-none`}>
+      <span className="text-brand-green font-black text-2xl">:</span>
+      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+        <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.seconds).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-[#dc2626] tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
           DETIK
         </span>
       </div>

@@ -9,7 +9,7 @@ export default function KebijakanPengirimanPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-red mb-2">Informasi</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Informasi</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-3">Kebijakan Pengiriman</h1>
         <p className="text-body text-text-secondary leading-relaxed mb-8">
           Kami berkomitmen untuk mengirimkan setiap pesanan dengan cepat, aman, dan terpercaya ke seluruh wilayah Indonesia.
@@ -73,7 +73,7 @@ export default function KebijakanPengirimanPage() {
             </p>
             <Link
               href="/lacak"
-              className="inline-flex items-center px-4 py-2 bg-brand-red text-white text-body-sm font-semibold rounded-subtle hover:bg-brand-red-hover transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-brand-green text-text-primary text-body-sm font-semibold rounded-subtle hover:bg-brand-green-hover transition-colors"
             >
               Lacak Pesanan Saya
             </Link>

@@ -106,13 +106,13 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Label Alamat
         </label>
         <select
           value={form.label}
           onChange={(e) => handleChange("label", e.target.value)}
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
         >
           {LABELS.map((l) => (
             <option key={l} value={l}>
@@ -123,7 +123,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Nama Penerima
         </label>
         <input
@@ -131,12 +131,12 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.recipient_name}
           onChange={(e) => handleChange("recipient_name", e.target.value)}
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Nomor HP
         </label>
         <input
@@ -144,12 +144,12 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.phone}
           onChange={(e) => handleChange("phone", e.target.value)}
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Alamat Lengkap
         </label>
         <textarea
@@ -158,13 +158,13 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           value={form.street}
           onChange={(e) => handleChange("street", e.target.value)}
           placeholder="Jl. ..., RT/RW, Kelurahan..."
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+          <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
             Kota
           </label>
           <input
@@ -172,11 +172,11 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
             required
             value={form.city}
             onChange={(e) => handleChange("city", e.target.value)}
-            className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
           />
         </div>
         <div>
-          <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+          <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
             Provinsi
           </label>
           <input
@@ -184,13 +184,13 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
             required
             value={form.province}
             onChange={(e) => handleChange("province", e.target.value)}
-            className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+        <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
           Kode Pos
         </label>
         <input
@@ -198,7 +198,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.postal_code}
           onChange={(e) => handleChange("postal_code", e.target.value)}
-          className="w-full bg-[#0a0a0a] text-white px-3 py-3 border-2 border-[#262626] focus:border-[#dc2626] focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
         />
       </div>
 
@@ -209,11 +209,11 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           onChange={(e) => handleChange("is_default", e.target.checked)}
           className="w-4 h-4 accent-[#dc2626]"
         />
-        <span className="text-sm text-white">Jadikan alamat utama</span>
+        <span className="text-sm text-text-primary">Jadikan alamat utama</span>
       </label>
 
       {error && (
-        <div className="border border-[#dc2626] text-[#dc2626] text-xs p-2">
+        <div className="border border-brand-green text-brand-green text-xs p-2">
           {error}
         </div>
       )}
@@ -222,7 +222,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 px-5 py-3 bg-[#dc2626] text-white text-sm font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:bg-[#262626] disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+          className="flex items-center gap-2 px-5 py-3 bg-brand-green text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
         >
           {loading ? (
             <>
@@ -237,7 +237,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
         <button
           type="button"
           onClick={() => router.push("/akun/alamat")}
-          className="px-5 py-3 border-2 border-[#262626] text-white text-sm font-black uppercase tracking-wider hover:bg-[#161616] min-h-[48px]"
+          className="px-5 py-3 border-2 border-border-subtle text-text-primary text-sm font-black uppercase tracking-wider hover:bg-surface-1 min-h-[48px]"
         >
           Batal
         </button>

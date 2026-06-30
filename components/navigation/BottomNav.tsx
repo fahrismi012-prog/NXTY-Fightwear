@@ -141,7 +141,7 @@ export function BottomNav() {
                   strokeWidth={isActive ? 2.2 : 1.8}
                   className={cn(
                     "transition-colors duration-fast",
-                    isActive ? "text-brand-red" : "text-text-secondary"
+                    isActive ? "text-brand-green" : "text-text-secondary"
                   )}
                   aria-hidden
                 />
@@ -151,7 +151,7 @@ export function BottomNav() {
                     className={cn(
                       "absolute -top-1 -right-2",
                       "min-w-[16px] h-4 px-1",
-                      "bg-brand-red text-white",
+                      "bg-brand-green text-white",
                       "rounded-full ring-2 ring-canvas",
                       "text-[10px] font-bold leading-none",
                       "inline-flex items-center justify-center"
@@ -165,7 +165,7 @@ export function BottomNav() {
                 className={cn(
                   "mt-1 text-[11px] font-medium",
                   "transition-colors duration-fast",
-                  isActive ? "text-brand-red" : "text-text-secondary"
+                  isActive ? "text-brand-green" : "text-text-secondary"
                 )}
               >
                 {tab.label}
@@ -178,7 +178,7 @@ export function BottomNav() {
                   "w-1 h-1 rounded-full",
                   "transition-opacity duration-fast",
                   isActive
-                    ? "bg-brand-red opacity-100"
+                    ? "bg-brand-green opacity-100"
                     : "bg-transparent opacity-0"
                 )}
               />

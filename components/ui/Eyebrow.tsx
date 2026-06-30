@@ -18,8 +18,8 @@ export interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
 
 const colorClasses: Record<EyebrowColor, string> = {
   default: "text-text-secondary",
-  red: "text-brand-red",
-  white: "text-white",
+  red: "text-brand-green",
+  white: "text-text-primary",
 };
 
 export const Eyebrow = forwardRef<HTMLParagraphElement, EyebrowProps>(function Eyebrow(
