@@ -97,8 +97,8 @@ export function TopHeader() {
         className={cn(
           "border-b transition-colors duration-fast",
           scrolled
-            ? "bg-canvas/95 backdrop-blur-md border-border-subtle shadow-sm"
-            : "bg-canvas border-transparent"
+            ? "bg-brand-green backdrop-blur-md border-brand-green-hover shadow-md"
+            : "bg-brand-green border-brand-green"
         )}
       >
         {/* Mobile (56px) */}
@@ -114,27 +114,27 @@ export function TopHeader() {
               width={395}
               height={129}
               priority
-              className="h-8 w-auto object-contain"
+              className="h-8 w-auto object-contain brightness-0 invert"
             />
           </Link>
 
-          {/* Search field persisten (mobile) — tap untuk buka sheet */}
+          {/* Search field persisten (mobile) */}
           <button
             type="button"
             onClick={handleMobileSearchTap}
             aria-label="Cari produk"
             className={cn(
               "flex-1 h-10 inline-flex items-center gap-2 px-3",
-              "bg-surface-1 border border-border-default",
+              "bg-white/20 border border-white/30",
               "rounded-subtle",
-              "text-text-muted text-body-sm",
-              "hover:border-border-strong",
+              "text-white/80 text-body-sm",
+              "hover:bg-white/30",
               "transition-colors duration-fast",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             )}
           >
-            <Search size={16} className="shrink-0" aria-hidden />
-            <span className="truncate">Cari sarung tinju, hand wrap...</span>
+            <Search size={16} className="shrink-0 text-white/70" aria-hidden />
+            <span className="truncate text-white/70">Cari produk...</span>
           </button>
 
           <IconButton
@@ -144,6 +144,7 @@ export function TopHeader() {
             aria-label="Keranjang"
             badge={cartCount}
             onClick={openCart}
+            className="text-white hover:bg-white/20"
           />
         </div>
 
@@ -160,7 +161,7 @@ export function TopHeader() {
               width={395}
               height={129}
               priority
-              className="h-10 w-auto object-contain"
+              className="h-10 w-auto object-contain brightness-0 invert"
             />
           </Link>
 
@@ -184,8 +185,8 @@ export function TopHeader() {
                     "rounded-subtle",
                     "transition-colors duration-fast",
                     isActive
-                      ? "text-brand-green font-semibold"
-                      : "text-text-secondary hover:text-text-primary hover:bg-surface-1"
+                      ? "text-white font-semibold bg-white/20"
+                      : "text-white/80 hover:text-white hover:bg-white/20"
                   )}
                 >
                   {link.label}
@@ -201,16 +202,17 @@ export function TopHeader() {
               size="lg"
               aria-label="Cari produk"
               onClick={handleDesktopSearchClick}
+              className="text-white hover:bg-white/20"
             />
             <Link
               href="/wishlist"
               aria-label="Wishlist"
               className={cn(
                 "relative inline-flex items-center justify-center w-11 h-11",
-                "text-text-secondary hover:text-white hover:bg-surface-1",
+                "text-white/80 hover:text-white hover:bg-white/20",
                 "rounded-subtle",
                 "transition-colors duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               )}
             >
               <Heart className="w-5 h-5" aria-hidden />
@@ -238,6 +240,7 @@ export function TopHeader() {
               aria-label="Keranjang"
               badge={cartCount}
               onClick={openCart}
+              className="text-white hover:bg-white/20"
             />
           </div>
         </div>

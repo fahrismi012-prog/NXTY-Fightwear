@@ -57,19 +57,19 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-canvas border-t border-border-subtle">
+    <footer className="bg-[#1b4332] text-white">
 
       {/* 1. Newsletter */}
-      <div className="border-b border-border-subtle">
+      <div className="border-b border-white/10">
         <div className="max-w-2xl mx-auto px-4 py-10">
-          <h3 className="text-body-lg font-bold text-text-primary mb-2">
+          <h3 className="text-body-lg font-bold text-white mb-2">
             Newsletter Anxiety Fightwear
           </h3>
-          <p className="text-body-sm text-text-secondary mb-6 leading-relaxed">
+          <p className="text-body-sm text-white/70 mb-6 leading-relaxed">
             Daftar newsletter kami untuk mendapatkan info produk terbaru, drop koleksi, dan penawaran eksklusif.
           </p>
           {submitted ? (
-            <p className="text-body-sm text-brand-green font-semibold">
+            <p className="text-body-sm text-green-300 font-semibold">
               Terima kasih! Anda telah berlangganan newsletter kami.
             </p>
           ) : (
@@ -81,19 +81,19 @@ export function Footer() {
                 placeholder="Alamat Email"
                 required
                 className={cn(
-                  "w-full bg-transparent border-b border-border-default",
-                  "text-body-sm text-text-primary placeholder:text-text-muted",
+                  "w-full bg-transparent border-b border-white/40",
+                  "text-body-sm text-white placeholder:text-white/50",
                   "py-2.5 outline-none",
-                  "focus:border-text-primary transition-colors duration-fast"
+                  "focus:border-white transition-colors duration-fast"
                 )}
               />
               <button
                 type="submit"
                 className={cn(
                   "relative w-full sm:max-w-xs py-3.5",
-                  "border border-text-primary text-text-primary",
+                  "border border-white text-white",
                   "text-body-sm font-semibold text-center",
-                  "hover:bg-white hover:text-canvas",
+                  "hover:bg-white hover:text-[#1b4332]",
                   "transition-colors duration-fast",
                   "[clip-path:polygon(0_0,calc(100%-12px)_0,100%_100%,12px_100%)]",
                   "focus-visible:outline-none"
@@ -107,18 +107,18 @@ export function Footer() {
       </div>
 
       {/* 2. Hubungi Kami */}
-      <div className="border-b border-border-subtle">
+      <div className="border-b border-white/10">
         <div className="max-w-2xl mx-auto px-4 py-10">
-          <h3 className="text-body-lg font-bold text-text-primary mb-2">
+          <h3 className="text-body-lg font-bold text-white mb-2">
             Hubungi Kami
           </h3>
-          <p className="text-body-sm text-text-secondary mb-5">
+          <p className="text-body-sm text-white/70 mb-5">
             Butuh saran atau informasi? Hubungi kami.
           </p>
           <div className="flex flex-col gap-3 pl-2">
             <a
               href="mailto:anxietyfightwear@gmail.com"
-              className="text-body-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-body-sm text-white/80 hover:text-white transition-colors"
             >
               anxietyfightwear@gmail.com
             </a>
@@ -126,14 +126,14 @@ export function Footer() {
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-body-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-body-sm text-white/80 hover:text-white transition-colors"
             >
               +62 812-3456-7890
             </a>
-            <p className="text-body-sm text-text-secondary">
+            <p className="text-body-sm text-white/70">
               Senin – Jumat: 09.00 – 17.00 WIB
             </p>
-            <p className="text-body-sm text-text-secondary">
+            <p className="text-body-sm text-white/70">
               Sabtu: 09.00 – 14.00 WIB
             </p>
           </div>
@@ -142,7 +142,7 @@ export function Footer() {
 
       {/* 3. Kolom link */}
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-[1fr_auto_auto] gap-x-8 gap-y-6 md:gap-x-16">
+        <div className="grid grid-cols-3 gap-x-8 gap-y-6 md:gap-x-16">
           {COLUMNS.map((col) => (
             <FooterColumn key={col.title} column={col} />
           ))}
@@ -150,17 +150,17 @@ export function Footer() {
       </div>
 
       {/* 4. Bottom bar */}
-      <div className="border-t border-border-subtle">
+      <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-caption text-text-muted">
+          <p className="text-caption text-white/50">
             © {new Date().getFullYear()} Anxiety Fightwear. Hak cipta dilindungi.
           </p>
-          <div className="flex items-center gap-4 text-caption text-text-muted">
-            <Link href="/kebijakan-privasi" className="hover:text-text-primary transition-colors">
+          <div className="flex items-center gap-4 text-caption text-white/50">
+            <Link href="/kebijakan-privasi" className="hover:text-white transition-colors">
               Kebijakan Privasi
             </Link>
             <span aria-hidden>·</span>
-            <Link href="/syarat-ketentuan" className="hover:text-text-primary transition-colors">
+            <Link href="/syarat-ketentuan" className="hover:text-white transition-colors">
               Syarat & Ketentuan
             </Link>
           </div>
@@ -178,7 +178,7 @@ interface FooterColumnProps {
 function FooterColumn({ column }: FooterColumnProps) {
   return (
     <div>
-      <h3 className="text-body-sm font-bold text-text-primary mb-4">
+      <h3 className="text-body-sm font-bold text-white mb-4">
         {column.title}
       </h3>
       <ul className="flex flex-col gap-2.5">
@@ -186,7 +186,7 @@ function FooterColumn({ column }: FooterColumnProps) {
           <li key={link.label}>
             <Link
               href={link.href}
-              className="text-body-sm text-text-secondary hover:text-text-primary transition-colors duration-fast"
+              className="text-body-sm text-white/70 hover:text-white transition-colors duration-fast"
             >
               {link.label}
             </Link>

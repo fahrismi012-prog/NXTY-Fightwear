@@ -72,9 +72,9 @@
   --color-error-600: #dc2626;
 
   /* Surface aliases — LIGHT THEME (Tokopedia style) */
-  --color-canvas: #ffffff;
-  --color-surface-1: #f5f5f5;
-  --color-surface-2: #e8e8e8;
+  --color-canvas: #f5f4f0;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #f0efeb;
   --color-text-primary: #212121;
   --color-text-secondary: #545454;
   --color-text-muted: #9e9e9e;
@@ -160,7 +160,7 @@
    BASE STYLES
    ============================================================ */
 body {
-  background-color: #ffffff;
+  background-color: #f5f4f0;
   color: #212121;
 }
 

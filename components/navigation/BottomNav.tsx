@@ -114,7 +114,7 @@ export function BottomNav() {
       aria-label="Navigasi utama"
       className={cn(
         "md:hidden fixed bottom-0 left-0 right-0 z-30",
-        "bg-canvas border-t border-border-subtle",
+        "bg-white border-t-2 border-brand-green",
         "pb-[env(safe-area-inset-bottom)]"
       )}
     >
