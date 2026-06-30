@@ -11,19 +11,12 @@ interface MobileFilterSheetProps {
 }
 
 const CATEGORIES = [
-  "Sarung Tinju",
-  "Hand Wrap",
-  "Rashguard",
-  "Celana Tarung",
-  "Pelindung Kaki",
-  "Pelindung Gigi",
-  "Pelindung",
-  "Tas Gym",
-  "Pakaian Olahraga",
-  "Aksesoris Latihan",
-  "Matras",
   "Pencak Silat",
-  "Renang",
+  "Taekwondo",
+  "Karate",
+  "Muaythai",
+  "Boxing",
+  "Matras",
 ];
 
 export default function MobileFilterSheet({
@@ -46,7 +39,7 @@ export default function MobileFilterSheet({
   return (
     <Sheet isOpen={isOpen} onClose={onClose} title="Kategori">
       <div className="p-4">
-        <p className="text-xs text-neutral-500 mb-3 uppercase tracking-wider">
+        <p className="text-body-sm text-text-muted mb-3">
           Pilih kategori produk
         </p>
         <ul className="flex flex-col gap-2">
@@ -55,28 +48,23 @@ export default function MobileFilterSheet({
               type="button"
               onClick={() => handleSelect(null)}
               className={cn(
-                "w-full text-left px-4 py-3 border-2 font-black uppercase tracking-wider text-sm transition-colors min-h-[44px]",
+                "w-full text-left px-4 py-3 border rounded-subtle font-semibold text-body-sm transition-colors min-h-[48px]",
                 active === null
-                  ? "bg-brand-green border-brand-green text-text-primary"
-                  : "bg-transparent border-border-subtle text-neutral-300 hover:border-brand-green hover:text-brand-green"
+                  ? "bg-brand-green border-brand-green text-white"
+                  : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
               )}
             >
               Semua Kategori
             </button>
           </li>
-          {CATEGORIES.map((cat, i) => (
+          {CATEGORIES.map((cat) => (
             <li key={cat}>
               <button
                 type="button"
                 onClick={() => handleSelect(cat)}
-                className="w-full text-left px-4 py-3 border-2 border-border-subtle bg-transparent text-neutral-300 hover:border-brand-green hover:text-brand-green font-black uppercase tracking-wider text-sm transition-colors min-h-[44px] flex items-center justify-between"
+                className="w-full text-left px-4 py-3 border border-border-subtle rounded-subtle bg-surface-1 text-text-secondary hover:border-brand-green hover:text-brand-green font-semibold text-body-sm transition-colors min-h-[48px] flex items-center justify-between"
               >
-                <span>
-                  <span className="text-[10px] text-brand-green mr-2">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {cat}
-                </span>
+                <span>{cat}</span>
                 <span className="text-brand-green" aria-hidden>
                   →
                 </span>

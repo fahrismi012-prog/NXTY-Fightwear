@@ -87,7 +87,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas pb-32 md:pb-8">
+    <div className="min-h-screen bg-canvas pb-8">
       <div className="max-w-6xl mx-auto">
         {/* Back button mobile */}
         <button
@@ -219,8 +219,8 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Quantity - Desktop only */}
-            <div className="hidden md:block mb-5">
+            {/* Quantity */}
+            <div className="mb-5">
               <p className="text-body-sm font-semibold text-text-primary mb-2">Jumlah</p>
               <div className="inline-flex items-stretch border border-border-default rounded-subtle">
                 <button
@@ -243,8 +243,8 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Desktop actions */}
-            <div className="hidden md:flex flex-col gap-3 mb-4">
+            {/* Actions — inline (mobile & desktop) */}
+            <div className="flex flex-col gap-3 mb-4">
               <Button
                 variant="secondary"
                 size="lg"
@@ -262,13 +262,14 @@ export default function ProductDetailPage() {
                 onClick={handleBuyNow}
                 disabled={!canAdd || adding !== null}
                 leftIcon={adding === "buy" ? <Check className="w-4 h-4" /> : <Zap className="w-4 h-4 fill-current" />}
+                className="!text-white"
               >
                 {adding === "buy" ? "OK" : "Beli"}
               </Button>
             </div>
 
             {!canAdd && (
-              <p className="hidden md:block text-body-sm text-text-muted">
+              <p className="text-body-sm text-text-muted">
                 Pilih ukuran dan warna terlebih dahulu
               </p>
             )}
@@ -279,61 +280,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Mobile sticky bottom action bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-brand-green p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-lg">
-        <div className="flex items-stretch gap-2">
-          {/* Quantity selector compact */}
-          <div className="flex items-stretch border border-border-default rounded-subtle">
-            <button
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="w-11 flex items-center justify-center text-text-secondary hover:bg-surface-1 rounded-l-subtle"
-              aria-label="Kurangi"
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="w-9 text-center text-body-sm font-semibold text-text-primary flex items-center justify-center border-l border-r border-border-default">
-              {quantity}
-            </span>
-            <button
-              onClick={() => setQuantity((q) => q + 1)}
-              className="w-11 flex items-center justify-center text-text-secondary hover:bg-surface-1 rounded-r-subtle"
-              aria-label="Tambah"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Add to cart button */}
-          <Button
-            variant="secondary"
-            size="md"
-            className="flex-1 text-text-primary"
-            onClick={handleAddToCart}
-            disabled={!canAdd || adding !== null}
-            leftIcon={adding === "cart" ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
-          >
-            {adding === "cart" ? "Added" : "Keranjang"}
-          </Button>
-
-          {/* Buy now button */}
-          <Button
-            variant="primary"
-            size="md"
-            className="flex-[1.4] !text-white"
-            onClick={handleBuyNow}
-            disabled={!canAdd || adding !== null}
-            leftIcon={adding === "buy" ? <Check className="w-4 h-4" /> : <Zap className="w-4 h-4 fill-current" />}
-          >
-            {adding === "buy" ? "OK" : "Beli"}
-          </Button>
-        </div>
-        {!canAdd && (
-          <p className="text-body-sm text-text-muted text-center mt-2">
-            Pilih ukuran dan warna
-          </p>
-        )}
       </div>
     </div>
   );
