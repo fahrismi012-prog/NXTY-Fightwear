@@ -126,16 +126,16 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
   }
 
   const baseInput =
-    "w-full bg-[#161616] border-2 border-[#262626] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#dc2626] transition-colors";
+    "w-full bg-white border-2 border-neutral-600 px-4 py-3 text-sm text-black placeholder-neutral-500 focus:outline-none focus:border-black transition-colors";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
         {/* Nama */}
         <div>
           <label
             htmlFor="name"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Nama <span className="text-[#dc2626]">*</span>
           </label>
@@ -155,7 +155,7 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
         <div>
           <label
             htmlFor="slug"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Slug <span className="text-[#dc2626]">*</span>
           </label>
@@ -182,7 +182,7 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
         <div>
           <label
             htmlFor="description"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Deskripsi
           </label>
@@ -204,7 +204,7 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
           <button
             type="submit"
             disabled={submitting || deleting}
-            className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black hover:shadow-[4px_4px_0_black] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? (
               <Loader2 size={14} className="animate-spin" />
@@ -213,7 +213,7 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
           </button>
           <Link
             href="/admin/kategori"
-            className="inline-flex items-center bg-[#0a0a0a] text-white border-2 border-white px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors"
+            className="inline-flex items-center bg-white text-black border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white hover:shadow-[4px_4px_0_black] transition-colors"
           >
             Batal
           </Link>
@@ -224,7 +224,7 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
             type="button"
             onClick={handleDelete}
             disabled={submitting || deleting}
-            className="inline-flex items-center gap-2 bg-[#0a0a0a] text-[#dc2626] border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-white text-[#dc2626] border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white hover:shadow-[4px_4px_0_#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {deleting ? (
               <Loader2 size={14} className="animate-spin" />
