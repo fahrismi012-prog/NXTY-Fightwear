@@ -51,19 +51,19 @@ export default async function KategoriListPage() {
       {/* Header */}
       <div className="flex items-start md:items-center justify-between gap-4 mb-6 flex-col md:flex-row">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626] mb-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mb-2">
             Manajemen
           </p>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-black">
             Kategori
           </h1>
-          <p className="text-sm text-neutral-400 mt-2">
+          <p className="text-sm text-neutral-500 mt-2">
             Kelola kategori produk Anxiety Fightwear.
           </p>
         </div>
         <Link
           href="/admin/kategori/baru"
-          className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors"
+          className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black hover:shadow-[4px_4px_0_black] transition-colors"
         >
           <Plus size={16} strokeWidth={2.5} />
           Tambah Kategori
@@ -71,10 +71,10 @@ export default async function KategoriListPage() {
       </div>
 
       {/* Tabel */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] overflow-x-auto">
+      <div className="bg-white border-2 border-neutral-800 overflow-x-auto">
         {categories.length === 0 ? (
           <div className="p-10 text-center">
-            <p className="text-xs font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-1">
               Belum ada kategori
             </p>
             <p className="text-[11px] text-neutral-600 mb-4">
@@ -82,7 +82,7 @@ export default async function KategoriListPage() {
             </p>
             <Link
               href="/admin/kategori/baru"
-              className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-2 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors"
+              className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-2 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black hover:shadow-[4px_4px_0_black] transition-colors"
             >
               <Plus size={14} strokeWidth={2.5} />
               Tambah Kategori
@@ -91,17 +91,17 @@ export default async function KategoriListPage() {
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#dc2626] text-white">
-                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-12">
+              <tr className="bg-black text-white">
+                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-12">
                   #
                 </th>
-                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626]">
+                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800">
                   Nama
                 </th>
-                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626]">
+                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800">
                   Slug
                 </th>
-                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-32">
+                <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-32">
                   Jumlah Produk
                 </th>
                 <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-44">
@@ -113,12 +113,12 @@ export default async function KategoriListPage() {
               {categories.map((cat, idx) => (
                 <tr
                   key={cat.id}
-                  className="border-t-2 border-[#262626] hover:bg-white/5 transition-colors"
+                  className="border-t-2 border-neutral-800 hover:bg-neutral-100 transition-colors"
                 >
-                  <td className="px-4 py-3 text-xs font-black text-neutral-400 border-r-2 border-[#262626]">
+                  <td className="px-4 py-3 text-xs font-black text-neutral-500 border-r-2 border-neutral-800">
                     {idx + 1}
                   </td>
-                  <td className="px-4 py-3 text-sm font-black text-white border-r-2 border-[#262626]">
+                  <td className="px-4 py-3 text-sm font-black text-black border-r-2 border-neutral-800">
                     {cat.name}
                     {cat.description ? (
                       <p className="mt-1 text-[11px] font-normal text-neutral-500 line-clamp-1">
@@ -126,15 +126,15 @@ export default async function KategoriListPage() {
                       </p>
                     ) : null}
                   </td>
-                  <td className="px-4 py-3 text-xs text-neutral-300 border-r-2 border-[#262626] font-mono">
+                  <td className="px-4 py-3 text-xs text-neutral-600 border-r-2 border-neutral-800 font-mono">
                     {cat.slug}
                   </td>
-                  <td className="px-4 py-3 text-xs font-black text-white border-r-2 border-[#262626]">
+                  <td className="px-4 py-3 text-xs font-black text-black border-r-2 border-neutral-800">
                     <span
                       className={
                         cat.product_count > 0
-                          ? "inline-block bg-white text-[#0a0a0a] px-2 py-1"
-                          : "inline-block bg-[#161616] text-neutral-500 px-2 py-1 border border-[#262626]"
+                          ? "inline-block bg-black text-white px-2 py-1"
+                          : "inline-block bg-neutral-100 text-neutral-500 px-2 py-1 border border-neutral-200"
                       }
                     >
                       {cat.product_count}
