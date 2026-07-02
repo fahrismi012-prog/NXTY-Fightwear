@@ -27,7 +27,7 @@ export default function AdminBottomNav() {
   return (
     <nav
       aria-label="Navigasi admin"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-canvas border-t-2 border-brand-green pb-[env(safe-area-inset-bottom)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t-2 border-black pb-[env(safe-area-inset-bottom)]"
     >
       <ul className="flex items-stretch h-16">
         {NAV_ITEMS.map((item) => {
@@ -48,7 +48,7 @@ export default function AdminBottomNav() {
                   aria-hidden
                   className={cn(
                     "absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-10 transition-colors",
-                    active ? "bg-brand-green" : "bg-transparent",
+                    active ? "bg-black" : "bg-transparent",
                   )}
                 />
                 <Icon
@@ -56,13 +56,13 @@ export default function AdminBottomNav() {
                   strokeWidth={active ? 2.5 : 2}
                   className={cn(
                     "transition-colors",
-                    active ? "text-brand-green" : "text-text-muted",
+                    active ? "text-black" : "text-neutral-400",
                   )}
                 />
                 <span
                   className={cn(
                     "text-[10px] font-black uppercase tracking-wide mt-1 transition-colors",
-                    active ? "text-brand-green" : "text-text-muted",
+                    active ? "text-black" : "text-neutral-400",
                   )}
                 >
                   {item.label}
