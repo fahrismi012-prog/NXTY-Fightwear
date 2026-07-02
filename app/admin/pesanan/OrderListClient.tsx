@@ -4,30 +4,13 @@ import { useMemo, useState } from "react";
 import { Search, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Order, OrderStatus } from "@/types/database";
 import OrderDetailModal from "@/components/admin/OrderDetailModal";
+import { StatusBadge } from "@/components/admin/StatusBadge";
 
 interface Props {
   orders: Order[];
 }
 
 const PAGE_SIZE = 20;
-
-const STATUS_BADGES: Record<OrderStatus, string> = {
-  pending: "bg-[#161616] text-yellow-300 border-yellow-300",
-  paid: "bg-[#161616] text-blue-300 border-blue-300",
-  processed: "bg-[#161616] text-purple-300 border-purple-300",
-  shipped: "bg-[#161616] text-cyan-300 border-cyan-300",
-  delivered: "bg-green-500 text-[#0a0a0a] border-green-500",
-  cancelled: "bg-[#dc2626] text-white border-[#dc2626]",
-};
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  pending: "Pending",
-  paid: "Paid",
-  processed: "Processed",
-  shipped: "Shipped",
-  delivered: "Delivered",
-  cancelled: "Cancelled",
-};
 
 const STATUS_FILTERS: { value: "" | OrderStatus; label: string }[] = [
   { value: "", label: "Semua Status" },
@@ -92,23 +75,23 @@ export default function OrderListClient({ orders }: Props) {
     <div className="p-4 md:p-8 max-w-6xl">
       {/* Header */}
       <div className="mb-6">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626] mb-2">
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mb-2">
           Manajemen
         </p>
-        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-black">
           Pesanan
         </h1>
-        <p className="text-sm text-neutral-400 mt-2">
+        <p className="text-sm text-neutral-500 mt-2">
           Daftar pesanan masuk Anxiety Fightwear. Total {orders.length} pesanan.
         </p>
       </div>
 
       {/* Filter bar */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="bg-white border-2 border-neutral-800 p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
           <label
             htmlFor="search"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2"
           >
             Cari Order / Customer
           </label>
@@ -127,14 +110,14 @@ export default function OrderListClient({ orders }: Props) {
                 setPage(1);
               }}
               placeholder="Order ID, nama, atau email…"
-              className="w-full bg-[#161616] border-2 border-[#262626] pl-10 pr-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#dc2626] transition-colors"
+              className="w-full bg-white border-2 border-neutral-600 pl-10 pr-4 py-3 text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors"
             />
           </div>
         </div>
         <div>
           <label
             htmlFor="status"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2"
           >
             Status
           </label>
@@ -145,7 +128,7 @@ export default function OrderListClient({ orders }: Props) {
               setStatusFilter(e.target.value as "" | OrderStatus);
               setPage(1);
             }}
-            className="w-full bg-[#161616] border-2 border-[#262626] px-3 py-3 text-sm text-white focus:outline-none focus:border-[#dc2626] transition-colors"
+            className="w-full bg-white border-2 border-neutral-600 px-3 py-3 text-sm text-black focus:outline-none focus:border-black transition-colors"
           >
             {STATUS_FILTERS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -157,50 +140,50 @@ export default function OrderListClient({ orders }: Props) {
       </div>
 
       {/* Table */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] overflow-x-auto">
+      <div className="bg-white border-2 border-neutral-800 overflow-x-auto">
         {orders.length === 0 ? (
           <div className="p-10 text-center">
             <ShoppingBag
               size={32}
               strokeWidth={2}
-              className="mx-auto mb-3 text-neutral-600"
+              className="mx-auto mb-3 text-neutral-400"
             />
-            <p className="text-xs font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-1">
               Belum ada pesanan
             </p>
-            <p className="text-[11px] text-neutral-600">
+            <p className="text-[11px] text-neutral-500">
               Pesanan akan muncul di sini setelah customer checkout.
             </p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-10 text-center">
-            <p className="text-xs font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-1">
               Tidak ada hasil
             </p>
-            <p className="text-[11px] text-neutral-600">
+            <p className="text-[11px] text-neutral-500">
               Coba ubah filter atau kata kunci pencarian.
             </p>
           </div>
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#dc2626] text-white">
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-12">
+              <tr className="bg-black text-white">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-12">
                   #
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-32">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-32">
                   Order ID
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-40">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-40">
                   Tanggal
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626]">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800">
                   Customer
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-36 text-right">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-36 text-right">
                   Total
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-32">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-32">
                   Status
                 </th>
                 <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest w-28">
@@ -214,19 +197,19 @@ export default function OrderListClient({ orders }: Props) {
                 return (
                   <tr
                     key={o.id}
-                    className="border-t-2 border-[#262626] hover:bg-white/5 transition-colors cursor-pointer"
+                    className="border-t-2 border-neutral-800 hover:bg-neutral-100 transition-colors cursor-pointer"
                     onClick={() => setSelected(o)}
                   >
-                    <td className="px-3 py-3 text-xs font-black text-neutral-400 border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-xs font-black text-neutral-500 border-r-2 border-neutral-200">
                       {start + idx + 1}
                     </td>
-                    <td className="px-3 py-3 text-xs font-mono text-white border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-xs font-mono text-black border-r-2 border-neutral-200">
                       {shortOrderId(o.id)}
                     </td>
-                    <td className="px-3 py-3 text-[11px] text-neutral-300 border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-[11px] text-neutral-600 border-r-2 border-neutral-200">
                       {formatDate(o.created_at)}
                     </td>
-                    <td className="px-3 py-3 text-xs text-white border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-xs text-black border-r-2 border-neutral-200">
                       <div className="font-black truncate max-w-xs">
                         {o.customer_name ?? "—"}
                       </div>
@@ -234,18 +217,14 @@ export default function OrderListClient({ orders }: Props) {
                         {o.customer_email ?? "—"}
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-xs font-black text-white border-r-2 border-[#262626] font-mono text-right">
+                    <td className="px-3 py-3 text-xs font-black text-black border-r-2 border-neutral-200 font-mono text-right">
                       {formatRupiah(o.total)}
                       <div className="text-[10px] text-neutral-500 font-normal mt-0.5">
                         {itemCount} item
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-xs border-r-2 border-[#262626]">
-                      <span
-                        className={`inline-block px-2 py-1 border-2 text-[10px] font-black uppercase tracking-wider ${STATUS_BADGES[o.status]}`}
-                      >
-                        {STATUS_LABELS[o.status]}
-                      </span>
+                    <td className="px-3 py-3 text-xs border-r-2 border-neutral-200">
+                      <StatusBadge status={o.status} />
                     </td>
                     <td className="px-3 py-3">
                       <button
@@ -254,7 +233,7 @@ export default function OrderListClient({ orders }: Props) {
                           e.stopPropagation();
                           setSelected(o);
                         }}
-                        className="inline-flex items-center gap-1.5 bg-white text-[#0a0a0a] border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#0a0a0a] hover:text-white transition-colors"
+                        className="inline-flex items-center gap-1.5 bg-black text-white border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-black hover:shadow-[4px_4px_0_black] transition-all"
                       >
                         Detail
                       </button>
@@ -270,7 +249,7 @@ export default function OrderListClient({ orders }: Props) {
       {/* Pagination */}
       {filtered.length > PAGE_SIZE ? (
         <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400">
+          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
             Halaman {safePage} dari {totalPages} — Menampilkan {start + 1}–
             {Math.min(start + PAGE_SIZE, filtered.length)} dari {filtered.length}
           </p>
@@ -279,7 +258,7 @@ export default function OrderListClient({ orders }: Props) {
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={safePage === 1}
-              className="inline-flex items-center gap-1 bg-[#0a0a0a] text-white border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 bg-white text-black border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white hover:shadow-[4px_4px_0_black] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={12} strokeWidth={2.5} />
               Prev
@@ -288,7 +267,7 @@ export default function OrderListClient({ orders }: Props) {
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={safePage === totalPages}
-              className="inline-flex items-center gap-1 bg-[#0a0a0a] text-white border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 bg-white text-black border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white hover:shadow-[4px_4px_0_black] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Next
               <ChevronRight size={12} strokeWidth={2.5} />
