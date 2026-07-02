@@ -46,8 +46,8 @@ function statusLabel(status: string | undefined): string {
 export default function TrackingTimeline({ events, status }: Props) {
   if (!events || events.length === 0) {
     return (
-      <div className="bg-surface-1 border-2 border-border-subtle p-6 text-center">
-        <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">
+      <div className="bg-white border-2 border-neutral-800 p-6 text-center">
+        <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
           Belum Ada Tracking
         </p>
         <p className="text-[11px] text-neutral-600 mt-1">
@@ -58,13 +58,13 @@ export default function TrackingTimeline({ events, status }: Props) {
   }
 
   return (
-    <div className="bg-surface-1 border-2 border-border-subtle">
+    <div className="bg-white border-2 border-neutral-800">
       {status ? (
-        <div className="border-b-2 border-border-subtle px-4 py-3 flex items-center justify-between gap-2">
-          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">
+        <div className="border-b-2 border-neutral-800 px-4 py-3 flex items-center justify-between gap-2">
+          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
             Status
           </p>
-          <span className="inline-block bg-white text-[#0a0a0a] border-2 border-white px-2 py-1 text-[10px] font-black uppercase tracking-wider">
+          <span className="inline-block bg-black text-white border-2 border-black px-2 py-1 text-[10px] font-black uppercase tracking-wider">
             {statusLabel(status)}
           </span>
         </div>
@@ -76,15 +76,15 @@ export default function TrackingTimeline({ events, status }: Props) {
           return (
             <li
               key={`${ev.date}-${idx}`}
-              className="relative flex gap-3 px-4 py-4 border-b-2 border-border-subtle last:border-b-0"
+              className="relative flex gap-3 px-4 py-4 border-b-2 border-neutral-800 last:border-b-0"
             >
               {/* Icon column */}
               <div className="flex flex-col items-center pt-0.5">
                 <div
                   className={`w-7 h-7 border-2 flex items-center justify-center ${
                     isLatest
-                      ? "bg-brand-green border-brand-green text-text-primary"
-                      : "bg-canvas border-border-subtle text-text-muted"
+                      ? "bg-black border-black text-white"
+                      : "bg-white border-neutral-800 text-neutral-500"
                   }`}
                 >
                   {isLatest ? (
@@ -94,7 +94,7 @@ export default function TrackingTimeline({ events, status }: Props) {
                   )}
                 </div>
                 {idx < events.length - 1 ? (
-                  <div className="w-0.5 flex-1 bg-surface-2 mt-1" />
+                  <div className="w-0.5 flex-1 bg-neutral-200 mt-1" />
                 ) : null}
               </div>
 
@@ -103,8 +103,8 @@ export default function TrackingTimeline({ events, status }: Props) {
                 <p
                   className={`text-xs leading-snug ${
                     isLatest
-                      ? "font-black text-text-primary"
-                      : "font-bold text-neutral-300"
+                      ? "font-black text-black"
+                      : "font-bold text-neutral-600"
                   }`}
                 >
                   {ev.description}
@@ -114,7 +114,7 @@ export default function TrackingTimeline({ events, status }: Props) {
                     {formatEventDate(ev.date)}
                   </span>
                   {ev.location ? (
-                    <span className="inline-flex items-center gap-1 text-[10px] text-text-muted">
+                    <span className="inline-flex items-center gap-1 text-[10px] text-neutral-500">
                       <MapPin size={10} strokeWidth={2.5} />
                       {ev.location}
                     </span>
