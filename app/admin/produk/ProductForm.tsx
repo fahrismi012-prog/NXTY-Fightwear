@@ -49,7 +49,7 @@ function slugify(input: string): string {
 }
 
 const baseInput =
-  "w-full bg-[#161616] border-2 border-[#262626] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+  "w-full bg-white border-2 border-neutral-600 px-4 py-3 text-sm text-black placeholder-neutral-500 focus:outline-none focus:border-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
 
 export default function ProductForm({
   mode,
@@ -227,17 +227,17 @@ export default function ProductForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* SECTION: Identitas */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
-        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-black">
           Identitas Produk
         </h2>
 
         <div>
           <label
             htmlFor="name"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
-            Nama <span className="text-[#dc2626]">*</span>
+            Nama <span className="text-black">*</span>
           </label>
           <input
             id="name"
@@ -254,9 +254,9 @@ export default function ProductForm({
         <div>
           <label
             htmlFor="slug"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
-            Slug <span className="text-[#dc2626]">*</span>
+            Slug <span className="text-black">*</span>
           </label>
           <input
             id="slug"
@@ -279,7 +279,7 @@ export default function ProductForm({
         <div>
           <label
             htmlFor="category"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Kategori
           </label>
@@ -302,7 +302,7 @@ export default function ProductForm({
         <div>
           <label
             htmlFor="description"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Deskripsi
           </label>
@@ -319,8 +319,8 @@ export default function ProductForm({
       </div>
 
       {/* SECTION: Harga & Stok */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
-        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-black">
           Harga & Stok
         </h2>
 
@@ -328,9 +328,9 @@ export default function ProductForm({
           <div>
             <label
               htmlFor="price"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
-              Harga (IDR) <span className="text-[#dc2626]">*</span>
+              Harga (IDR) <span className="text-black">*</span>
             </label>
             <input
               id="price"
@@ -348,7 +348,7 @@ export default function ProductForm({
           <div>
             <label
               htmlFor="originalPrice"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Harga Coret (IDR)
             </label>
@@ -367,7 +367,7 @@ export default function ProductForm({
           <div>
             <label
               htmlFor="weight"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Berat (gram)
             </label>
@@ -389,7 +389,7 @@ export default function ProductForm({
           <div>
             <label
               htmlFor="rating"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Rating (0-5)
             </label>
@@ -410,7 +410,7 @@ export default function ProductForm({
           <div>
             <label
               htmlFor="reviewsCount"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Reviews Count
             </label>
@@ -440,17 +440,17 @@ export default function ProductForm({
               aria-hidden
               className={`w-10 h-5 border-2 transition-colors flex items-center px-0.5 ${
                 featured
-                  ? "bg-[#dc2626] border-[#dc2626]"
-                  : "bg-[#161616] border-[#262626]"
+                  ? "bg-black border-black"
+                  : "bg-white border-neutral-800"
               }`}
             >
               <span
-                className={`block w-3.5 h-3.5 bg-white transition-transform ${
-                  featured ? "translate-x-5" : "translate-x-0"
+                className={`block w-3.5 h-3.5 transition-transform ${
+                  featured ? "bg-white translate-x-5" : "bg-black translate-x-0"
                 }`}
               />
             </span>
-            <span className="text-xs font-black uppercase tracking-wider text-white">
+            <span className="text-xs font-black uppercase tracking-wider text-black">
               Featured
             </span>
           </label>
@@ -467,17 +467,17 @@ export default function ProductForm({
               aria-hidden
               className={`w-10 h-5 border-2 transition-colors flex items-center px-0.5 ${
                 inStock
-                  ? "bg-[#dc2626] border-[#dc2626]"
-                  : "bg-[#161616] border-[#262626]"
+                  ? "bg-black border-black"
+                  : "bg-white border-neutral-800"
               }`}
             >
               <span
-                className={`block w-3.5 h-3.5 bg-white transition-transform ${
-                  inStock ? "translate-x-5" : "translate-x-0"
+                className={`block w-3.5 h-3.5 transition-transform ${
+                  inStock ? "bg-white translate-x-5" : "bg-black translate-x-0"
                 }`}
               />
             </span>
-            <span className="text-xs font-black uppercase tracking-wider text-white">
+            <span className="text-xs font-black uppercase tracking-wider text-black">
               In Stock
             </span>
           </label>
@@ -485,15 +485,15 @@ export default function ProductForm({
       </div>
 
       {/* SECTION: Variasi */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
-        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-black">
           Variasi
         </h2>
 
         <div>
           <label
             htmlFor="sizeInput"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Ukuran
           </label>
@@ -517,7 +517,7 @@ export default function ProductForm({
               type="button"
               onClick={addSize}
               disabled={submitting || !sizeInput.trim()}
-              className="shrink-0 inline-flex items-center gap-1 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="shrink-0 inline-flex items-center gap-1 bg-black text-white border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus size={12} strokeWidth={2.5} />
               Tambah
@@ -528,7 +528,7 @@ export default function ProductForm({
               {sizes.map((s) => (
                 <li
                   key={s}
-                  className="inline-flex items-center gap-2 bg-[#161616] border-2 border-[#262626] px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white"
+                  className="inline-flex items-center gap-2 bg-white border-2 border-neutral-800 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-black"
                 >
                   {s}
                   <button
@@ -536,7 +536,7 @@ export default function ProductForm({
                     onClick={() => removeSize(s)}
                     disabled={submitting}
                     aria-label={`Hapus ukuran ${s}`}
-                    className="text-neutral-500 hover:text-[#dc2626]"
+                    className="text-neutral-500 hover:text-black"
                   >
                     <X size={12} strokeWidth={2.5} />
                   </button>
@@ -553,7 +553,7 @@ export default function ProductForm({
         <div>
           <label
             htmlFor="colorInput"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Warna
           </label>
@@ -577,7 +577,7 @@ export default function ProductForm({
               type="button"
               onClick={addColor}
               disabled={submitting || !colorInput.trim()}
-              className="shrink-0 inline-flex items-center gap-1 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="shrink-0 inline-flex items-center gap-1 bg-black text-white border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus size={12} strokeWidth={2.5} />
               Tambah
@@ -588,7 +588,7 @@ export default function ProductForm({
               {colors.map((c) => (
                 <li
                   key={c}
-                  className="inline-flex items-center gap-2 bg-[#161616] border-2 border-[#262626] px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white"
+                  className="inline-flex items-center gap-2 bg-white border-2 border-neutral-800 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-black"
                 >
                   {c}
                   <button
@@ -596,7 +596,7 @@ export default function ProductForm({
                     onClick={() => removeColor(c)}
                     disabled={submitting}
                     aria-label={`Hapus warna ${c}`}
-                    className="text-neutral-500 hover:text-[#dc2626]"
+                    className="text-neutral-500 hover:text-black"
                   >
                     <X size={12} strokeWidth={2.5} />
                   </button>
@@ -612,9 +612,9 @@ export default function ProductForm({
       </div>
 
       {/* SECTION: Gambar */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-4">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-black">
             Gambar Produk
           </h2>
           <p className="text-[10px] text-neutral-500 font-mono">
@@ -629,14 +629,14 @@ export default function ProductForm({
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {submitting ? <Loader2 size={14} className="animate-spin" /> : null}
           {mode === "create" ? "Simpan Produk" : "Simpan Perubahan"}
         </button>
         <Link
           href="/admin/produk"
-          className="inline-flex items-center bg-[#0a0a0a] text-white border-2 border-white px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors"
+          className="inline-flex items-center bg-white text-black border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
         >
           Batal
         </Link>
