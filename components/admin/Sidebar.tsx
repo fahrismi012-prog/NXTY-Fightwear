@@ -38,11 +38,11 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-60 bg-canvas border-r-2 border-brand-green flex-col z-40">
+    <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-60 bg-white border-r-2 border-black flex-col z-40">
       {/* Logo */}
-      <div className="border-b-2 border-white p-5">
-        <p className="text-2xl font-black tracking-tighter text-text-primary">NXTY</p>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-green mt-1">
+      <div className="border-b-2 border-black p-5">
+        <p className="text-2xl font-black tracking-tighter text-black">NXTY</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">
           Admin Panel
         </p>
       </div>
@@ -64,8 +64,8 @@ export default function Sidebar() {
                   className={cn(
                     "flex items-center gap-3 px-5 py-3 text-xs font-black uppercase tracking-wider border-l-4 transition-colors",
                     active
-                      ? "bg-brand-green text-text-primary border-white"
-                      : "text-neutral-300 border-transparent hover:bg-white/5 hover:text-text-primary",
+                      ? "bg-black text-white border-white"
+                      : "text-neutral-600 border-transparent hover:bg-neutral-100 hover:text-black",
                   )}
                 >
                   <Icon size={18} strokeWidth={2.5} />
@@ -78,11 +78,11 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="border-t-2 border-white p-3">
+      <div className="border-t-2 border-black p-3">
         <button
           type="button"
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-black uppercase tracking-wider text-neutral-300 border-2 border-transparent hover:border-brand-green hover:text-brand-green transition-colors"
+          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-black uppercase tracking-wider text-neutral-600 border-2 border-transparent hover:border-black hover:text-black transition-colors"
         >
           <LogOut size={18} strokeWidth={2.5} />
           <span>Logout</span>
