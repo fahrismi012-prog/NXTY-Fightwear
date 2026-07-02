@@ -49,7 +49,14 @@ export default function PromoActions({ id, title }: Props) {
     <div className="flex items-center gap-2">
       <Link
         href={`/admin/promo/${id}`}
-        className="inline-flex items-center gap-1.5 bg-white text-[#0a0a0a] border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#0a0a0a] hover:text-white transition-colors"
+        className={[
+          "inline-flex items-center gap-1.5",
+          "bg-white text-black",
+          "border-2 border-neutral-800",
+          "px-3 py-2 text-[10px] font-black uppercase tracking-wider",
+          "hover:bg-black hover:text-white",
+          "transition-colors",
+        ].join(" ")}
       >
         <Pencil size={12} strokeWidth={2.5} />
         Edit
@@ -58,7 +65,15 @@ export default function PromoActions({ id, title }: Props) {
         type="button"
         onClick={handleDelete}
         disabled={deleting}
-        className="inline-flex items-center gap-1.5 bg-[#0a0a0a] text-[#dc2626] border-2 border-[#dc2626] px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className={[
+          "inline-flex items-center gap-1.5",
+          "bg-white text-[#dc2626]",
+          "border-2 border-[#dc2626]",
+          "px-3 py-2 text-[10px] font-black uppercase tracking-wider",
+          "hover:bg-[#dc2626] hover:text-white",
+          "transition-colors",
+          "disabled:opacity-50 disabled:cursor-not-allowed",
+        ].join(" ")}
       >
         {deleting ? (
           <Loader2 size={12} className="animate-spin" />
