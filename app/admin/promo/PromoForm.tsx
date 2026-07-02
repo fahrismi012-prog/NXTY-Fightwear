@@ -234,21 +234,21 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
   }
 
   const baseInput =
-    "w-full bg-[#161616] border-2 border-[#262626] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#dc2626] transition-colors";
+    "w-full bg-white border-2 border-neutral-600 px-4 py-3 text-sm text-black placeholder-neutral-500 focus:outline-none focus:border-black transition-colors";
   const baseSelect =
-    "w-full bg-[#161616] border-2 border-[#262626] px-4 py-3 text-sm text-white focus:outline-none focus:border-[#dc2626] transition-colors appearance-none";
+    "w-full bg-white border-2 border-neutral-600 px-4 py-3 text-sm text-black focus:outline-none focus:border-black transition-colors appearance-none";
 
   const disabled = submitting || deleting;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* === Section 1: Field utama === */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#dc2626]">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             01
           </span>
-          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-white">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             Identitas Promo
           </h2>
         </div>
@@ -257,9 +257,9 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         <div>
           <label
             htmlFor="type"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
-            Tipe <span className="text-[#dc2626]">*</span>
+            Tipe <span className="text-black">*</span>
           </label>
           <select
             id="type"
@@ -280,9 +280,9 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         <div>
           <label
             htmlFor="title"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
-            Judul <span className="text-[#dc2626]">*</span>
+            Judul <span className="text-black">*</span>
           </label>
           <input
             id="title"
@@ -300,7 +300,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         <div>
           <label
             htmlFor="subtitle"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Subtitle
           </label>
@@ -319,7 +319,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         <div>
           <label
             htmlFor="description"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Deskripsi
           </label>
@@ -338,7 +338,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         <div>
           <label
             htmlFor="badge"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
           >
             Badge
           </label>
@@ -355,12 +355,12 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
       </div>
 
       {/* === Section 2: CTA & Prioritas === */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-5 md:p-6 space-y-5">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#dc2626]">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             02
           </span>
-          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-white">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             Tampilan & Penjadwalan
           </h2>
         </div>
@@ -369,7 +369,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <div>
             <label
               htmlFor="cta_label"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               CTA Label
             </label>
@@ -386,7 +386,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <div>
             <label
               htmlFor="cta_href"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               CTA Href
             </label>
@@ -406,7 +406,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <div>
             <label
               htmlFor="priority"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Prioritas
             </label>
@@ -426,7 +426,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <div>
             <label
               htmlFor="end_time"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               Berakhir Pada
             </label>
@@ -446,12 +446,12 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
       </div>
 
       {/* === Section 3: Field kondisional per tipe === */}
-      <div className="bg-[#0a0a0a] border-2 border-[#dc2626] p-5 md:p-6 space-y-5">
+      <div className="bg-white border-2 border-neutral-800 p-5 md:p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#dc2626]">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             03
           </span>
-          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-white">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-black">
             Pengaturan Tipe: {TYPE_OPTIONS.find((o) => o.value === type)?.label}
           </h2>
         </div>
@@ -463,7 +463,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               <div>
                 <label
                   htmlFor="discount_type"
-                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
                 >
                   Tipe Diskon
                 </label>
@@ -484,7 +484,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               <div>
                 <label
                   htmlFor="discount_value"
-                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
                 >
                   Nilai Diskon
                 </label>
@@ -503,7 +503,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
             <div>
               <label
                 htmlFor="min_purchase"
-                className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+                className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
               >
                 Minimum Pembelian (Rp)
               </label>
@@ -532,7 +532,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               <div>
                 <label
                   htmlFor="flash_price"
-                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
                 >
                   Harga Flash (Rp)
                 </label>
@@ -550,7 +550,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               <div>
                 <label
                   htmlFor="flash_stock"
-                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+                  className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
                 >
                   Stok Flash
                 </label>
@@ -567,7 +567,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               </div>
             </div>
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
                 Produk ({productIds.length} dipilih)
               </label>
               {products.length === 0 ? (
@@ -576,14 +576,14 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
                   mengaitkannya ke flash sale.
                 </p>
               ) : (
-                <div className="bg-[#161616] border-2 border-[#262626] max-h-72 overflow-y-auto">
+                <div className="bg-white border-2 border-neutral-800 max-h-72 overflow-y-auto">
                   {products.map((p) => {
                     const checked = productIds.includes(p.id);
                     return (
                       <label
                         key={p.id}
-                        className={`flex items-center gap-3 px-4 py-2.5 border-b-2 border-[#262626] last:border-b-0 cursor-pointer hover:bg-white/5 transition-colors ${
-                          checked ? "bg-[#dc2626]/10" : ""
+                        className={`flex items-center gap-3 px-4 py-2.5 border-b-2 border-neutral-800 last:border-b-0 cursor-pointer hover:bg-neutral-100 transition-colors ${
+                          checked ? "bg-neutral-100" : ""
                         }`}
                       >
                         <input
@@ -591,9 +591,9 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
                           checked={checked}
                           onChange={() => toggleProduct(p.id)}
                           disabled={disabled}
-                          className="w-4 h-4 accent-[#dc2626]"
+                          className="w-4 h-4 accent-black"
                         />
-                        <span className="text-xs font-black text-white">
+                        <span className="text-xs font-black text-black">
                           {p.name}
                         </span>
                       </label>
@@ -610,7 +610,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <div>
             <label
               htmlFor="image"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
             >
               URL Gambar
             </label>
@@ -627,7 +627,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
               URL absolut atau path publik. Disarankan rasio 16:9.
             </p>
             {image ? (
-              <div className="mt-3 border-2 border-[#262626] bg-[#161616] p-2 inline-block">
+              <div className="mt-3 border-2 border-neutral-800 bg-neutral-100 p-2 inline-block">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={image}
@@ -643,7 +643,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         {type === "bundle" || type === "add_on" ? (
           <>
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-300 mb-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
                 Produk Terkait ({productIds.length} dipilih)
               </label>
               {products.length === 0 ? (
@@ -652,14 +652,14 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
                   mengaitkannya.
                 </p>
               ) : (
-                <div className="bg-[#161616] border-2 border-[#262626] max-h-72 overflow-y-auto">
+                <div className="bg-white border-2 border-neutral-800 max-h-72 overflow-y-auto">
                   {products.map((p) => {
                     const checked = productIds.includes(p.id);
                     return (
                       <label
                         key={p.id}
-                        className={`flex items-center gap-3 px-4 py-2.5 border-b-2 border-[#262626] last:border-b-0 cursor-pointer hover:bg-white/5 transition-colors ${
-                          checked ? "bg-[#dc2626]/10" : ""
+                        className={`flex items-center gap-3 px-4 py-2.5 border-b-2 border-neutral-800 last:border-b-0 cursor-pointer hover:bg-neutral-100 transition-colors ${
+                          checked ? "bg-neutral-100" : ""
                         }`}
                       >
                         <input
@@ -667,9 +667,9 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
                           checked={checked}
                           onChange={() => toggleProduct(p.id)}
                           disabled={disabled}
-                          className="w-4 h-4 accent-[#dc2626]"
+                          className="w-4 h-4 accent-black"
                         />
-                        <span className="text-xs font-black text-white">
+                        <span className="text-xs font-black text-black">
                           {p.name}
                         </span>
                       </label>
@@ -688,7 +688,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           <button
             type="submit"
             disabled={disabled}
-            className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? (
               <Loader2 size={14} className="animate-spin" />
@@ -697,7 +697,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
           </button>
           <Link
             href="/admin/promo"
-            className="inline-flex items-center bg-[#0a0a0a] text-white border-2 border-white px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors"
+            className="inline-flex items-center bg-white text-black border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
           >
             Batal
           </Link>
@@ -708,7 +708,7 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
             type="button"
             onClick={handleDelete}
             disabled={disabled}
-            className="inline-flex items-center gap-2 bg-[#0a0a0a] text-[#dc2626] border-2 border-[#dc2626] px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-white text-black border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {deleting ? (
               <Loader2 size={14} className="animate-spin" />
