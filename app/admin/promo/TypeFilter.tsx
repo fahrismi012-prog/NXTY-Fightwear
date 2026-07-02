@@ -34,14 +34,19 @@ export default function TypeFilter() {
 
   return (
     <label className="inline-flex items-center gap-2">
-      <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">
+      <span className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
         Filter:
       </span>
       <select
         value={current}
         onChange={(e) => onChange(e.target.value)}
         disabled={pending}
-        className="bg-[#161616] border-2 border-[#262626] px-3 py-2 text-xs font-black uppercase tracking-wider text-white focus:outline-none focus:border-[#dc2626] transition-colors disabled:opacity-50"
+        className={[
+          "bg-white border-2 border-neutral-600",
+          "px-3 py-2 text-xs font-black uppercase tracking-wider",
+          "text-black focus:outline-none focus:border-black",
+          "transition-colors disabled:opacity-50",
+        ].join(" ")}
       >
         {TYPE_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>
