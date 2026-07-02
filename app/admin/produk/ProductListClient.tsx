@@ -108,19 +108,19 @@ export default function ProductListClient({ products, categories }: Props) {
       {/* Header */}
       <div className="flex items-start md:items-center justify-between gap-4 mb-6 flex-col md:flex-row">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626] mb-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mb-2">
             Manajemen
           </p>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-black">
             Produk
           </h1>
-          <p className="text-sm text-neutral-400 mt-2">
+          <p className="text-sm text-neutral-500 mt-2">
             Kelola produk Anxiety Fightwear. Total {products.length} produk.
           </p>
         </div>
         <Link
           href="/admin/produk/baru"
-          className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors"
+          className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
         >
           <Plus size={16} strokeWidth={2.5} />
           Tambah Produk
@@ -128,11 +128,11 @@ export default function ProductListClient({ products, categories }: Props) {
       </div>
 
       {/* Filter bar */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="bg-white border-2 border-neutral-800 p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
           <label
             htmlFor="search"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2"
           >
             Cari Nama
           </label>
@@ -151,14 +151,14 @@ export default function ProductListClient({ products, categories }: Props) {
                 resetPage();
               }}
               placeholder="Ketik nama produk…"
-              className="w-full bg-[#161616] border-2 border-[#262626] pl-10 pr-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#dc2626] transition-colors"
+              className="w-full bg-white border-2 border-neutral-600 pl-10 pr-4 py-3 text-sm text-black placeholder-neutral-500 focus:outline-none focus:border-black transition-colors"
             />
           </div>
         </div>
         <div>
           <label
             htmlFor="category"
-            className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2"
+            className="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2"
           >
             Kategori
           </label>
@@ -169,7 +169,7 @@ export default function ProductListClient({ products, categories }: Props) {
               setCategoryFilter(e.target.value);
               resetPage();
             }}
-            className="w-full bg-[#161616] border-2 border-[#262626] px-3 py-3 text-sm text-white focus:outline-none focus:border-[#dc2626] transition-colors"
+            className="w-full bg-white border-2 border-neutral-600 px-3 py-3 text-sm text-black focus:outline-none focus:border-black transition-colors"
           >
             <option value="">Semua Kategori</option>
             {categories.map((c) => (
@@ -182,10 +182,10 @@ export default function ProductListClient({ products, categories }: Props) {
       </div>
 
       {/* Table */}
-      <div className="bg-[#0a0a0a] border-2 border-[#262626] overflow-x-auto">
+      <div className="bg-white border-2 border-neutral-800 overflow-x-auto">
         {products.length === 0 ? (
           <div className="p-10 text-center">
-            <p className="text-xs font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-1">
               Belum ada produk
             </p>
             <p className="text-[11px] text-neutral-600 mb-4">
@@ -193,7 +193,7 @@ export default function ProductListClient({ products, categories }: Props) {
             </p>
             <Link
               href="/admin/produk/baru"
-              className="inline-flex items-center gap-2 bg-[#dc2626] text-white border-2 border-[#dc2626] px-4 py-2 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#dc2626] transition-colors"
+              className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-2 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
             >
               <Plus size={14} strokeWidth={2.5} />
               Tambah Produk
@@ -201,7 +201,7 @@ export default function ProductListClient({ products, categories }: Props) {
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-10 text-center">
-            <p className="text-xs font-black uppercase tracking-widest text-neutral-400 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-1">
               Tidak ada hasil
             </p>
             <p className="text-[11px] text-neutral-600">
@@ -211,26 +211,26 @@ export default function ProductListClient({ products, categories }: Props) {
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#dc2626] text-white">
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-12">
+              <tr className="bg-black text-white">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-12">
                   #
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-16">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-16">
                   Gambar
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626]">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800">
                   Nama
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-40">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-40">
                   Kategori
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-36">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-36">
                   Harga
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-24 text-center">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-24 text-center">
                   Featured
                 </th>
-                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-[#262626] w-24 text-center">
+                <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest border-r-2 border-neutral-800 w-24 text-center">
                   Stok
                 </th>
                 <th className="px-3 py-3 text-[10px] font-black uppercase tracking-widest w-44">
@@ -245,13 +245,13 @@ export default function ProductListClient({ products, categories }: Props) {
                 return (
                   <tr
                     key={p.id}
-                    className="border-t-2 border-[#262626] hover:bg-white/5 transition-colors"
+                    className="border-t-2 border-neutral-800 hover:bg-black/5 transition-colors"
                   >
-                    <td className="px-3 py-3 text-xs font-black text-neutral-400 border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-xs font-black text-neutral-500 border-r-2 border-neutral-800">
                       {start + idx + 1}
                     </td>
-                    <td className="px-3 py-3 border-r-2 border-[#262626]">
-                      <div className="w-10 h-10 border-2 border-[#262626] bg-[#161616] flex items-center justify-center overflow-hidden">
+                    <td className="px-3 py-3 border-r-2 border-neutral-800">
+                      <div className="w-10 h-10 border-2 border-neutral-800 bg-white flex items-center justify-center overflow-hidden">
                         {thumb ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -266,23 +266,23 @@ export default function ProductListClient({ products, categories }: Props) {
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-sm font-black text-white border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-sm font-black text-black border-r-2 border-neutral-800">
                       {p.name}
                       <p className="mt-1 text-[10px] font-normal text-neutral-500 font-mono">
                         {p.slug}
                       </p>
                     </td>
-                    <td className="px-3 py-3 text-xs text-neutral-300 border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-xs text-neutral-600 border-r-2 border-neutral-800">
                       {p.category ? (
-                        <span className="inline-block bg-[#161616] border border-[#262626] px-2 py-1 text-[10px] font-black uppercase tracking-wide">
+                        <span className="inline-block bg-white border border-neutral-800 px-2 py-1 text-[10px] font-black uppercase tracking-wide">
                           {p.category.name}
                         </span>
                       ) : (
                         <span className="text-neutral-600 italic">—</span>
                       )}
                     </td>
-                    <td className="px-3 py-3 text-xs border-r-2 border-[#262626]">
-                      <div className="font-black text-white">
+                    <td className="px-3 py-3 text-xs border-r-2 border-neutral-800">
+                      <div className="font-black text-black">
                         {formatRupiah(p.price)}
                       </div>
                       {p.original_price && p.original_price > p.price ? (
@@ -291,9 +291,9 @@ export default function ProductListClient({ products, categories }: Props) {
                         </div>
                       ) : null}
                     </td>
-                    <td className="px-3 py-3 text-center border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-center border-r-2 border-neutral-800">
                       {p.featured ? (
-                        <span className="inline-block bg-[#dc2626] text-white px-2 py-1 text-[9px] font-black uppercase tracking-widest">
+                        <span className="inline-block bg-black text-white px-2 py-1 text-[9px] font-black uppercase tracking-widest">
                           Ya
                         </span>
                       ) : (
@@ -302,13 +302,13 @@ export default function ProductListClient({ products, categories }: Props) {
                         </span>
                       )}
                     </td>
-                    <td className="px-3 py-3 text-center border-r-2 border-[#262626]">
+                    <td className="px-3 py-3 text-center border-r-2 border-neutral-800">
                       {p.in_stock ? (
-                        <span className="inline-block bg-white text-[#0a0a0a] px-2 py-1 text-[9px] font-black uppercase tracking-widest">
+                        <span className="inline-block bg-black text-white px-2 py-1 text-[9px] font-black uppercase tracking-widest">
                           Ready
                         </span>
                       ) : (
-                        <span className="inline-block bg-[#161616] text-neutral-500 border border-[#262626] px-2 py-1 text-[9px] font-black uppercase tracking-widest">
+                        <span className="inline-block bg-white text-neutral-500 border border-neutral-800 px-2 py-1 text-[9px] font-black uppercase tracking-widest">
                           Habis
                         </span>
                       )}
@@ -317,7 +317,7 @@ export default function ProductListClient({ products, categories }: Props) {
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/admin/produk/${p.id}`}
-                          className="inline-flex items-center gap-1.5 bg-white text-[#0a0a0a] border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#0a0a0a] hover:text-white transition-colors"
+                          className="inline-flex items-center gap-1.5 bg-white text-black border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
                         >
                           <Pencil size={12} strokeWidth={2.5} />
                           Edit
@@ -326,7 +326,7 @@ export default function ProductListClient({ products, categories }: Props) {
                           type="button"
                           onClick={() => handleDelete(p)}
                           disabled={isDeleting}
-                          className="inline-flex items-center gap-1.5 bg-[#0a0a0a] text-[#dc2626] border-2 border-[#dc2626] px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-1.5 bg-white text-[#dc2626] border-2 border-[#dc2626] px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {isDeleting ? (
                             <Loader2 size={12} className="animate-spin" />
@@ -348,7 +348,7 @@ export default function ProductListClient({ products, categories }: Props) {
       {/* Pagination */}
       {filtered.length > PAGE_SIZE ? (
         <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400">
+          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
             Halaman {safePage} dari {totalPages} — Menampilkan {start + 1}–
             {Math.min(start + PAGE_SIZE, filtered.length)} dari {filtered.length}
           </p>
@@ -357,7 +357,7 @@ export default function ProductListClient({ products, categories }: Props) {
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={safePage === 1}
-              className="inline-flex items-center gap-1 bg-[#0a0a0a] text-white border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 bg-white text-black border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={12} strokeWidth={2.5} />
               Prev
@@ -366,7 +366,7 @@ export default function ProductListClient({ products, categories }: Props) {
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={safePage === totalPages}
-              className="inline-flex items-center gap-1 bg-[#0a0a0a] text-white border-2 border-white px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 bg-white text-black border-2 border-black px-3 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Next
               <ChevronRight size={12} strokeWidth={2.5} />
