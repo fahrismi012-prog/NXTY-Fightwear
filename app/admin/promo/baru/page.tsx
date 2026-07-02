@@ -29,20 +29,20 @@ export default async function NewPromoPage() {
     <div className="p-4 md:p-8 max-w-3xl">
       <Link
         href="/admin/promo"
-        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-400 hover:text-[#dc2626] transition-colors mb-6"
+        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-500 hover:text-black transition-colors mb-6"
       >
         <ArrowLeft size={12} strokeWidth={2.5} />
         Kembali ke daftar promo
       </Link>
 
       <div className="mb-6">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626] mb-2">
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mb-2">
           Promo Baru
         </p>
-        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-black">
           Tambah Promo
         </h1>
-        <p className="text-sm text-neutral-400 mt-2">
+        <p className="text-sm text-neutral-500 mt-2">
           Buat banner, flash sale, voucher, bundle, atau add-on baru untuk
           toko Anxiety Fightwear.
         </p>
