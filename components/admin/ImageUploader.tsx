@@ -174,19 +174,19 @@ export default function ImageUploader({
         onDragLeave={onDragLeave}
         className={`border-2 border-dashed p-6 text-center transition-colors ${
           dragOver
-            ? "border-brand-green bg-brand-green/10"
-            : "border-border-subtle bg-surface-1"
+            ? "border-black bg-neutral-100"
+            : "border-neutral-800 bg-white"
         } ${remaining === 0 ? "opacity-50 pointer-events-none" : ""}`}
       >
         <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 border-2 border-brand-green flex items-center justify-center bg-brand-green/10">
+          <div className="w-10 h-10 border-2 border-black flex items-center justify-center bg-neutral-100">
             {uploading ? (
-              <Loader2 size={18} className="text-brand-green animate-spin" />
+              <Loader2 size={18} className="text-black animate-spin" />
             ) : (
-              <Upload size={18} className="text-brand-green" strokeWidth={2.5} />
+              <Upload size={18} className="text-black" strokeWidth={2.5} />
             )}
           </div>
-          <p className="text-xs font-black uppercase tracking-widest text-text-primary">
+          <p className="text-xs font-black uppercase tracking-widest text-black">
             {uploading
               ? "Mengupload…"
               : remaining === 0
@@ -201,7 +201,7 @@ export default function ImageUploader({
             type="button"
             disabled={uploading || remaining === 0}
             onClick={() => inputRef.current?.click()}
-            className="mt-2 inline-flex items-center gap-2 bg-canvas text-text-primary border-2 border-white px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-white hover:text-[#0a0a0a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-2 inline-flex items-center gap-2 bg-white text-black border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Upload size={12} strokeWidth={2.5} />
             Pilih File
@@ -218,7 +218,7 @@ export default function ImageUploader({
       </div>
 
       {error ? (
-        <p className="text-[10px] font-black uppercase tracking-widest text-brand-green">
+        <p className="text-[10px] font-black uppercase tracking-widest text-[#dc2626]">
           {error}
         </p>
       ) : null}
@@ -279,9 +279,9 @@ function SortableImage({ image, index, onRemove, disabled }: SortableImageProps)
     <li
       ref={setNodeRef}
       style={style}
-      className="relative border-2 border-border-subtle bg-canvas group"
+      className="relative border-2 border-neutral-800 bg-white group"
     >
-      <div className="relative aspect-square bg-surface-1">
+      <div className="relative aspect-square bg-white">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image.url}
@@ -289,7 +289,7 @@ function SortableImage({ image, index, onRemove, disabled }: SortableImageProps)
           className="w-full h-full object-cover"
         />
         {index === 0 ? (
-          <span className="absolute top-1 left-1 inline-flex items-center gap-1 bg-brand-green text-text-primary px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest">
+          <span className="absolute top-1 left-1 inline-flex items-center gap-1 bg-black text-white px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest">
             <Star size={9} strokeWidth={2.5} />
             Utama
           </span>
@@ -299,22 +299,22 @@ function SortableImage({ image, index, onRemove, disabled }: SortableImageProps)
           onClick={onRemove}
           disabled={disabled}
           aria-label="Hapus gambar"
-          className="absolute top-1 right-1 w-6 h-6 bg-canvas border border-brand-green text-brand-green flex items-center justify-center hover:bg-brand-green hover:text-text-primary transition-colors disabled:opacity-50"
+          className="absolute top-1 right-1 w-6 h-6 bg-white border-2 border-[#dc2626] text-[#dc2626] flex items-center justify-center hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50"
         >
           <X size={12} strokeWidth={2.5} />
         </button>
       </div>
-      <div className="flex items-center justify-between px-2 py-1.5 border-t-2 border-border-subtle">
+      <div className="flex items-center justify-between px-2 py-1.5 border-t-2 border-neutral-800">
         <button
           type="button"
           {...attributes}
           {...listeners}
           aria-label="Drag untuk reorder"
-          className="text-neutral-500 hover:text-brand-green cursor-grab active:cursor-grabbing p-1 -ml-1"
+          className="text-neutral-500 hover:text-black cursor-grab active:cursor-grabbing p-1 -ml-1"
         >
           <GripVertical size={14} strokeWidth={2.5} />
         </button>
-        <span className="text-[9px] font-black uppercase tracking-widest text-text-muted">
+        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500">
           #{index + 1}
         </span>
         <button
@@ -322,7 +322,7 @@ function SortableImage({ image, index, onRemove, disabled }: SortableImageProps)
           onClick={onRemove}
           disabled={disabled}
           aria-label="Hapus"
-          className="text-neutral-500 hover:text-brand-green p-1 -mr-1"
+          className="text-[#dc2626] hover:bg-[#dc2626] hover:text-white p-1 -mr-1 border border-transparent hover:border-[#dc2626] transition-colors"
         >
           <Trash2 size={12} strokeWidth={2.5} />
         </button>
