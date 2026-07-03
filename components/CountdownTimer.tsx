@@ -79,7 +79,7 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
   return (
     <div className="inline-flex items-center gap-1.5">
       {time.days > 0 && (
-        <div className={`${s.box} bg-brand-green flex flex-col items-center justify-center`}>
+        <div className={`${s.box} bg-brand-black flex flex-col items-center justify-center`}>
           <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
             {String(time.days).padStart(2, "0")}
           </span>
@@ -88,29 +88,29 @@ export default function CountdownTimer({ endTime, size = "md" }: CountdownTimerP
           </span>
         </div>
       )}
-      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+      <div className={`${s.box} bg-canvas border-2 border-brand-black flex flex-col items-center justify-center`}>
         <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.hours).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-black tracking-wider`}>
           JAM
         </span>
       </div>
-      <span className="text-brand-green font-black text-2xl">:</span>
-      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+      <span className="text-brand-black font-black text-2xl">:</span>
+      <div className={`${s.box} bg-canvas border-2 border-brand-black flex flex-col items-center justify-center`}>
         <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.minutes).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-black tracking-wider`}>
           MENIT
         </span>
       </div>
-      <span className="text-brand-green font-black text-2xl">:</span>
-      <div className={`${s.box} bg-canvas border-2 border-brand-green flex flex-col items-center justify-center`}>
+      <span className="text-brand-black font-black text-2xl">:</span>
+      <div className={`${s.box} bg-canvas border-2 border-brand-black flex flex-col items-center justify-center`}>
         <span className={`${s.text} font-black text-text-primary font-mono leading-none`}>
           {String(time.seconds).padStart(2, "0")}
         </span>
-        <span className={`${s.label} font-black uppercase text-brand-green tracking-wider`}>
+        <span className={`${s.label} font-black uppercase text-brand-black tracking-wider`}>
           DETIK
         </span>
       </div>

@@ -114,7 +114,7 @@ export function BottomNav() {
       aria-label="Navigasi utama"
       className={cn(
         "md:hidden fixed bottom-0 left-0 right-0 z-30",
-        "bg-white border-t-2 border-brand-green",
+        "bg-white border-t-2 border-brand-black",
         "pb-[env(safe-area-inset-bottom)]"
       )}
     >
@@ -141,7 +141,7 @@ export function BottomNav() {
                   strokeWidth={isActive ? 2.2 : 1.8}
                   className={cn(
                     "transition-colors duration-fast",
-                    isActive ? "text-brand-green" : "text-text-secondary"
+                    isActive ? "text-brand-black" : "text-text-secondary"
                   )}
                   aria-hidden
                 />
@@ -151,7 +151,7 @@ export function BottomNav() {
                     className={cn(
                       "absolute -top-1 -right-2",
                       "min-w-[16px] h-4 px-1",
-                      "bg-brand-green text-white",
+                      "bg-brand-black text-white",
                       "rounded-full ring-2 ring-canvas",
                       "text-[10px] font-bold leading-none",
                       "inline-flex items-center justify-center"
@@ -165,7 +165,7 @@ export function BottomNav() {
                 className={cn(
                   "mt-1 text-[11px] font-medium",
                   "transition-colors duration-fast",
-                  isActive ? "text-brand-green" : "text-text-secondary"
+                  isActive ? "text-brand-black" : "text-text-secondary"
                 )}
               >
                 {tab.label}
@@ -178,7 +178,7 @@ export function BottomNav() {
                   "w-1 h-1 rounded-full",
                   "transition-opacity duration-fast",
                   isActive
-                    ? "bg-brand-green opacity-100"
+                    ? "bg-brand-black opacity-100"
                     : "bg-transparent opacity-0"
                 )}
               />

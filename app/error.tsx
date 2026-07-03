@@ -20,7 +20,7 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <div className="min-h-screen bg-canvas text-text-primary flex flex-col">
       {/* Top marquee strip - red */}
-      <div className="bg-brand-green text-text-primary overflow-hidden border-b-2 border-[#0a0a0a]">
+      <div className="bg-brand-black text-text-primary overflow-hidden border-b-2 border-[#0a0a0a]">
         <div className="flex animate-marquee whitespace-nowrap py-2">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex items-center shrink-0">
@@ -91,8 +91,8 @@ export default function Error({ error, reset }: ErrorProps) {
             </p>
             {/* Show error detail only in development */}
             {process.env.NODE_ENV === "development" && (
-              <div className="mt-4 p-3 bg-surface-2 border-2 border-brand-green rounded-none text-left">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-green mb-1">
+              <div className="mt-4 p-3 bg-surface-2 border-2 border-brand-black rounded-none text-left">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-black mb-1">
                   Development Error:
                 </p>
                 <p className="text-[9px] text-text-primary font-mono break-all">
@@ -106,7 +106,7 @@ export default function Error({ error, reset }: ErrorProps) {
           <div className="space-y-4">
             <button
               onClick={() => reset()}
-              className="group relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-brand-green text-text-primary text-sm font-black uppercase tracking-[0.2em] border-4 border-[#0a0a0a] hover:bg-[#ef4444] hover:border-brand-green active:translate-x-1 active:translate-y-1 active:border-[#0a0a0a] transition-all min-h-[60px]"
+              className="group relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-brand-black text-text-primary text-sm font-black uppercase tracking-[0.2em] border-4 border-[#0a0a0a] hover:bg-[#ef4444] hover:border-brand-black active:translate-x-1 active:translate-y-1 active:border-[#0a0a0a] transition-all min-h-[60px]"
             >
               <RefreshCw className="w-5 h-5" />
               <span>Refresh Halaman</span>
@@ -122,7 +122,7 @@ export default function Error({ error, reset }: ErrorProps) {
           </div>
 
           {/* Extra Info */}
-          <div className="pt-8 border-t-4 border-brand-green">
+          <div className="pt-8 border-t-4 border-brand-black">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 font-mono">
               Jika masalah berlanjut, silakan hubungi kami di hello@nxtyfightwear.com
             </p>
@@ -131,7 +131,7 @@ export default function Error({ error, reset }: ErrorProps) {
       </main>
 
       {/* Brutalist footer */}
-      <footer className="border-t-4 border-brand-green bg-canvas">
+      <footer className="border-t-4 border-brand-black bg-canvas">
         <div className="bg-stripes-red">
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">

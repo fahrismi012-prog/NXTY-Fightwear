@@ -93,7 +93,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             "border",
             hasError
               ? "border-error-500 focus:border-error-500"
-              : "border-border-default focus:border-brand-green",
+              : "border-border-default focus:border-brand-black",
             "focus:outline-none",
             "placeholder:text-text-muted",
             "transition-colors duration-fast",

@@ -43,11 +43,11 @@ export default async function PesananSayaPage() {
             <Link
               key={order.id}
               href={`/akun/pesanan/${order.id}`}
-              className="block bg-surface-1 border-2 border-border-subtle hover:border-brand-green p-4 transition-colors"
+              className="block bg-surface-1 border-2 border-border-subtle hover:border-brand-black p-4 transition-colors"
             >
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <Package className="w-5 h-5 text-brand-green shrink-0" />
+                  <Package className="w-5 h-5 text-brand-black shrink-0" />
                   <div className="min-w-0">
                     <p className="text-xs font-mono text-neutral-500 truncate">
                       {order.id}
@@ -85,7 +85,7 @@ export default async function PesananSayaPage() {
           </p>
           <Link
             href="/"
-            className="inline-block px-4 py-2.5 bg-brand-green text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors min-h-[44px]"
+            className="inline-block px-4 py-2.5 bg-brand-black text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors min-h-[44px]"
           >
             Mulai Belanja
           </Link>

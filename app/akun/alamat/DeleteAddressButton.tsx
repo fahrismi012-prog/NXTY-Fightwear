@@ -36,7 +36,7 @@ export default function DeleteAddressButton({ addressId }: DeleteAddressButtonPr
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="w-9 h-9 border-2 border-border-subtle flex items-center justify-center hover:bg-brand-green hover:border-brand-green disabled:opacity-50"
+      className="w-9 h-9 border-2 border-border-subtle flex items-center justify-center hover:bg-brand-black hover:border-brand-black disabled:opacity-50"
       aria-label="Hapus"
     >
       {loading ? (

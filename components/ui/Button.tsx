@@ -38,14 +38,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: [
-    "bg-brand-green text-white !text-white",
-    "hover:bg-brand-green-hover",
-    "active:bg-brand-green-hover",
+    "bg-brand-black text-white !text-white",
+    "hover:bg-brand-black-hover",
+    "active:bg-brand-black-hover",
     "disabled:bg-neutral-200 disabled:text-neutral-400",
   ].join(" "),
   secondary: [
     "bg-transparent text-text-primary border border-border-default",
-    "hover:bg-surface-1 hover:border-brand-green hover:text-brand-green",
+    "hover:bg-surface-1 hover:border-brand-black hover:text-brand-black",
     "active:bg-surface-2",
     "disabled:border-neutral-200 disabled:text-neutral-400 disabled:hover:bg-transparent",
   ].join(" "),
@@ -94,7 +94,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     "inline-flex items-center justify-center font-semibold",
     "rounded-subtle",
     "transition-colors duration-fast",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
     "disabled:cursor-not-allowed",
     "select-none whitespace-nowrap",
     // Variant + size

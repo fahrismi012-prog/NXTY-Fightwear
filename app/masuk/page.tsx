@@ -62,7 +62,7 @@ export default function MasukPage() {
         <div className="bg-surface-1 border-2 border-border-subtle p-6">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-black text-text-primary tracking-tighter">
-              <span className="text-brand-green">NXTY</span>{" "}
+              <span className="text-brand-black">NXTY</span>{" "}
               <span className="text-text-primary text-xl tracking-[0.2em]">FIGHTWEAR</span>
             </h1>
             <p className="text-sm text-text-muted mt-2">
@@ -80,7 +80,7 @@ export default function MasukPage() {
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-green" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-black" />
                   <input
                     id="email"
                     type="email"
@@ -88,7 +88,7 @@ export default function MasukPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nama@email.com"
                     required
-                    className="w-full bg-canvas text-text-primary pl-10 pr-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
+                    className="w-full bg-canvas text-text-primary pl-10 pr-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
                   />
                 </div>
               </div>
@@ -100,8 +100,8 @@ export default function MasukPage() {
                   onClick={() => setMode("link")}
                   className={`flex-1 py-2 text-xs font-black uppercase tracking-wider border-2 transition-colors ${
                     mode === "link"
-                      ? "bg-brand-green border-brand-green text-text-primary"
-                      : "bg-transparent border-border-subtle text-text-muted hover:border-brand-green hover:text-brand-green"
+                      ? "bg-brand-black border-brand-black text-text-primary"
+                      : "bg-transparent border-border-subtle text-text-muted hover:border-brand-black hover:text-brand-black"
                   }`}
                 >
                   Kirim Link
@@ -111,8 +111,8 @@ export default function MasukPage() {
                   onClick={() => setMode("otp")}
                   className={`flex-1 py-2 text-xs font-black uppercase tracking-wider border-2 transition-colors ${
                     mode === "otp"
-                      ? "bg-brand-green border-brand-green text-text-primary"
-                      : "bg-transparent border-border-subtle text-text-muted hover:border-brand-green hover:text-brand-green"
+                      ? "bg-brand-black border-brand-black text-text-primary"
+                      : "bg-transparent border-border-subtle text-text-muted hover:border-brand-black hover:text-brand-black"
                   }`}
                 >
                   Kirim OTP
@@ -120,7 +120,7 @@ export default function MasukPage() {
               </div>
 
               {error && (
-                <div className="bg-brand-green/10 border border-brand-green text-brand-green text-xs p-2">
+                <div className="bg-brand-black/10 border border-brand-black text-brand-black text-xs p-2">
                   {error}
                 </div>
               )}
@@ -128,7 +128,7 @@ export default function MasukPage() {
               <button
                 type="submit"
                 disabled={loading || !email}
-                className="w-full py-3 bg-brand-green text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+                className="w-full py-3 bg-brand-black text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
               >
                 {loading ? "Mengirim..." : "Kirim"}
               </button>
@@ -148,17 +148,17 @@ export default function MasukPage() {
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                 placeholder="123456"
                 required
-                className="w-full bg-canvas text-text-primary text-center text-2xl tracking-[0.5em] py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none font-mono"
+                className="w-full bg-canvas text-text-primary text-center text-2xl tracking-[0.5em] py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none font-mono"
               />
               {error && (
-                <div className="bg-brand-green/10 border border-brand-green text-brand-green text-xs p-2">
+                <div className="bg-brand-black/10 border border-brand-black text-brand-black text-xs p-2">
                   {error}
                 </div>
               )}
               <button
                 type="submit"
                 disabled={loading || otp.length !== 6}
-                className="w-full py-3 bg-brand-green text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+                className="w-full py-3 bg-brand-black text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
               >
                 {loading ? "Memverifikasi..." : "Verifikasi"}
               </button>
@@ -178,8 +178,8 @@ export default function MasukPage() {
 
           {step === "sent" && (
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto border-2 border-brand-green flex items-center justify-center">
-                <Mail className="w-7 h-7 text-brand-green" />
+              <div className="w-16 h-16 mx-auto border-2 border-brand-black flex items-center justify-center">
+                <Mail className="w-7 h-7 text-brand-black" />
               </div>
               <p className="text-sm text-text-primary font-bold">
                 Cek email Anda
@@ -190,7 +190,7 @@ export default function MasukPage() {
               </p>
               <Link
                 href="/"
-                className="inline-block text-xs text-brand-green hover:text-text-primary underline"
+                className="inline-block text-xs text-brand-black hover:text-text-primary underline"
               >
                 Kembali ke beranda
               </Link>

@@ -53,11 +53,11 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
       : `Rp ${(voucher.discountValue ?? 0).toLocaleString("id-ID")}`;
 
   return (
-    <div className="relative bg-canvas border-2 border-border-subtle hover:border-brand-green transition-colors group">
+    <div className="relative bg-canvas border-2 border-border-subtle hover:border-brand-black transition-colors group">
       {/* Left perforated decoration */}
       <div className="absolute top-0 bottom-0 left-0 w-2 flex flex-col justify-between py-2">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="w-2 h-2 bg-brand-green" />
+          <div key={i} className="w-2 h-2 bg-brand-black" />
         ))}
       </div>
 
@@ -65,8 +65,8 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
         <div className="flex-1 min-w-0">
           {/* Type badge */}
           <div className="flex items-center gap-1.5 mb-2">
-            <Ticket className="w-3 h-3 text-brand-green" />
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-brand-green">
+            <Ticket className="w-3 h-3 text-brand-black" />
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-brand-black">
               {voucher.discountType === "percentage" ? "DISCOUNT" : "CASHBACK"}
             </span>
           </div>
@@ -74,7 +74,7 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
           {/* Title */}
           <h3 className="text-2xl sm:text-3xl font-black text-text-primary uppercase tracking-tighter italic mb-1">
             {discountLabel}
-            <span className="text-brand-green"> OFF</span>
+            <span className="text-brand-black"> OFF</span>
           </h3>
 
           {/* Subtitle */}
@@ -99,11 +99,11 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
             </div>
             <button
               onClick={handleCopy}
-              className="w-8 h-8 border border-border-subtle flex items-center justify-center hover:bg-brand-green hover:border-brand-green transition-colors"
+              className="w-8 h-8 border border-border-subtle flex items-center justify-center hover:bg-brand-black hover:border-brand-black transition-colors"
               aria-label="Copy code"
             >
               {copied ? (
-                <Check className="w-3 h-3 text-brand-green" />
+                <Check className="w-3 h-3 text-brand-black" />
               ) : (
                 <Copy className="w-3 h-3 text-text-muted" />
               )}
@@ -125,7 +125,7 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
           className={`shrink-0 px-3 py-2 border-2 flex flex-col items-center justify-center min-w-[68px] transition-all ${
             claimed
               ? "bg-surface-2 border-border-subtle text-neutral-500 cursor-default"
-              : "bg-brand-green border-brand-green text-text-primary hover:bg-white hover:text-brand-green"
+              : "bg-brand-black border-brand-black text-text-primary hover:bg-white hover:text-brand-black"
           }`}
         >
           {claimed ? (

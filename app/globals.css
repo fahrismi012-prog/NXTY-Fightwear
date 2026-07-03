@@ -44,11 +44,12 @@
 
   /* Brand */
   --color-brand-black: #0a0a0a;
+  --color-brand-black-hover: #000000;
   --color-brand-white: #ffffff;
   --color-brand-red: #dc2626;
   --color-brand-red-hover: #b91c1c;
-  --color-brand-green: #2d6a4f;
-  --color-brand-green-hover: #1b4332;
+  --color-brand-black: #2d6a4f;
+  --color-brand-black-hover: #1b4332;
 
   /* Neutral scale */
   --color-neutral-50: #fafafa;

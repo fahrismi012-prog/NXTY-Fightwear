@@ -23,29 +23,29 @@ export default async function AkunLayout({
           <nav className="md:sticky md:top-20 flex md:flex-col gap-2 overflow-x-auto scrollbar-hide">
             <Link
               href="/akun"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
             >
-              <User className="w-3.5 h-3.5 text-brand-green" />
+              <User className="w-3.5 h-3.5 text-brand-black" />
               Profil
             </Link>
             <Link
               href="/akun/pesanan"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
             >
-              <Package className="w-3.5 h-3.5 text-brand-green" />
+              <Package className="w-3.5 h-3.5 text-brand-black" />
               Pesanan Saya
             </Link>
             <Link
               href="/akun/alamat"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-green min-w-fit"
+              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
             >
-              <MapPin className="w-3.5 h-3.5 text-brand-green" />
+              <MapPin className="w-3.5 h-3.5 text-brand-black" />
               Alamat Saya
             </Link>
             <form action="/api/customer/logout" method="post" className="md:mt-4">
               <button
                 type="submit"
-                className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-brand-green bg-transparent border-2 border-border-subtle hover:border-brand-green hover:bg-brand-green hover:text-text-primary w-full min-w-fit"
+                className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-brand-black bg-transparent border-2 border-border-subtle hover:border-brand-black hover:bg-brand-black hover:text-text-primary w-full min-w-fit"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Logout

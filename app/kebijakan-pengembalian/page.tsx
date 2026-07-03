@@ -9,7 +9,7 @@ export default function KebijakanPengembalianPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Informasi</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-black mb-2">Informasi</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-3">Kebijakan Pengembalian</h1>
         <p className="text-body text-text-secondary leading-relaxed mb-8">
           Kepuasan pelanggan adalah prioritas kami. Jika produk yang Anda terima tidak sesuai, kami siap membantu proses pengembalian atau penukaran.
@@ -66,7 +66,7 @@ export default function KebijakanPengembalianPage() {
           <p className="text-body-sm text-text-secondary mb-3">Ada pertanyaan tentang pengembalian?</p>
           <a
             href="mailto:anxietyfightwear@gmail.com"
-            className="text-body-sm font-semibold text-brand-green hover:underline"
+            className="text-body-sm font-semibold text-brand-black hover:underline"
           >
             anxietyfightwear@gmail.com
           </a>

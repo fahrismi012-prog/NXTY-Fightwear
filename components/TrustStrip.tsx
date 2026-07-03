@@ -52,8 +52,8 @@ export function TrustStrip({
             className={cn(
               "inline-flex items-center justify-center",
               variant === "default"
-                ? "w-8 h-8 text-brand-green"
-                : "w-6 h-6 text-brand-green"
+                ? "w-8 h-8 text-brand-black"
+                : "w-6 h-6 text-brand-black"
             )}
             aria-hidden
           >

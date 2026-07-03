@@ -84,7 +84,7 @@ function HomeContent() {
       {/* Marquee promo strip */}
       <div
         id="categories"
-        className="bg-brand-green text-white overflow-hidden"
+        className="bg-brand-black text-white overflow-hidden"
       >
         <div className="flex animate-marquee whitespace-nowrap py-3">
           {[...Array(4)].map((_, i) => (

@@ -53,7 +53,7 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
               <div className="max-w-md">
                 {b.badge && (
-                  <div className="inline-block bg-brand-green text-text-primary text-caption font-bold px-2.5 py-1 mb-3 rounded-subtle">
+                  <div className="inline-block bg-brand-black text-text-primary text-caption font-bold px-2.5 py-1 mb-3 rounded-subtle">
                     {b.badge}
                   </div>
                 )}
@@ -117,7 +117,7 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
                 key={i}
                 onClick={() => setIndex(i)}
                 className={`h-1.5 rounded-full transition-all ${
-                  i === index ? "w-8 bg-brand-green" : "w-3 bg-surface-2 hover:bg-border-default"
+                  i === index ? "w-8 bg-brand-black" : "w-3 bg-surface-2 hover:bg-border-default"
                 }`}
                 aria-label={`Slide ${i + 1}`}
               />

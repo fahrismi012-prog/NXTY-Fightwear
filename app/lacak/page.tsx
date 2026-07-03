@@ -112,7 +112,7 @@ export default function LacakPage() {
               onChange={(e) => setOrderId(e.target.value)}
               placeholder="NXTY-xxxxx"
               required
-              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600 font-mono text-sm"
+              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600 font-mono text-sm"
             />
           </div>
 
@@ -126,12 +126,12 @@ export default function LacakPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@contoh.com"
               required
-              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
+              className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
             />
           </div>
 
           {error && (
-            <div className="border border-brand-green text-brand-green text-xs p-2">
+            <div className="border border-brand-black text-brand-black text-xs p-2">
               {error}
             </div>
           )}
@@ -139,7 +139,7 @@ export default function LacakPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-brand-green text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+            className="w-full py-3 bg-brand-black text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
           >
             {loading ? (
               <span className="inline-flex items-center gap-2">
@@ -164,7 +164,7 @@ export default function LacakPage() {
                     {order.id}
                   </p>
                 </div>
-                <span className="bg-brand-green text-text-primary text-[10px] font-black uppercase tracking-wider px-2 py-1">
+                <span className="bg-brand-black text-text-primary text-[10px] font-black uppercase tracking-wider px-2 py-1">
                   {STATUS_LABEL[order.status] || order.status}
                 </span>
               </div>
@@ -234,7 +234,7 @@ export default function LacakPage() {
             {order.customer_address && (
               <div className="bg-surface-1 border-2 border-border-subtle p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-4 h-4 text-brand-green" />
+                  <MapPin className="w-4 h-4 text-brand-black" />
                   <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">
                     Alamat Pengiriman
                   </h3>

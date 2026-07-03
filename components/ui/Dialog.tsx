@@ -108,7 +108,7 @@ export function Dialog({
                   "text-text-secondary hover:text-text-primary",
                   "rounded-subtle",
                   "transition-colors duration-fast",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black"
                 )}
               >
                 <X size={20} />

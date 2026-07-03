@@ -15,7 +15,7 @@ export default function TentangKamiPage() {
             width={300}
             height={64}
           />
-          <p className="text-sm text-brand-green font-medium">Born to Fight. Built to Last.</p>
+          <p className="text-sm text-brand-black font-medium">Born to Fight. Built to Last.</p>
         </div>
 
         <p className="text-sm text-neutral-400 leading-relaxed mb-6 text-center">
@@ -24,8 +24,8 @@ export default function TentangKamiPage() {
 
         <div className="flex flex-col gap-3 mb-6">
           <div className="bg-[#161616] border border-[#262626] rounded-xl p-4 flex items-start gap-3">
-            <div className="w-9 h-9 bg-brand-green/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Target className="w-4 h-4 text-brand-green" />
+            <div className="w-9 h-9 bg-brand-black/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Target className="w-4 h-4 text-brand-black" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white mb-1">Misi Kami</h3>
@@ -36,8 +36,8 @@ export default function TentangKamiPage() {
           </div>
 
           <div className="bg-[#161616] border border-[#262626] rounded-xl p-4 flex items-start gap-3">
-            <div className="w-9 h-9 bg-brand-green/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Flame className="w-4 h-4 text-brand-green" />
+            <div className="w-9 h-9 bg-brand-black/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Flame className="w-4 h-4 text-brand-black" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white mb-1">Semangat</h3>
@@ -48,8 +48,8 @@ export default function TentangKamiPage() {
           </div>
 
           <div className="bg-[#161616] border border-[#262626] rounded-xl p-4 flex items-start gap-3">
-            <div className="w-9 h-9 bg-brand-green/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Shield className="w-4 h-4 text-brand-green" />
+            <div className="w-9 h-9 bg-brand-black/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Shield className="w-4 h-4 text-brand-black" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white mb-1">Garansi</h3>
@@ -63,7 +63,7 @@ export default function TentangKamiPage() {
         <div className="text-center">
           <Link
             href="/"
-            className="inline-block px-6 py-3 bg-brand-green hover:bg-brand-green-hover text-white text-sm font-bold rounded-xl transition-colors"
+            className="inline-block px-6 py-3 bg-brand-black hover:bg-brand-black-hover text-white text-sm font-bold rounded-xl transition-colors"
           >
             Jelajahi Produk
           </Link>

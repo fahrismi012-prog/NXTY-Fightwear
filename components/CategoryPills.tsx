@@ -33,10 +33,10 @@ export default function CategoryPills({
           className={cn(
             "flex flex-col items-center justify-center gap-1.5",
             "py-3 px-2 rounded-card border transition-all min-h-[72px]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black",
             activeCategory === null
-              ? "bg-brand-green border-brand-green text-white"
-              : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
+              ? "bg-brand-black border-brand-black text-white"
+              : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
           )}
         >
           <span className="text-xl leading-none">🛒</span>
@@ -53,10 +53,10 @@ export default function CategoryPills({
             className={cn(
               "flex flex-col items-center justify-center gap-1.5",
               "py-3 px-2 rounded-card border transition-all min-h-[72px]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black",
               activeCategory === cat
-                ? "bg-brand-green border-brand-green text-white"
-                : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
+                ? "bg-brand-black border-brand-black text-white"
+                : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
             )}
           >
             <span className="text-xl leading-none">

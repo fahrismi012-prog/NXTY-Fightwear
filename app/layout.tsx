@@ -63,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
-        className={`${inter.variable} antialiased min-h-screen bg-canvas text-text-primary selection:bg-brand-green selection:text-white`}
+        className={`${inter.variable} antialiased min-h-screen bg-canvas text-text-primary selection:bg-brand-black selection:text-white`}
       >
         <CartProvider>
           <WishlistProvider>

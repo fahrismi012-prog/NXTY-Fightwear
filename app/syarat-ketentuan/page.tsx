@@ -9,7 +9,7 @@ export default function SyaratKetentuanPage() {
   return (
     <div className="min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <p className="text-caption font-semibold uppercase tracking-widest text-brand-green mb-2">Legal</p>
+        <p className="text-caption font-semibold uppercase tracking-widest text-brand-black mb-2">Legal</p>
         <h1 className="text-heading-1 font-bold text-text-primary mb-1">Syarat & Ketentuan</h1>
         <p className="text-caption text-text-muted mb-8">Terakhir diperbarui: Juni 2026</p>
 

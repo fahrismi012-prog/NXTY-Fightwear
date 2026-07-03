@@ -91,9 +91,9 @@ export function Footer() {
                 type="submit"
                 className={cn(
                   "w-full sm:max-w-xs py-3",
-                  "bg-brand-green !text-white",
+                  "bg-brand-black !text-white",
                   "text-body-sm font-bold text-center rounded-subtle",
-                  "hover:bg-brand-green-hover",
+                  "hover:bg-brand-black-hover",
                   "transition-colors duration-fast",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 )}

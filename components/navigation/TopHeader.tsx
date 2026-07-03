@@ -97,8 +97,8 @@ export function TopHeader() {
         className={cn(
           "border-b transition-colors duration-fast",
           scrolled
-            ? "bg-brand-green backdrop-blur-md border-brand-green-hover shadow-md"
-            : "bg-brand-green border-brand-green"
+            ? "bg-brand-black backdrop-blur-md border-brand-black-hover shadow-md"
+            : "bg-brand-black border-brand-black"
         )}
       >
         {/* Mobile (56px) */}

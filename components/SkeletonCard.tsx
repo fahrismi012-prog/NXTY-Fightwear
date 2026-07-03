@@ -11,12 +11,12 @@ export default function SkeletonCard() {
     <div className="bg-canvas border-2 border-border-subtle overflow-hidden">
       {/* Index badge skeleton */}
       <div className="absolute top-0 left-0 z-10 bg-canvas border-r-2 border-b-2 border-border-subtle px-2 py-1 flex items-center gap-1">
-        <span className="w-1 h-1 bg-brand-green" />
+        <span className="w-1 h-1 bg-brand-black" />
         <Skeleton className="w-8 h-3" height="12px" />
       </div>
 
       {/* Promo badge skeleton */}
-      <div className="absolute top-0 right-0 z-10 bg-brand-green">
+      <div className="absolute top-0 right-0 z-10 bg-brand-black">
         <Skeleton className="w-12 h-6" height="24px" />
       </div>
 
@@ -29,7 +29,7 @@ export default function SkeletonCard() {
       <div className="p-3 border-t-2 border-border-subtle bg-canvas">
         {/* Category skeleton */}
         <div className="flex items-center gap-1.5 mb-2">
-          <span className="w-2 h-2 bg-brand-green" />
+          <span className="w-2 h-2 bg-brand-black" />
           <Skeleton className="w-16 h-3" height="12px" />
         </div>
 
@@ -54,7 +54,7 @@ export default function SkeletonCard() {
         {/* Bottom row skeleton */}
         <div className="flex items-center justify-between pt-2 border-t border-border-subtle">
           <div className="flex items-center gap-1">
-            <span className="w-3 h-3 text-brand-green text-[10px]">★</span>
+            <span className="w-3 h-3 text-brand-black text-[10px]">★</span>
             <Skeleton className="w-8 h-3" height="12px" />
           </div>
           <Skeleton className="w-16 h-3" height="12px" />

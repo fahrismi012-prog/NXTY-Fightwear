@@ -112,7 +112,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
         <select
           value={form.label}
           onChange={(e) => handleChange("label", e.target.value)}
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
         >
           {LABELS.map((l) => (
             <option key={l} value={l}>
@@ -131,7 +131,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.recipient_name}
           onChange={(e) => handleChange("recipient_name", e.target.value)}
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
         />
       </div>
 
@@ -144,7 +144,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.phone}
           onChange={(e) => handleChange("phone", e.target.value)}
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
         />
       </div>
 
@@ -158,7 +158,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           value={form.street}
           onChange={(e) => handleChange("street", e.target.value)}
           placeholder="Jl. ..., RT/RW, Kelurahan..."
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
         />
       </div>
 
@@ -172,7 +172,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
             required
             value={form.city}
             onChange={(e) => handleChange("city", e.target.value)}
-            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
           />
         </div>
         <div>
@@ -184,7 +184,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
             required
             value={form.province}
             onChange={(e) => handleChange("province", e.target.value)}
-            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+            className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
           />
         </div>
       </div>
@@ -198,7 +198,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           required
           value={form.postal_code}
           onChange={(e) => handleChange("postal_code", e.target.value)}
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none"
         />
       </div>
 
@@ -213,7 +213,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
       </label>
 
       {error && (
-        <div className="border border-brand-green text-brand-green text-xs p-2">
+        <div className="border border-brand-black text-brand-black text-xs p-2">
           {error}
         </div>
       )}
@@ -222,7 +222,7 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 px-5 py-3 bg-brand-green text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+          className="flex items-center gap-2 px-5 py-3 bg-brand-black text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
         >
           {loading ? (
             <>

@@ -66,7 +66,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative flex flex-col h-full bg-canvas border border-border-subtle overflow-hidden transition-all hover:border-brand-green rounded-card">
+    <div className="group relative flex flex-col h-full bg-canvas border border-border-subtle overflow-hidden transition-all hover:border-brand-black rounded-card">
       {/* Promo badge */}
       {isPromo && (
         <div className="absolute top-2 right-2 z-10 bg-[#40916c] text-white text-caption font-bold px-2 py-1 rounded-subtle">
@@ -132,7 +132,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         {/* Quick actions - desktop */}
         <div className="hidden md:flex items-center justify-between pt-3 mt-auto border-t border-border-subtle">
           <div className="flex items-center gap-1 text-body-sm text-text-muted">
-            <span className="text-brand-green">★</span>
+            <span className="text-brand-black">★</span>
             <span className="font-semibold text-text-primary">{product.rating.toFixed(1)}</span>
             <span>/5</span>
           </div>

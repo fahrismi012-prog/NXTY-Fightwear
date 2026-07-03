@@ -12,7 +12,7 @@ export default function BrandIntroSection() {
         {/* Baris atas: logo kiri + welcome + deskripsi singkat di kanan */}
         <div className="flex items-center gap-4 sm:gap-5 mb-6">
           {/* Logo */}
-          <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-brand-green rounded-xl flex items-center justify-center px-3 shadow-sm">
+          <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-brand-black rounded-xl flex items-center justify-center px-3 shadow-sm">
             <img
               src="/brand/logo-full.png"
               alt="Anxiety Fightwear"

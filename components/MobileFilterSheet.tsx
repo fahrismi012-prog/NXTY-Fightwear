@@ -50,8 +50,8 @@ export default function MobileFilterSheet({
               className={cn(
                 "w-full text-left px-4 py-3 border rounded-subtle font-semibold text-body-sm transition-colors min-h-[48px]",
                 active === null
-                  ? "bg-brand-green border-brand-green text-white"
-                  : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-green hover:text-brand-green"
+                  ? "bg-brand-black border-brand-black text-white"
+                  : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
               )}
             >
               Semua Kategori
@@ -62,10 +62,10 @@ export default function MobileFilterSheet({
               <button
                 type="button"
                 onClick={() => handleSelect(cat)}
-                className="w-full text-left px-4 py-3 border border-border-subtle rounded-subtle bg-surface-1 text-text-secondary hover:border-brand-green hover:text-brand-green font-semibold text-body-sm transition-colors min-h-[48px] flex items-center justify-between"
+                className="w-full text-left px-4 py-3 border border-border-subtle rounded-subtle bg-surface-1 text-text-secondary hover:border-brand-black hover:text-brand-black font-semibold text-body-sm transition-colors min-h-[48px] flex items-center justify-between"
               >
                 <span>{cat}</span>
-                <span className="text-brand-green" aria-hidden>
+                <span className="text-brand-black" aria-hidden>
                   →
                 </span>
               </button>

@@ -83,7 +83,7 @@ export default function CartPage() {
                   <div className="flex-1 min-w-0 flex flex-col">
                     <Link
                       href={`/products/${item.slug}`}
-                      className="text-body font-semibold text-text-primary line-clamp-2 block hover:text-brand-green transition-colors"
+                      className="text-body font-semibold text-text-primary line-clamp-2 block hover:text-brand-black transition-colors"
                     >
                       {item.name}
                     </Link>

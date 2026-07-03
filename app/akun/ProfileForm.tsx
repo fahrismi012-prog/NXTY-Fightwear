@@ -69,7 +69,7 @@ export default function ProfileForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nama Anda"
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
         />
       </div>
 
@@ -82,7 +82,7 @@ export default function ProfileForm({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="08xxx"
-          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-green focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
         />
       </div>
 
@@ -92,7 +92,7 @@ export default function ProfileForm({
         </div>
       )}
       {error && (
-        <div className="border border-brand-green text-brand-green text-xs p-2">
+        <div className="border border-brand-black text-brand-black text-xs p-2">
           {error}
         </div>
       )}
@@ -100,7 +100,7 @@ export default function ProfileForm({
       <button
         type="submit"
         disabled={loading}
-        className="flex items-center gap-2 px-5 py-3 bg-brand-green text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
+        className="flex items-center gap-2 px-5 py-3 bg-brand-black text-text-primary text-sm font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px]"
       >
         {loading ? (
           <>

@@ -83,7 +83,7 @@ export default function WishlistPage() {
                 <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                   <Link
                     href={`/products/${item.slug}`}
-                    className="text-body font-semibold text-text-primary line-clamp-2 hover:text-brand-green transition-colors"
+                    className="text-body font-semibold text-text-primary line-clamp-2 hover:text-brand-black transition-colors"
                   >
                     {item.name}
                   </Link>

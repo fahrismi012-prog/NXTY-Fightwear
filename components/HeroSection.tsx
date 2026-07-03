@@ -17,7 +17,7 @@ export default function HeroSection() {
           <h1 className="text-display-1 font-bold text-text-primary leading-[0.9] mb-4">
             Perlengkapan
             <br />
-            <span className="text-brand-green">Petarung</span>
+            <span className="text-brand-black">Petarung</span>
           </h1>
           <p className="text-body-lg text-text-secondary max-w-md leading-relaxed">
             Dibuat untuk atlet combat sports dan pencak silat. Sarung tinju, hand wrap, matras, deker, dan masih banyak lagi.
@@ -46,19 +46,19 @@ export default function HeroSection() {
         <div className="grid grid-cols-3 gap-3 sm:gap-4">
           <Card variant="default" padding="md" className="text-center">
             <div className="text-heading-1 font-bold text-text-primary mb-1">
-              35<span className="text-brand-green">+</span>
+              35<span className="text-brand-black">+</span>
             </div>
             <p className="text-body-sm text-text-muted">Produk</p>
           </Card>
           <Card variant="default" padding="md" className="text-center">
             <div className="text-heading-1 font-bold text-text-primary mb-1">
-              13<span className="text-brand-green">+</span>
+              13<span className="text-brand-black">+</span>
             </div>
             <p className="text-body-sm text-text-muted">Kategori</p>
           </Card>
           <Card variant="default" padding="md" className="text-center">
             <div className="text-heading-1 font-bold text-text-primary mb-1">
-              4.9<span className="text-brand-green">★</span>
+              4.9<span className="text-brand-black">★</span>
             </div>
             <p className="text-body-sm text-text-muted">Rating</p>
           </Card>
@@ -68,15 +68,15 @@ export default function HeroSection() {
         <div className="mt-12 pt-8 border-t border-border-subtle">
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
             <div className="flex items-center gap-2 text-text-secondary">
-              <Truck className="w-5 h-5 text-brand-green" />
+              <Truck className="w-5 h-5 text-brand-black" />
               <span className="text-body-sm font-medium">Kirim Cepat</span>
             </div>
             <div className="flex items-center gap-2 text-text-secondary">
-              <Shield className="w-5 h-5 text-brand-green" />
+              <Shield className="w-5 h-5 text-brand-black" />
               <span className="text-body-sm font-medium">100% Original</span>
             </div>
             <div className="flex items-center gap-2 text-text-secondary">
-              <Factory className="w-5 h-5 text-brand-green" />
+              <Factory className="w-5 h-5 text-brand-black" />
               <span className="text-body-sm font-medium">Produksi Sendiri</span>
             </div>
           </div>

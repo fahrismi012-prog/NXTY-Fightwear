@@ -164,7 +164,7 @@ export default async function PesananDetailPage({
       {order.customer_address && (
         <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
           <div className="flex items-center gap-2 mb-2">
-            <MapPin className="w-4 h-4 text-brand-green" />
+            <MapPin className="w-4 h-4 text-brand-black" />
             <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">
               Alamat Pengiriman
             </h3>
@@ -181,7 +181,7 @@ export default async function PesananDetailPage({
       )}
 
       {/* Total */}
-      <div className="bg-surface-1 border-2 border-brand-green p-4">
+      <div className="bg-surface-1 border-2 border-brand-black p-4">
         <div className="flex justify-between text-xs mb-1">
           <span className="text-neutral-500">Subtotal</span>
           <span className="text-text-primary font-bold">

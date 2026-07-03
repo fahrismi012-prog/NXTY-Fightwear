@@ -34,7 +34,7 @@ export default async function AlamatPage() {
         </div>
         <Link
           href="/akun/alamat/baru"
-          className="flex items-center gap-2 px-4 py-2.5 bg-brand-green text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors min-h-[44px]"
+          className="flex items-center gap-2 px-4 py-2.5 bg-brand-black text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors min-h-[44px]"
         >
           <Plus className="w-4 h-4" /> Tambah
         </Link>
@@ -50,12 +50,12 @@ export default async function AlamatPage() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
-                    <MapPin className="w-4 h-4 text-brand-green shrink-0" />
+                    <MapPin className="w-4 h-4 text-brand-black shrink-0" />
                     <span className="text-sm font-black uppercase tracking-wider text-text-primary">
                       {addr.label}
                     </span>
                     {addr.is_default && (
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-brand-green text-text-primary px-2 py-0.5">
+                      <span className="text-[10px] font-black uppercase tracking-wider bg-brand-black text-text-primary px-2 py-0.5">
                         Default
                       </span>
                     )}
@@ -69,7 +69,7 @@ export default async function AlamatPage() {
                 <div className="flex items-center gap-1">
                   <Link
                     href={`/akun/alamat/${addr.id}`}
-                    className="w-9 h-9 border-2 border-border-subtle flex items-center justify-center hover:bg-brand-green hover:border-brand-green"
+                    className="w-9 h-9 border-2 border-border-subtle flex items-center justify-center hover:bg-brand-black hover:border-brand-black"
                     aria-label="Edit"
                   >
                     <Edit className="w-4 h-4" />
@@ -91,7 +91,7 @@ export default async function AlamatPage() {
           </p>
           <Link
             href="/akun/alamat/baru"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-green text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-green transition-colors min-h-[44px]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-black text-text-primary text-xs font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors min-h-[44px]"
           >
             <Plus className="w-4 h-4" /> Tambah Alamat
           </Link>
