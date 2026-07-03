@@ -64,8 +64,9 @@ export default function AdminLoginPage() {
     }
   }
 
-  // Animation helper: return animation class or empty if reduced motion
-  const anim = (className: string) => (reducedMotion ? "" : className);
+  // Animation helper: return joined classes (or empty if reduced motion)
+  const anim = (...classes: string[]) =>
+    reducedMotion ? "" : classes.filter(Boolean).join(" ");
 
   return (
     <>
