@@ -1,4 +1,5 @@
 import { createClient } from "./client";
+import type { User } from "@supabase/supabase-js";
 
 /**
  * Kirim magic link atau OTP ke email customer.
@@ -60,7 +61,7 @@ export async function getCurrentUser() {
 /**
  * Subscribe ke perubahan auth state (login/logout).
  */
-export function onAuthStateChange(callback: (user: any | null) => void) {
+export function onAuthStateChange(callback: (user: User | null) => void) {
   const supabase = createClient();
   const { data: { subscription } } = supabase.auth.onAuthStateChange(
     (_event, session) => {

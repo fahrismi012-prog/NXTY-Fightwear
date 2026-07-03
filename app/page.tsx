@@ -46,7 +46,9 @@ function HomeContent() {
   useEffect(() => {
     const q = searchParams?.get("q") ?? "";
     const cat = searchParams?.get("category");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pattern valid untuk sync URL params (external state) ke local state
     setSearchQuery(q);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pattern valid untuk sync URL params (external state) ke local state
     setActiveCategory(cat || null);
   }, [searchParams]);
 

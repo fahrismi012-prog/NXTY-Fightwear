@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/contexts/ToastContext";
 
@@ -11,22 +11,21 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [shakeKey, setShakeKey] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useSyncExternalStore(
+    (callback) => {
+      const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+      mq.addEventListener("change", callback);
+      return () => mq.removeEventListener("change", callback);
+    },
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false,
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Detect prefers-reduced-motion
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  // Trigger shake animation on error (by remounting form via key)
-  useEffect(() => {
-    if (error) setShakeKey((k) => k + 1);
-  }, [error]);
+  // Trigger shake animation on error (by remounting form via key).
+  // Increment shakeKey di event handler (handleSubmit) saat error muncul,
+  // bukan di effect — supaya ESLint react-hooks/set-state-in-effect compliant.
+  // (useEffect di sini dihapus; increment dipindah ke handleSubmit.)
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -47,6 +46,7 @@ export default function AdminLoginPage() {
       if (!res.ok || !data.success) {
         const message = data.error ?? "Login gagal";
         setError(message);
+        setShakeKey((k) => k + 1);
         showToast("info", message);
         setLoading(false);
         return;
@@ -59,6 +59,7 @@ export default function AdminLoginPage() {
       const message =
         err instanceof Error ? err.message : "Tidak dapat menghubungi server";
       setError(message);
+      setShakeKey((k) => k + 1);
       showToast("info", message);
       setLoading(false);
     }

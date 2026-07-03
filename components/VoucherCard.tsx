@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Ticket, Copy, Check, Zap } from "lucide-react";
 import type { Promotion } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
@@ -9,19 +9,56 @@ interface VoucherCardProps {
   voucher: Promotion;
 }
 
+interface ClaimedRecord {
+  code: string;
+  promotionId?: string;
+  claimedAt?: string;
+}
+
+// Cache + custom event bus agar useSyncExternalStore tetap stabil
+// (React butuh getSnapshot return reference sama jika value tidak berubah).
+let cachedClaimed: ClaimedRecord[] | null = null;
+const claimedListeners = new Set<() => void>();
+
+function readClaimed(): ClaimedRecord[] {
+  if (cachedClaimed !== null) return cachedClaimed;
+  if (typeof window === "undefined") return [];
+  try {
+    cachedClaimed = JSON.parse(localStorage.getItem("nxty_claimed_vouchers") || "[]");
+  } catch {
+    cachedClaimed = [];
+  }
+  return cachedClaimed!;
+}
+
+function invalidateClaimedCache() {
+  cachedClaimed = null;
+  claimedListeners.forEach((cb) => cb());
+}
+
+function subscribeClaimed(callback: () => void) {
+  claimedListeners.add(callback);
+  const onStorage = (e: StorageEvent) => {
+    if (e.key === "nxty_claimed_vouchers") invalidateClaimedCache();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    claimedListeners.delete(callback);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
 export default function VoucherCard({ voucher }: VoucherCardProps) {
   const { showToast } = useToast();
-  const [claimed, setClaimed] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (!voucher.code) return;
-    try {
-      const stored = JSON.parse(localStorage.getItem("nxty_claimed_vouchers") || "[]");
-      const found = stored.find((v: { code: string }) => v.code === voucher.code);
-      if (found) setClaimed(true);
-    } catch {}
-  }, [voucher.code]);
+  // Pakai useSyncExternalStore untuk read claimed status dari localStorage.
+  // Invalidate cache setelah handleClaim agar re-render otomatis.
+  const claimed = useSyncExternalStore(
+    subscribeClaimed,
+    () => readClaimed().some((v) => v.code === voucher.code),
+    () => false,
+  );
 
   const handleClaim = () => {
     if (!voucher.code || claimed) return;
@@ -33,7 +70,7 @@ export default function VoucherCard({ voucher }: VoucherCardProps) {
         claimedAt: new Date().toISOString(),
       });
       localStorage.setItem("nxty_claimed_vouchers", JSON.stringify(stored));
-      setClaimed(true);
+      invalidateClaimedCache();
       showToast("success", "Voucher claimed", `${voucher.code} tersimpan`);
     } catch {}
   };

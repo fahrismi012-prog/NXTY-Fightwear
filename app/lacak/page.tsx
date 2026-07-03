@@ -6,15 +6,35 @@ import { ChevronLeft, Package, Loader2, MapPin, Mail } from "lucide-react";
 import TrackingTimeline from "@/components/admin/TrackingTimeline";
 import type { TrackingEvent } from "@/lib/shipping/everpro";
 
+interface OrderItem {
+  name: string;
+  size?: string;
+  color?: string;
+  quantity: number;
+  price: number;
+}
+
+interface ShippingInfo {
+  waybill?: string;
+  courier?: string;
+}
+
+interface CustomerAddress {
+  street: string;
+  city: string;
+  province: string;
+  postal_code: string;
+}
+
 interface OrderData {
   id: string;
   status: string;
   total: number;
-  items: any[];
-  shipping: any;
+  items: OrderItem[];
+  shipping: ShippingInfo;
   created_at: string;
   customer_name: string;
-  customer_address: any;
+  customer_address: CustomerAddress;
 }
 
 function formatPrice(price: number): string {
@@ -194,7 +214,7 @@ export default function LacakPage() {
                 Items
               </h3>
               <div className="space-y-2">
-                {order.items?.map((item: any, i: number) => (
+                {order.items?.map((item: OrderItem, i: number) => (
                   <div
                     key={i}
                     className="flex items-center justify-between text-xs py-2 border-b border-border-subtle last:border-b-0"

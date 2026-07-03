@@ -34,7 +34,7 @@ async function loadData(): Promise<{
   }
   if (categoriesRes.error) {
     console.warn("[admin] categoriesRes error:", categoriesRes.error.message);
-    return { products: (productsRes.data ?? []) as any, categories: [] };
+    return { products: (productsRes.data ?? []) as unknown as ProductRow[], categories: [] };
   }
 
   const rows = (productsRes.data ?? []) as Array<{
