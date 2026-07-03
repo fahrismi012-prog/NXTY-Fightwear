@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         pathname: "/**",
       },
+      {
+        // Supabase Storage public bucket (untuk gambar produk yang di-upload admin).
+        // Pathname spesifik: hanya public bucket paths, bukan signed URL private.
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
   env: {
