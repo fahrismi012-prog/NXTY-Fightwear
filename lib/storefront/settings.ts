@@ -13,6 +13,40 @@ const DEFAULTS: Record<string, string> = {
   payment_manual_expire_hours: "24",
 };
 
+/**
+ * Unwrap value dari jsonb ke string biasa.
+ * Handle multiple format: JSON string literal ("manual"), plain string (manual),
+ * number, atau boolean. Tolerant terhadap format lama dari SQL seed yang mungkin
+ * menyimpan dengan kutip literal.
+ */
+function unwrapValue(raw: unknown): string {
+  if (raw === null || raw === undefined) return "";
+  if (typeof raw === "string") {
+    const trimmed = raw.trim();
+    // Kalau string terlihat seperti JSON-encoded ("..." atau '...'), parse
+    if (trimmed.length >= 2) {
+      const first = trimmed[0];
+      const last = trimmed[trimmed.length - 1];
+      if (
+        (first === '"' && last === '"') ||
+        (first === "'" && last === "'")
+      ) {
+        try {
+          // Normalize single quote ke double quote untuk JSON.parse
+          const normalized = trimmed.replace(/^'|'$/g, '"');
+          const parsed = JSON.parse(normalized);
+          if (parsed !== null && parsed !== undefined) return String(parsed);
+        } catch {
+          // Fallback ke raw trimmed
+        }
+      }
+    }
+    return trimmed;
+  }
+  // number, boolean, dll
+  return String(raw);
+}
+
 async function readSetting(key: string): Promise<string> {
   const fallback = DEFAULTS[key] ?? "";
 
@@ -26,8 +60,7 @@ async function readSetting(key: string): Promise<string> {
       .eq("key", key)
       .maybeSingle();
     if (error || !data) return fallback;
-    // value adalah jsonb — bisa string ("gateway") atau number (15000)
-    return String(data.value);
+    return unwrapValue(data.value);
   } catch {
     return fallback;
   }
