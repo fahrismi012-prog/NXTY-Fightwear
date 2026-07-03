@@ -26,7 +26,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   default: "bg-surface-2 text-text-secondary",
   promo: "bg-brand-black text-text-primary",
   new: "bg-transparent text-brand-black border border-brand-black",
-  success: "bg-success-500/15 text-success-500",
+  success: "bg-brand-black/15 text-brand-black",
   warning: "bg-warning-500/15 text-warning-500",
 };
 

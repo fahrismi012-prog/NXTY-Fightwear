@@ -116,7 +116,7 @@ export function NewsletterSignup({
         <p
           className={cn(
             "text-body-sm",
-            status === "error" ? "text-error-500" : "text-success-500"
+            status === "error" ? "text-error-500" : "text-brand-black"
           )}
           role={status === "error" ? "alert" : "status"}
         >

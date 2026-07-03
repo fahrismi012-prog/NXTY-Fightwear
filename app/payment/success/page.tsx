@@ -11,8 +11,8 @@ function SuccessContent() {
 
   return (
     <div className="text-center max-w-sm w-full">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600/10 rounded-full mb-4">
-        <CheckCircle className="w-8 h-8 text-green-500" />
+      <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-black/10 rounded-full mb-4">
+        <CheckCircle className="w-8 h-8 text-brand-black" />
       </div>
       <h1 className="text-xl font-black text-text-primary mb-2">Pembayaran berhasil!</h1>
       <p className="text-sm text-text-muted mb-1">

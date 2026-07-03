@@ -244,7 +244,7 @@ export default async function PromoListPage({ searchParams }: PageProps) {
                       <span
                         className={`inline-block px-2 py-1 border-2 text-[10px] font-black uppercase tracking-wider ${
                           active
-                            ? "bg-green-500 text-black border-green-500"
+                            ? "bg-brand-black text-white border-brand-black"
                             : "bg-neutral-100 text-neutral-600 border-neutral-800"
                         }`}
                       >

@@ -87,7 +87,7 @@ export default function ProfileForm({
       </div>
 
       {success && (
-        <div className="border border-green-600 text-green-500 text-xs p-2">
+        <div className="border border-brand-black text-brand-black text-xs p-2">
           Profil berhasil disimpan
         </div>
       )}
