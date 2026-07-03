@@ -2,20 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { Dialog, Eyebrow, Input, PriceTag } from "@/components/ui";
 import { useUI } from "@/contexts/UIContext";
-import productsData from "@/data/products.json";
 import type { Product } from "@/types";
 import { cn } from "@/lib/utils";
 
 /**
  * SearchModal — desktop search overlay dengan real-time suggestion.
  *
- * Pencarian client-side dari products.json. Akan diganti dengan
- * search backend (Algolia/Typesense) di fase production-readiness.
+ * Search via /api/storefront/search (Supabase via ISR 60s) — bukan JSON
+ * statis. Request di-debounce 200ms, hasil di-cache per query string.
  */
 
 const POPULAR_TERMS = ["Sarung Tinju", "Hand Wrap", "Matras", "Deker"];
@@ -25,6 +24,7 @@ export function SearchModal() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [debounced, setDebounced] = useState("");
+  const [results, setResults] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-focus saat dibuka
@@ -41,21 +41,32 @@ export function SearchModal() {
     return () => clearTimeout(t);
   }, [query]);
 
-  const results = useMemo<Product[]>(() => {
-    if (!debounced) return [];
-    return (productsData.products as Product[])
-      .filter(
-        (p) =>
-          p.name.toLowerCase().includes(debounced) ||
-          p.category.toLowerCase().includes(debounced) ||
-          p.description.toLowerCase().includes(debounced)
-      )
-      .slice(0, 8);
+  // Fetch search results dari API route saat debounced query berubah.
+  // Pakai AbortController untuk cancel request sebelumnya kalau user masih mengetik.
+  useEffect(() => {
+    if (!debounced) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reset derived state saat source query jadi empty
+      setResults([]);
+      return;
+    }
+    const controller = new AbortController();
+    fetch(`/api/storefront/search?q=${encodeURIComponent(debounced)}&limit=8`, {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? r.json() : { results: [] }))
+      .then((data: { results: Product[] }) => {
+        setResults(data.results ?? []);
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") setResults([]);
+      });
+    return () => controller.abort();
   }, [debounced]);
 
   const handleClose = () => {
     setQuery("");
     setDebounced("");
+    setResults([]);
     closeSearchModal();
   };
 
@@ -64,6 +75,7 @@ export function SearchModal() {
     if (!q) return;
     setQuery("");
     setDebounced("");
+    setResults([]);
     closeSearchModal();
     router.push(`/?q=${encodeURIComponent(q)}`);
   };

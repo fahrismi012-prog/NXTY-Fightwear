@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, Grid3x3 } from "lucide-react";
 import { Sheet, Eyebrow } from "@/components/ui";
 import { useUI } from "@/contexts/UIContext";
-import productsData from "@/data/products.json";
-import type { Product } from "@/types";
 import { cn } from "@/lib/utils";
+
+interface CategoryEntry {
+  category: string;
+  thumbnail: string | null;
+  href: string;
+}
 
 /**
  * MegaMenuSheet — overlay kategori dengan thumbnail produk hero per kategori.
@@ -18,23 +22,31 @@ import { cn } from "@/lib/utils";
  *          desktop mega menu dropdown advanced dapat dibuat di iterasi berikut).
  *
  * Triggered via useUI().openMegaMenu().
+ *
+ * Data source: /api/storefront/categories (Supabase via ISR 60s) — fallback
+ * ke array kosong kalau fetch gagal / data belum loaded.
  */
 export function MegaMenuSheet() {
   const { megaMenuOpen, closeMegaMenu } = useUI();
+  const [categories, setCategories] = useState<CategoryEntry[]>([]);
 
-  const categories = useMemo(() => {
-    const map = new Map<string, Product>();
-    for (const p of productsData.products as Product[]) {
-      if (!map.has(p.category)) {
-        map.set(p.category, p);
-      }
-    }
-    return Array.from(map.entries()).map(([category, firstProduct]) => ({
-      category,
-      thumbnail: firstProduct.images[0],
-      href: `/?category=${encodeURIComponent(category)}`,
-    }));
-  }, []);
+  // Fetch categories dari API saat MegaMenu pertama kali dibuka (lazy load).
+  // Pakai flag open untuk skip fetch kalau user belum pernah buka menu.
+  useEffect(() => {
+    if (!megaMenuOpen || categories.length > 0) return;
+    let cancelled = false;
+    fetch("/api/storefront/categories")
+      .then((r) => (r.ok ? r.json() : { categories: [] }))
+      .then((data: { categories: CategoryEntry[] }) => {
+        if (!cancelled) setCategories(data.categories ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setCategories([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [megaMenuOpen, categories.length]);
 
   return (
     <Sheet
@@ -95,13 +107,17 @@ export function MegaMenuSheet() {
                     "bg-surface-2 rounded-subtle"
                   )}
                 >
-                  <Image
-                    src={thumbnail}
-                    alt=""
-                    fill
-                    sizes="48px"
-                    className="object-cover"
-                  />
+                  {thumbnail ? (
+                    <Image
+                      src={thumbnail}
+                      alt=""
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <span className="absolute inset-0 flex items-center justify-center text-text-muted text-xs">·</span>
+                  )}
                 </span>
                 <span className="flex-1 text-body font-medium text-text-primary">
                   {category}
