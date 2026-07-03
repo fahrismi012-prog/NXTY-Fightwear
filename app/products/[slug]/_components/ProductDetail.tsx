@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   ChevronLeft,
+  ChevronRight,
   Plus,
   Minus,
   ShoppingCart,
@@ -56,6 +57,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [adding, setAdding] = useState<"cart" | "buy" | null>(null);
+  // Multi-image gallery state (kalau produk punya >1 foto)
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const hasMultipleImages = product.images.length > 1;
+  const mainImage = product.images[activeImageIndex] ?? product.images[0];
 
   const isPromo =
     product.originalPrice !== undefined && product.originalPrice > product.price;
@@ -103,24 +108,94 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </button>
 
         <div className="lg:grid lg:grid-cols-2 lg:gap-10">
-          {/* Image */}
+          {/* Image gallery */}
           <div className="relative">
-            {/* Image frame - edge-to-edge on mobile */}
+            {/* Main image frame - edge-to-edge on mobile */}
             <div className="relative aspect-square bg-surface-1 overflow-hidden md:rounded-card">
-              <Image
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
+              {mainImage ? (
+                <Image
+                  src={mainImage}
+                  alt={`${product.name} (gambar ${activeImageIndex + 1})`}
+                  fill
+                  className="object-cover transition-opacity duration-200"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority={activeImageIndex === 0}
+                  key={mainImage}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-text-muted">
+                  Tidak ada gambar
+                </div>
+              )}
               {isPromo && (
                 <div className="absolute top-3 right-3 bg-brand-black text-text-primary text-eyebrow font-bold uppercase tracking-[0.08em] px-2.5 py-1.5 rounded-subtle">
                   Promo
                 </div>
               )}
+              {/* Image counter overlay (kalau multiple images) */}
+              {hasMultipleImages && (
+                <div className="absolute bottom-3 right-3 bg-black/70 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-subtle">
+                  {activeImageIndex + 1} / {product.images.length}
+                </div>
+              )}
+              {/* Prev/Next buttons (desktop only) */}
+              {hasMultipleImages && product.images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveImageIndex(
+                        (activeImageIndex - 1 + product.images.length) %
+                          product.images.length,
+                      )
+                    }
+                    aria-label="Gambar sebelumnya"
+                    className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center bg-white border-2 border-black hover:bg-black hover:text-white transition-colors"
+                  >
+                    <ChevronLeft size={16} strokeWidth={2.5} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveImageIndex(
+                        (activeImageIndex + 1) % product.images.length,
+                      )
+                    }
+                    aria-label="Gambar selanjutnya"
+                    className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center bg-white border-2 border-black hover:bg-black hover:text-white transition-colors"
+                  >
+                    <ChevronRight size={16} strokeWidth={2.5} />
+                  </button>
+                </>
+              )}
             </div>
+
+            {/* Thumbnail strip (mobile + desktop, kalau multiple images) */}
+            {hasMultipleImages && (
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={`thumb-${idx}-${img.slice(-12)}`}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    aria-label={`Lihat gambar ${idx + 1}`}
+                    aria-current={activeImageIndex === idx ? "true" : undefined}
+                    className={`relative shrink-0 w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden transition-all ${
+                      activeImageIndex === idx
+                        ? "border-black shadow-[2px_2px_0_black]"
+                        : "border-neutral-300 hover:border-black opacity-70 hover:opacity-100"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Info */}
