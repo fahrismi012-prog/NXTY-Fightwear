@@ -11,6 +11,8 @@ export type PromotionType =
 export type DiscountType = "percentage" | "fixed";
 
 export type OrderStatus =
+  | "awaiting_payment"
+  | "awaiting_confirmation"
   | "pending"
   | "paid"
   | "processed"
@@ -111,6 +113,20 @@ export interface Order {
   payment_id: string | null;
   created_at: string;
   updated_at: string;
+  // Payment mode manual (dari migration 2026-07-03)
+  payment_method: "gateway" | "manual" | null;
+  payment_proof_url: string | null;
+  payment_expires_at: string | null;
+  payment_confirmed_at: string | null;
+  payment_confirmed_by: string | null;
+  payment_rejection_reason: string | null;
+  bank_account_id: string | null;
+  // Shipping mode (snapshot saat order dibuat)
+  shipping_method_used: "auto" | "manual" | null;
+  shipping_manual_carrier: string | null;
+  shipping_manual_cost: number | null;
+  shipping_manual_receipt: string | null;
+  shipping_manual_receipt_url: string | null;
 }
 
 export interface CustomerProfile {

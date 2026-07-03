@@ -93,6 +93,13 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   const [trackingError, setTrackingError] = useState<string | null>(null);
   const [generatingAwb, setGeneratingAwb] = useState(false);
 
+  // Manual payment confirmation state
+  const [confirmingPayment, setConfirmingPayment] = useState(false);
+  const [showRejectForm, setShowRejectForm] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [rejectingPayment, setRejectingPayment] = useState(false);
+  const [proofZoomed, setProofZoomed] = useState(false);
+
   const address = useMemo(
     () => parseCustomerAddress(order.customer_address),
     [order.customer_address],
@@ -154,8 +161,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
     }
   }
 
-  async function handleGenerateAwb() {
-    if (!canCreateAwb || generatingAwb) return;
+  async function handleGenerateAwb() {    if (!canCreateAwb || generatingAwb) return;
 
     if (!address) {
       showToast("info", "Alamat customer belum lengkap — tidak bisa generate resi.");
@@ -227,6 +233,60 @@ export default function OrderDetailModal({ order, onClose }: Props) {
       showToast("info", "Terjadi kesalahan jaringan");
     } finally {
       setGeneratingAwb(false);
+    }
+  }
+
+  async function handleConfirmPayment() {
+    if (!confirm("Konfirmasi pembayaran pesanan ini? Status akan menjadi PAID.")) {
+      return;
+    }
+    setConfirmingPayment(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/confirm-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        showToast("info", json.error ?? "Gagal konfirmasi");
+        return;
+      }
+      showToast("success", "Pembayaran dikonfirmasi");
+      window.location.reload();
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setConfirmingPayment(false);
+    }
+  }
+
+  async function handleRejectPayment() {
+    const reason = rejectReason.trim();
+    if (!reason) {
+      showToast("info", "Alasan penolakan wajib diisi");
+      return;
+    }
+    if (!confirm(`Tolak pembayaran pesanan ini? Status menjadi CANCELLED.\n\nAlasan: ${reason}`)) {
+      return;
+    }
+    setRejectingPayment(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/reject-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        showToast("info", json.error ?? "Gagal menolak");
+        return;
+      }
+      showToast("info", "Pembayaran ditolak, pesanan dibatalkan");
+      window.location.reload();
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setRejectingPayment(false);
     }
   }
 
@@ -408,6 +468,23 @@ export default function OrderDetailModal({ order, onClose }: Props) {
             )}
           </section>
 
+          {/* Pembayaran Manual (hanya untuk mode manual) */}
+          {order.payment_method === "manual" && (
+            <ManualPaymentSection
+              order={order}
+              confirmingPayment={confirmingPayment}
+              showRejectForm={showRejectForm}
+              setShowRejectForm={setShowRejectForm}
+              rejectReason={rejectReason}
+              setRejectReason={setRejectReason}
+              rejectingPayment={rejectingPayment}
+              proofZoomed={proofZoomed}
+              setProofZoomed={setProofZoomed}
+              onConfirm={handleConfirmPayment}
+              onReject={handleRejectPayment}
+            />
+          )}
+
           {/* Shipping & Total */}
           <section>
             <SectionHeader icon={Truck} title="Pengiriman & Total" />
@@ -523,6 +600,195 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function ManualPaymentSection({
+  order,
+  confirmingPayment,
+  showRejectForm,
+  setShowRejectForm,
+  rejectReason,
+  setRejectReason,
+  rejectingPayment,
+  proofZoomed,
+  setProofZoomed,
+  onConfirm,
+  onReject,
+}: {
+  order: Order;
+  confirmingPayment: boolean;
+  showRejectForm: boolean;
+  setShowRejectForm: (v: boolean) => void;
+  rejectReason: string;
+  setRejectReason: (v: string) => void;
+  rejectingPayment: boolean;
+  proofZoomed: boolean;
+  setProofZoomed: (v: boolean) => void;
+  onConfirm: () => void;
+  onReject: () => void;
+}) {
+  const needsConfirmation =
+    order.status === "awaiting_confirmation" ||
+    order.status === "awaiting_payment";
+  const isResolved =
+    order.status === "paid" || order.status === "cancelled";
+
+  return (
+    <section>
+      <SectionHeader
+        icon={FileText}
+        title="Pembayaran Manual"
+      />
+
+      <div className="bg-white border-2 border-neutral-800 p-4 space-y-3">
+        {/* Status badge inline */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500">
+            Status Pembayaran:
+          </span>
+          <StatusBadge status={order.status} />
+          {order.payment_confirmed_at && (
+            <span className="text-[10px] text-neutral-500">
+              · dikonfirmasi {formatDate(order.payment_confirmed_at)}
+            </span>
+          )}
+        </div>
+
+        {/* Bukti transfer */}
+        {order.payment_proof_url ? (
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Bukti Transfer
+            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={order.payment_proof_url}
+              alt="Bukti transfer"
+              onClick={() => setProofZoomed(true)}
+              className="max-w-full max-h-64 border-2 border-neutral-800 cursor-zoom-in"
+            />
+            <p className="text-[10px] text-neutral-500 mt-1">
+              Klik gambar untuk memperbesar.
+            </p>
+          </div>
+        ) : needsConfirmation ? (
+          <div className="border-2 border-dashed border-neutral-400 p-3 text-[11px] text-neutral-500 italic">
+            Customer belum upload bukti transfer.
+          </div>
+        ) : null}
+
+        {/* Rejection reason (kalau ada) */}
+        {order.payment_rejection_reason && (
+          <div className="border-2 border-black bg-neutral-100 p-3 text-xs">
+            <p className="font-black uppercase tracking-wider mb-1">
+              Alasan Ditolak
+            </p>
+            <p className="text-neutral-700">{order.payment_rejection_reason}</p>
+          </div>
+        )}
+
+        {/* Action buttons — hanya kalau masih awaiting */}
+        {needsConfirmation && (
+          <div className="border-t-2 border-neutral-200 pt-3 space-y-3">
+            {!showRejectForm ? (
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button
+                  type="button"
+                  onClick={onConfirm}
+                  disabled={confirmingPayment}
+                  className="flex-1 px-4 py-3 bg-black text-white text-[11px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-colors disabled:bg-neutral-400 min-h-[44px] inline-flex items-center justify-center gap-2"
+                >
+                  {confirmingPayment ? (
+                    <>
+                      <Loader2 size={12} className="animate-spin" />
+                      Memproses...
+                    </>
+                  ) : (
+                    "✓ Konfirmasi Pembayaran"
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowRejectForm(true)}
+                  disabled={confirmingPayment}
+                  className="flex-1 px-4 py-3 border-2 border-black text-[11px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors disabled:opacity-50 min-h-[44px]"
+                >
+                  ✕ Tolak
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600">
+                  Alasan Penolakan
+                </label>
+                <textarea
+                  value={rejectReason}
+                  onChange={(e) => setRejectReason(e.target.value)}
+                  placeholder="Contoh: Bukti transfer tidak terbaca, nominal tidak sesuai..."
+                  rows={3}
+                  maxLength={500}
+                  className="w-full bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs resize-none"
+                />
+                <p className="text-[10px] text-neutral-500">
+                  {rejectReason.length}/500 karakter
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={onReject}
+                    disabled={rejectingPayment || !rejectReason.trim()}
+                    className="flex-1 px-4 py-3 bg-black text-white text-[11px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-colors disabled:bg-neutral-400 min-h-[44px] inline-flex items-center justify-center gap-2"
+                  >
+                    {rejectingPayment ? (
+                      <>
+                        <Loader2 size={12} className="animate-spin" />
+                        Memproses...
+                      </>
+                    ) : (
+                      "✕ Konfirmasi Tolak"
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowRejectForm(false);
+                      setRejectReason("");
+                    }}
+                    disabled={rejectingPayment}
+                    className="px-4 py-3 border-2 border-neutral-800 text-[11px] font-black uppercase tracking-widest hover:border-black transition-colors disabled:opacity-50 min-h-[44px]"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Info kalau sudah resolved */}
+        {isResolved && !needsConfirmation && (
+          <p className="text-[11px] text-neutral-500 italic border-t-2 border-neutral-200 pt-3">
+            Pembayaran sudah diproses dan tidak dapat diubah lagi.
+          </p>
+        )}
+      </div>
+
+      {/* Proof zoom modal */}
+      {proofZoomed && order.payment_proof_url && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setProofZoomed(false)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={order.payment_proof_url}
+            alt="Bukti transfer (perbesar)"
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
+    </section>
   );
 }
 
