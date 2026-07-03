@@ -12,6 +12,8 @@ import { cookies } from "next/headers";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
+  // Type bisa 'recovery' (reset password), 'magiclink', 'signup', dll.
+  // Default ke /akun, kecuali recovery -> /akun (user update password di sana nanti).
   const next = searchParams.get("next") ?? "/akun";
 
   if (code) {

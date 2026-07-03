@@ -41,6 +41,57 @@ export async function verifyOtp(
 }
 
 /**
+ * Daftar akun baru dengan email + password.
+ * Rate limit Supabase signUp: 30/jam per IP (vs OTP hanya 4/jam).
+ */
+export async function signUpWithPassword(
+  email: string,
+  password: string,
+): Promise<{ needsEmailConfirmation: boolean }> {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback`,
+    },
+  });
+  if (error) throw error;
+  // Kalau session langsung ada (email confirmation disabled di Dashboard),
+  // user auto-login. Kalau tidak, perlu konfirmasi email dulu.
+  const needsEmailConfirmation = !data.session;
+  return { needsEmailConfirmation };
+}
+
+/**
+ * Login dengan email + password.
+ * Lebih reliable dari OTP, tidak ada rate limit issue (lebih tinggi).
+ */
+export async function signInWithPassword(
+  email: string,
+  password: string,
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error) throw error;
+}
+
+/**
+ * Request reset password via email.
+ * User akan terima email dengan link untuk set password baru.
+ */
+export async function resetPassword(email: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?type=recovery`,
+  });
+  if (error) throw error;
+}
+
+/**
  * Logout customer.
  */
 export async function signOut(): Promise<void> {
