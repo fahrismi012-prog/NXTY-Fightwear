@@ -79,9 +79,37 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [summaryExpanded, setSummaryExpanded] = useState(false);
+  // Payment mode dari admin settings. Default 'gateway' sampai load selesai
+  // (supaya flow lama tetap jalan kalau API /payment-mode error).
+  const [paymentMode, setPaymentMode] = useState<"gateway" | "manual">("gateway");
+  const [modeLoaded, setModeLoaded] = useState(false);
 
-  // Load Midtrans Snap script
+  // Fetch payment mode dari admin settings saat mount.
+  // Default 'gateway' sampai load selesai (graceful fallback).
   useEffect(() => {
+    let cancelled = false;
+    fetch("/api/storefront/payment-mode")
+      .then((r) => (r.ok ? r.json() : { mode: "gateway" }))
+      .then((data: { mode?: string }) => {
+        if (cancelled) return;
+        if (data.mode === "manual" || data.mode === "gateway") {
+          setPaymentMode(data.mode);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setPaymentMode("gateway");
+      })
+      .finally(() => {
+        if (!cancelled) setModeLoaded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Load Midtrans Snap script (hanya kalau mode = gateway)
+  useEffect(() => {
+    if (paymentMode !== "gateway") return;
     if (!MIDTRANS_CLIENT_KEY) return;
     if (document.getElementById("midtrans-snap")) return;
     const script = document.createElement("script");
@@ -93,7 +121,7 @@ export default function CheckoutPage() {
     return () => {
       // cleanup not removing script to avoid snap removal issues
     };
-  }, []);
+  }, [paymentMode]);
 
   if (items.length === 0) {
     return (
@@ -149,6 +177,26 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
+      // Branching: mode manual -> POST ke /api/orders/create-manual,
+      // mode gateway -> flow Midtrans Snap yang sudah ada.
+      if (paymentMode === "manual") {
+        const res = await fetch("/api/orders/create-manual", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ customer: form, items }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setErrorMsg(data.error || "Terjadi kesalahan saat membuat pesanan.");
+          setLoading(false);
+          return;
+        }
+        clearCart();
+        router.push(`/payment/pending?order_id=${data.orderId}`);
+        return;
+      }
+
+      // Mode gateway -> Midtrans Snap (existing flow)
       const res = await fetch("/api/midtrans/create-transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
