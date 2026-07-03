@@ -124,6 +124,37 @@ export async function getProductBySlug(
 }
 
 /**
+ * Fetch satu produk by ID (UUID). Untuk lookup dari cart/checkout.
+ */
+export async function getProductById(
+  id: string,
+): Promise<ProductWithRelations | null> {
+  if (!isSupabaseConfigured()) {
+    const all = mapLegacyProducts();
+    return all.find((p) => p.id === id) ?? null;
+  }
+
+  try {
+    const supabase = createAdminClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from("products")
+      .select("*, category:categories(*), images:product_images(*)")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (error) {
+      console.warn("[storefront] getProductById error:", error.message);
+      return null;
+    }
+    return (data as ProductWithRelations | null) ?? null;
+  } catch (err) {
+    console.warn("[storefront] getProductById exception:", err);
+    return null;
+  }
+}
+
+/**
  * Fetch semua promotions aktif dari Supabase.
  */
 export async function getPromotions(): Promise<Promotion[]> {

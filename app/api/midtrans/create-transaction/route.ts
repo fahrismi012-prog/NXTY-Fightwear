@@ -1,16 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import midtransClient from "midtrans-client";
-import productsData from "@/data/products.json";
-import type { CartItem, Customer, Product } from "@/types";
+import type { CartItem, Customer } from "@/types";
+import { getProductById } from "@/lib/storefront/products";
 
 interface RequestBody {
   customer: Customer;
   items: CartItem[];
-}
-
-function getProductById(id: string): Product | undefined {
-  return productsData.products.find((p) => p.id === id);
 }
 
 export async function POST(request: NextRequest) {
@@ -57,7 +53,7 @@ export async function POST(request: NextRequest) {
     let grossAmount = 0;
 
     for (const cartItem of body.items) {
-      const product = getProductById(cartItem.productId);
+      const product = await getProductById(cartItem.productId);
       if (!product) {
         return NextResponse.json(
           { error: `Produk tidak ditemukan: ${cartItem.productId}` },
