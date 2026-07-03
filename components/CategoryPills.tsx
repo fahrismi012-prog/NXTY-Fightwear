@@ -2,16 +2,6 @@
 
 import { cn } from "@/lib/utils";
 
-// Icon mapping per kategori
-const CATEGORY_ICONS: Record<string, string> = {
-  "Pencak Silat": "🥋",
-  "Taekwondo":    "🦵",
-  "Karate":       "✊",
-  "Muaythai":     "🥊",
-  "Boxing":       "🥊",
-  "Matras":       "🟩",
-};
-
 interface CategoryPillsProps {
   categories: string[];
   activeCategory: string | null;
@@ -39,7 +29,6 @@ export default function CategoryPills({
               : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
           )}
         >
-          <span className="text-xl leading-none">🛒</span>
           <span className="text-[11px] font-semibold leading-tight text-center">
             Semua
           </span>
@@ -59,9 +48,6 @@ export default function CategoryPills({
                 : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
             )}
           >
-            <span className="text-xl leading-none">
-              {CATEGORY_ICONS[cat] ?? "📦"}
-            </span>
             <span className="text-[11px] font-semibold leading-tight text-center line-clamp-2">
               {cat}
             </span>
