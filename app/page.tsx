@@ -1,15 +1,16 @@
-"use client";
-
-import { Suspense, useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import productsData from "@/data/products.json";
-import type { Product } from "@/types";
+import { Suspense } from "react";
 import BrandIntroSection from "@/components/BrandIntroSection";
-import CategoryPills from "@/components/CategoryPills";
-import ProductGrid from "@/components/ProductGrid";
 import ScrollToTop from "@/components/ScrollToTop";
-import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import ProductList from "./_components/ProductList";
+import { getProducts, getPromotions } from "@/lib/storefront/products";
+import type { ProductWithRelations } from "@/types/database";
+import type { Product as LegacyProduct } from "@/types";
+
+// ISR: re-fetch data setiap 60 detik di Vercel. Perubahan admin di Supabase
+// akan ter-reflect di website maksimal 60 detik kemudian (bisa di-tune).
+// Set ke 0 untuk selalu fresh (cost lebih tinggi). Set ke `false` untuk
+// pure static (data hanya berubah saat redeploy).
+export const revalidate = 60;
 
 const PROMO_MARQUEE = [
   "Premium Gear",
@@ -30,53 +31,63 @@ const PRIORITY_CATEGORIES = [
   "Matras",
 ];
 
-export default function Home() {
-  return (
-    <Suspense fallback={null}>
-      <HomeContent />
-    </Suspense>
-  );
+interface PageProps {
+  searchParams: Promise<{
+    category?: string;
+    q?: string;
+  }>;
 }
 
-function HomeContent() {
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const category = params?.category ?? null;
+  const q = params?.q ?? "";
 
-  useEffect(() => {
-    const q = searchParams?.get("q") ?? "";
-    const cat = searchParams?.get("category");
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- pattern valid untuk sync URL params (external state) ke local state
-    setSearchQuery(q);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- pattern valid untuk sync URL params (external state) ke local state
-    setActiveCategory(cat || null);
-  }, [searchParams]);
+  // Fetch dari Supabase (atau fallback ke JSON kalau env belum diset).
+  // getProducts() sudah cache-aware via Next.js fetch cache + revalidate.
+  const [allProducts, promotions] = await Promise.all([
+    getProducts(),
+    getPromotions(),
+  ]);
 
-  const categories = useMemo(() => {
-    const set = new Set(productsData.products.map((p) => p.category));
-    const all = Array.from(set);
-    // Tampilkan priority categories duluan dalam urutan yang ditentukan,
-    // lalu sisanya alfabet
-    const rest = all.filter((c) => !PRIORITY_CATEGORIES.includes(c)).sort();
-    return [...PRIORITY_CATEGORIES, ...rest];
-  }, []);
-
-  const filteredProducts = useMemo<Product[]>(() => {
-    let result = productsData.products;
-    if (activeCategory) {
-      result = result.filter((p) => p.category === activeCategory);
+  // Extract unique categories dari produk
+  const categoryMap = new Map<string, { name: string; slug: string }>();
+  for (const p of allProducts) {
+    if (p.category && !categoryMap.has(p.category.slug)) {
+      categoryMap.set(p.category.slug, {
+        name: p.category.name,
+        slug: p.category.slug,
+      });
     }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
-      );
-    }
-    return result;
-  }, [searchQuery, activeCategory]);
+  }
+  const allCategories = Array.from(categoryMap.values());
+
+  // Priority order: tampilkan priority duluan dalam urutan yang ditentukan,
+  // lalu sisanya alfabet
+  const priorityCats = PRIORITY_CATEGORIES.map((name) =>
+    allCategories.find((c) => c.name === name),
+  ).filter((c): c is { name: string; slug: string } => Boolean(c));
+  const restCats = allCategories
+    .filter((c) => !PRIORITY_CATEGORIES.includes(c.name))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const categories = [...priorityCats, ...restCats];
+
+  // Filter di server
+  let products: ProductWithRelations[] = allProducts;
+  if (category) {
+    products = products.filter(
+      (p) => p.category?.slug === category || p.category?.name === category,
+    );
+  }
+  if (q.trim()) {
+    const lower = q.toLowerCase();
+    products = products.filter(
+      (p) =>
+        p.name.toLowerCase().includes(lower) ||
+        p.category?.name.toLowerCase().includes(lower) ||
+        p.description?.toLowerCase().includes(lower),
+    );
+  }
 
   return (
     <div className="min-h-screen bg-canvas">
@@ -105,49 +116,37 @@ function HomeContent() {
         </div>
       </div>
 
-      <main id="catalog" className="pb-20 md:pb-12">
-        <div className="max-w-7xl mx-auto px-4 pt-8 space-y-10">
-
-          {/* Section header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-border-subtle">
-            <div>
-              <Eyebrow color="red" className="mb-1">
-                Katalog
-              </Eyebrow>
-              <h2 className="text-heading-1 font-bold text-text-primary">
-                {activeCategory || "Semua Produk"}
-              </h2>
-              <p className="text-body-sm text-text-muted mt-1">
-                {filteredProducts.length} produk ditemukan
-              </p>
-            </div>
-            {(searchQuery || activeCategory) && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setSearchQuery("");
-                  setActiveCategory(null);
-                }}
-              >
-                Atur Ulang
-              </Button>
-            )}
-          </div>
-
-          {/* Category pills */}
-          <section>
-            <CategoryPills
-              categories={categories}
-              activeCategory={activeCategory}
-              onSelect={setActiveCategory}
-            />
-          </section>
-
-          {/* Product grid */}
-          <ProductGrid products={filteredProducts} />
-        </div>
-      </main>
+      <Suspense fallback={null}>
+        <ProductList
+          products={toLegacyProducts(products)}
+          categories={categories}
+          initialCategory={category}
+          initialQuery={q}
+          promotions={promotions}
+        />
+      </Suspense>
     </div>
   );
+}
+
+// Map ProductWithRelations (Supabase shape) ke legacy Product (yang dipakai
+// ProductGrid/ProductCard saat ini). Bisa dihapus setelah ProductGrid
+// di-refactor untuk terima shape baru langsung.
+function toLegacyProducts(items: ProductWithRelations[]): LegacyProduct[] {
+  return items.map((p) => ({
+    id: p.id,
+    name: p.name,
+    slug: p.slug,
+    category: p.category?.name ?? "",
+    description: p.description ?? "",
+    price: p.price,
+    originalPrice: p.original_price ?? undefined,
+    sizes: p.sizes ?? [],
+    colors: p.colors ?? [],
+    images: (p.images ?? []).map((img) => img.url).filter(Boolean),
+    rating: p.rating ?? 0,
+    reviewsCount: p.reviews_count ?? 0,
+    featured: p.featured,
+    inStock: p.in_stock,
+  }));
 }
