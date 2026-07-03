@@ -57,7 +57,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#1b4332] text-white">
+    <footer className="bg-brand-black text-white">
 
       {/* 1. Newsletter */}
       <div className="border-b border-white/10">
