@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
 import { createShipment, EverproError } from "@/lib/shipping/everpro";
 import type { Order, OrderShipping, OrderStatus } from "@/types/database";
+import { getShippingMode } from "@/lib/storefront/settings";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,6 +47,9 @@ interface GenerateAwbBody {
 export async function POST(req: NextRequest) {
   const auth = await requireAuth();
   if (auth) return auth;
+  if ((await getShippingMode()) !== "auto") {
+    return NextResponse.json({ error: "Pengiriman otomatis sedang tidak aktif" }, { status: 409 });
+  }
 
   let body: GenerateAwbBody;
   try {
@@ -139,7 +143,8 @@ export async function POST(req: NextRequest) {
       destination: body.destination!,
       weight: body.weight!,
       courier: body.courier!,
-      service: body.service!,
+      service: (existingShipping as OrderShipping & { rateCode?: string }).rateCode ?? body.service!,
+      shipment_price: existingShipping.cost ?? order.shipping_cost ?? 0,
       recipient_name: body.recipient_name!,
       recipient_phone: body.recipient_phone!,
       recipient_address: body.recipient_address!,
@@ -167,7 +172,7 @@ export async function POST(req: NextRequest) {
     ...existingShipping,
     courier: result.courier,
     service: result.service,
-    waybill: result.waybill,
+    waybill: result.waybill || existingShipping.waybill,
     etd: result.etd || existingShipping.etd,
   };
 
@@ -175,7 +180,7 @@ export async function POST(req: NextRequest) {
     .from("orders")
     .update({
       shipping: nextShipping,
-      status: "shipped",
+      status: result.waybill ? "shipped" : "processed",
     })
     .eq("id", orderId)
     .select()

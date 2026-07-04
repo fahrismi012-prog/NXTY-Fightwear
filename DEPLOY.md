@@ -61,7 +61,10 @@ ADMIN_JWT_SECRET=random-secret-string-min-32-characters-long
 # === Everpro (Opsional) ===
 # Daftar di everpro.id, copy API key dari dashboard
 EVERPRO_API_KEY=
-EVERPRO_BASE_URL=https://api.everpro.id
+EVERPRO_API_SECRET=
+EVERPRO_CALLBACK_SECRET=
+EVERPRO_BASE_URL=https://client-api-sandbox.everpro.id
+CREDENTIALS_ENCRYPTION_KEY=
 
 # === App URL (setelah deploy) ===
 NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
@@ -196,6 +199,12 @@ Update juga `NEXT_PUBLIC_APP_URL` di Vercel ke domain custom.
 - [ ] **Test Checkout Flow**: Tambah produk ke cart → checkout → verifikasi order masuk ke Supabase
 - [ ] **Test Image Upload**: Di admin, tambah produk baru dengan upload gambar, verifikasi gambar muncul di storefront
 - [ ] **Setup Midtrans**: Update env vars Midtrans (`MIDTRANS_SERVER_KEY`, `MIDTRANS_CLIENT_KEY`) di Vercel untuk payment gateway real
+- [ ] Jalankan migration `supabase/migrations/2026-07-04-integration-credentials.sql`
+- [ ] Set `CREDENTIALS_ENCRYPTION_KEY` (32+ karakter), lalu isi credential melalui `/admin/settings`
+- [ ] Midtrans Payment Notification URL: `https://DOMAIN/api/midtrans/notification`
+- [ ] Everpro Tracking Callback URL: `https://DOMAIN/api/everpro/tracking-callback`
+- [ ] Isi Callback Secret Everpro yang sama dengan header `x-everpro-key`
+- [ ] Uji sandbox end-to-end sebelum mengubah environment integrasi menjadi Production
 - [ ] **Setup Email Templates**: Customize email templates di Supabase (Authentication → Email Templates) untuk branding
 
 ---

@@ -114,7 +114,6 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   // Fetch signed URL untuk payment proof (private storage bucket)
   useEffect(() => {
     if (!order.payment_proof_url) {
-      setProofSignedUrl(null);
       return;
     }
     let cancelled = false;

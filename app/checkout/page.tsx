@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronLeft, CreditCard, Loader2, AlertCircle, Shield, RotateCcw, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronLeft, CreditCard, AlertCircle, Shield, RotateCcw, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { PriceTag } from "@/components/ui/PriceTag";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +19,8 @@ interface FormData {
   phone: string;
   address: string;
   city: string;
+  province: string;
+  postalCode: string;
   notes: string;
 }
 
@@ -28,6 +30,17 @@ interface FormErrors {
   phone?: string;
   address?: string;
   city?: string;
+  province?: string;
+  postalCode?: string;
+}
+
+interface ShippingRate {
+  courier: string;
+  service: string;
+  cost: number;
+  etd: string;
+  rateCode?: string;
+  weight?: number;
 }
 
 function validateEmail(email: string): boolean {
@@ -54,7 +67,6 @@ declare global {
   }
 }
 
-const MIDTRANS_CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 // Trust items untuk checkout
@@ -73,6 +85,8 @@ export default function CheckoutPage() {
     phone: "",
     address: "",
     city: "",
+    province: "",
+    postalCode: "",
     notes: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -83,6 +97,36 @@ export default function CheckoutPage() {
   // (supaya flow lama tetap jalan kalau API /payment-mode error).
   const [paymentMode, setPaymentMode] = useState<"gateway" | "manual">("gateway");
   const [modeLoaded, setModeLoaded] = useState(false);
+  const [midtransConfig, setMidtransConfig] = useState({ clientKey: "", environment: "sandbox" });
+  const [shippingMode, setShippingMode] = useState<"auto" | "manual">("manual");
+  const [manualShippingFee, setManualShippingFee] = useState(0);
+  const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
+  const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
+  const [ratesLoading, setRatesLoading] = useState(false);
+  const shippingCost = shippingMode === "auto" ? (selectedRate?.cost ?? 0) : manualShippingFee;
+  const checkoutTotal = totalPrice + shippingCost;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/customer/checkout-profile", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (cancelled || !data?.authenticated) return;
+        const address = data.address;
+        setForm((current) => ({
+          ...current,
+          name: address?.recipient_name || data.profile?.fullName || current.name,
+          email: data.profile?.email || current.email,
+          phone: address?.phone || data.profile?.phone || current.phone,
+          address: address?.street || current.address,
+          city: address?.city || current.city,
+          province: address?.province || current.province,
+          postalCode: address?.postal_code || current.postalCode,
+        }));
+      })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, []);
 
   // Fetch payment mode dari admin settings saat mount.
   // Default 'gateway' sampai load selesai (graceful fallback).
@@ -90,11 +134,17 @@ export default function CheckoutPage() {
     let cancelled = false;
     fetch("/api/storefront/payment-mode")
       .then((r) => (r.ok ? r.json() : { mode: "gateway" }))
-      .then((data: { mode?: string }) => {
+      .then((data: { mode?: string; shippingMode?: string; shippingManualFee?: number; midtrans?: { clientKey?: string; environment?: string } }) => {
         if (cancelled) return;
         if (data.mode === "manual" || data.mode === "gateway") {
           setPaymentMode(data.mode);
         }
+        setMidtransConfig({
+          clientKey: data.midtrans?.clientKey ?? "",
+          environment: data.midtrans?.environment ?? "sandbox",
+        });
+        setShippingMode(data.shippingMode === "auto" ? "auto" : "manual");
+        setManualShippingFee(Number(data.shippingManualFee) || 0);
       })
       .catch(() => {
         if (!cancelled) setPaymentMode("gateway");
@@ -110,18 +160,20 @@ export default function CheckoutPage() {
   // Load Midtrans Snap script (hanya kalau mode = gateway)
   useEffect(() => {
     if (paymentMode !== "gateway") return;
-    if (!MIDTRANS_CLIENT_KEY) return;
+    if (!midtransConfig.clientKey) return;
     if (document.getElementById("midtrans-snap")) return;
     const script = document.createElement("script");
     script.id = "midtrans-snap";
-    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
-    script.setAttribute("data-client-key", MIDTRANS_CLIENT_KEY);
+    script.src = midtransConfig.environment === "production"
+      ? "https://app.midtrans.com/snap/snap.js"
+      : "https://app.sandbox.midtrans.com/snap/snap.js";
+    script.setAttribute("data-client-key", midtransConfig.clientKey);
     script.async = true;
     document.body.appendChild(script);
     return () => {
       // cleanup not removing script to avoid snap removal issues
     };
-  }, [paymentMode]);
+  }, [paymentMode, midtransConfig]);
 
   if (items.length === 0) {
     return (
@@ -159,8 +211,40 @@ export default function CheckoutPage() {
     }
     if (!form.address.trim()) newErrors.address = "Alamat wajib diisi";
     if (!form.city.trim()) newErrors.city = "Kota wajib diisi";
+    if (!form.province.trim()) newErrors.province = "Provinsi wajib diisi";
+    if (!form.postalCode.trim()) newErrors.postalCode = "Kode pos wajib diisi";
+    if (shippingMode === "auto" && !selectedRate) {
+      setErrorMsg("Pilih layanan pengiriman terlebih dahulu.");
+    }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0 && (shippingMode !== "auto" || Boolean(selectedRate));
+  };
+
+  const loadShippingRates = async () => {
+    if (!form.postalCode.trim()) {
+      setErrors((current) => ({ ...current, postalCode: "Kode pos wajib diisi" }));
+      return;
+    }
+    setRatesLoading(true);
+    setErrorMsg("");
+    setSelectedRate(null);
+    try {
+      const response = await fetch("/api/shipping/rates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ destination: form.postalCode.trim(), items }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Gagal menghitung ongkir");
+      const rates = (data.rates ?? []).map((rate: ShippingRate) => ({ ...rate, weight: data.weight }));
+      setShippingRates(rates);
+      if (rates.length === 0) setErrorMsg("Layanan pengiriman tidak tersedia untuk alamat ini.");
+    } catch (error) {
+      setShippingRates([]);
+      setErrorMsg(error instanceof Error ? error.message : "Gagal menghitung ongkir");
+    } finally {
+      setRatesLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -177,13 +261,17 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
+      if (!modeLoaded) {
+        setErrorMsg("Konfigurasi pembayaran masih dimuat. Coba lagi.");
+        return;
+      }
       // Branching: mode manual -> POST ke /api/orders/create-manual,
       // mode gateway -> flow Midtrans Snap yang sudah ada.
       if (paymentMode === "manual") {
         const res = await fetch("/api/orders/create-manual", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ customer: form, items }),
+          body: JSON.stringify({ customer: form, items, shipping: selectedRate }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -203,6 +291,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           customer: form,
           items: items,
+          shipping: selectedRate,
         }),
       });
 
@@ -275,7 +364,7 @@ export default function CheckoutPage() {
             <h2 className="text-body font-semibold text-text-primary">Ringkasan Pesanan</h2>
             <div className="flex items-center gap-2">
               <span className="text-body-sm text-text-muted">
-                {items.length} item · <PriceTag price={totalPrice} size="md" />
+                {items.length} item · <PriceTag price={checkoutTotal} size="md" />
               </span>
               <span className="md:hidden text-text-muted">
                 {summaryExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -310,7 +399,7 @@ export default function CheckoutPage() {
             </div>
             <div className="border-t border-border-subtle mt-4 pt-4 flex items-center justify-between">
               <span className="text-body font-medium text-text-secondary">Total</span>
-              <PriceTag price={totalPrice} size="lg" />
+              <PriceTag price={checkoutTotal} size="lg" />
             </div>
           </div>
         </Card>
@@ -352,6 +441,28 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          <div>
+            <p className="text-heading-3 font-semibold text-text-primary mb-4">Pengiriman</p>
+            {shippingMode === "manual" ? (
+              <div className="rounded-subtle border border-border-subtle bg-surface-1 p-4 text-sm">
+                Ongkir tetap: <strong>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(manualShippingFee)}</strong>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <Button type="button" variant="secondary" onClick={loadShippingRates} loading={ratesLoading}>
+                  Cek Ongkos Kirim
+                </Button>
+                {shippingRates.map((rate) => (
+                  <label key={`${rate.courier}-${rate.service}`} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-subtle border p-3 ${selectedRate?.courier === rate.courier && selectedRate?.service === rate.service ? "border-brand-black bg-surface-2" : "border-border-subtle bg-surface-1"}`}>
+                    <input type="radio" name="shipping-rate" checked={selectedRate?.courier === rate.courier && selectedRate?.service === rate.service} onChange={() => setSelectedRate(rate)} />
+                    <span className="flex-1 text-sm font-bold">{rate.courier} {rate.service}<span className="block text-xs font-normal text-text-muted">Estimasi {rate.etd || "-"} hari</span></span>
+                    <strong className="text-sm">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(rate.cost)}</strong>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Section: Alamat Pengiriman */}
           <div>
             <p className="text-heading-3 font-semibold text-text-primary mb-4">Alamat Pengiriman</p>
@@ -373,6 +484,25 @@ export default function CheckoutPage() {
                 placeholder="Jakarta Selatan"
                 error={errors.city}
               />
+              <div className="grid grid-cols-2 gap-3">
+                <Input
+                  label="Provinsi"
+                  name="province"
+                  value={form.province}
+                  onChange={handleChange}
+                  placeholder="Jawa Barat"
+                  error={errors.province}
+                />
+                <Input
+                  label="Kode Pos"
+                  name="postalCode"
+                  inputMode="numeric"
+                  value={form.postalCode}
+                  onChange={handleChange}
+                  placeholder="40123"
+                  error={errors.postalCode}
+                />
+              </div>
             </div>
           </div>
 
@@ -422,7 +552,7 @@ export default function CheckoutPage() {
         <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
             <p className="text-caption text-text-muted">Total</p>
-            <PriceTag price={totalPrice} size="md" />
+            <PriceTag price={checkoutTotal} size="md" />
           </div>
           <Button
             type="submit"

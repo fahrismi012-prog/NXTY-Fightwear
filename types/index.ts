@@ -67,6 +67,8 @@ export interface Customer {
   phone: string;
   address: string;
   city: string;
+  province?: string;
+  postalCode?: string;
   notes?: string;
 }
 

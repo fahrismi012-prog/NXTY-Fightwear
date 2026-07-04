@@ -64,7 +64,12 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
       }
 
       if (mode === "create") {
-        const { error } = await supabase.from("customer_addresses").insert({
+        const { count } = await supabase
+          .from("customer_addresses")
+          .select("id", { count: "exact", head: true })
+          .eq("customer_id", user.id);
+        const shouldBeDefault = form.is_default || (count ?? 0) === 0;
+        const { data: created, error } = await supabase.from("customer_addresses").insert({
           customer_id: user.id,
           label: form.label,
           recipient_name: form.recipient_name,
@@ -73,9 +78,15 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           city: form.city,
           province: form.province,
           postal_code: form.postal_code,
-          is_default: form.is_default,
-        });
+          is_default: shouldBeDefault,
+        }).select("id").single();
         if (error) throw error;
+        if (shouldBeDefault && created) {
+          await supabase.from("customer_profiles").upsert(
+            { id: user.id, default_address_id: created.id },
+            { onConflict: "id" },
+          );
+        }
       } else {
         const { error } = await supabase
           .from("customer_addresses")
@@ -91,6 +102,12 @@ export function AddressForm({ mode, addressId, initialData }: AddressFormProps) 
           })
           .eq("id", addressId);
         if (error) throw error;
+        if (form.is_default && addressId) {
+          await supabase.from("customer_profiles").upsert(
+            { id: user.id, default_address_id: addressId },
+            { onConflict: "id" },
+          );
+        }
       }
 
       router.push("/akun/alamat");

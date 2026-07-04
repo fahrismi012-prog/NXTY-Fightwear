@@ -17,10 +17,15 @@ export async function GET(request: NextRequest) {
   // Supabase sudah set session cookie via exchangeCodeForSession, jadi user
   // sudah ter-authenticate dan bisa update password di /auth/reset-password.
   // Untuk type lain (magiclink/signup/oauth), default ke /akun.
+  const requestedNext = searchParams.get("next");
+  const safeNext =
+    requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
+      ? requestedNext
+      : "/akun";
   const next =
     type === "recovery"
       ? "/auth/reset-password"
-      : searchParams.get("next") ?? "/akun";
+      : safeNext;
 
   if (code) {
     const cookieStore = await cookies();

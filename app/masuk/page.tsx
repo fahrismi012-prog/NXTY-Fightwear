@@ -8,7 +8,6 @@ import {
   Lock,
   Eye,
   EyeOff,
-  KeyRound,
   Loader2,
 } from "lucide-react";
 import {
@@ -25,6 +24,13 @@ type OtpMode = "link" | "code";
 type Step = "input" | "verify" | "sent";
 
 export default function MasukPage() {
+  const nextPath = (() => {
+    if (typeof window === "undefined") return "/akun";
+    const requested = new URLSearchParams(window.location.search).get("next");
+    return requested?.startsWith("/") && !requested.startsWith("//")
+      ? requested
+      : "/akun";
+  })();
   // Mode utama: Password (default) atau OTP/magic link
   const [authMode, setAuthMode] = useState<AuthMode>("password");
   // Sub-mode untuk password: login, signup, forgot
@@ -74,7 +80,7 @@ export default function MasukPage() {
     try {
       await signInWithPassword(email, password);
       // Login berhasil, redirect ke /akun
-      window.location.href = "/akun";
+      window.location.href = nextPath;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal masuk";
       // Friendly error untuk user not found / wrong password
@@ -113,6 +119,7 @@ export default function MasukPage() {
       const { needsEmailConfirmation } = await signUpWithPassword(
         email,
         password,
+        nextPath,
       );
       if (needsEmailConfirmation) {
         setInfo(
@@ -121,7 +128,7 @@ export default function MasukPage() {
         setStep("sent");
       } else {
         // Auto-login (kalau email confirmation disabled)
-        window.location.href = "/akun";
+        window.location.href = nextPath;
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal daftar";
@@ -168,7 +175,7 @@ export default function MasukPage() {
     }
     setLoading(true);
     try {
-      await signInWithEmail(email, otpMode === "code");
+      await signInWithEmail(email, otpMode === "code", nextPath);
       setStep("sent");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Gagal mengirim OTP/link");
@@ -187,7 +194,7 @@ export default function MasukPage() {
     setLoading(true);
     try {
       await verifyOtp(email, otp);
-      window.location.href = "/akun";
+      window.location.href = nextPath;
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Kode salah atau kadaluarsa");
     } finally {

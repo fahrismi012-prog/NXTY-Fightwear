@@ -94,6 +94,8 @@ export interface OrderShipping {
   etd?: string;
   weight?: number;
   cost?: number;
+  rateCode?: string;
+  trackingCode?: string;
 }
 
 export interface Order {

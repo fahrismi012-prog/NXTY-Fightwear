@@ -8,13 +8,14 @@ import type { User } from "@supabase/supabase-js";
  */
 export async function signInWithEmail(
   email: string,
-  useOtp: boolean = false
+  useOtp: boolean = false,
+  nextPath: string = "/akun",
 ): Promise<void> {
   const supabase = createClient();
   const options = useOtp
     ? { shouldCreateUser: true }
     : {
-        emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback`,
+        emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(nextPath)}`,
         shouldCreateUser: true,
       };
   const { error } = await supabase.auth.signInWithOtp({
@@ -47,13 +48,14 @@ export async function verifyOtp(
 export async function signUpWithPassword(
   email: string,
   password: string,
+  nextPath: string = "/akun",
 ): Promise<{ needsEmailConfirmation: boolean }> {
   const supabase = createClient();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback`,
+      emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(nextPath)}`,
     },
   });
   if (error) throw error;

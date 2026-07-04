@@ -45,18 +45,49 @@ export default async function PesananDetailPage({
     return null;
   }
 
-  const { data: order } = await supabase
+  const { data: candidate } = await supabase
     .from("orders")
     .select("*")
     .eq("id", id)
-    .eq("customer_id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (!order) notFound();
+  const ownsOrder =
+    candidate?.customer_id === user.id ||
+    (!candidate?.customer_id &&
+      Boolean(user.email) &&
+      candidate?.customer_email?.toLowerCase() === user.email.toLowerCase());
+
+  if (!candidate || !ownsOrder) notFound();
+
+  if (!candidate.customer_id) {
+    await supabase.from("orders").update({ customer_id: user.id }).eq("id", id).is("customer_id", null);
+  }
+
+  const order = candidate;
+
+  const address = (() => {
+    if (!order.customer_address) return null;
+    if (typeof order.customer_address === "object") return order.customer_address;
+    try {
+      return JSON.parse(order.customer_address) as Record<string, string>;
+    } catch {
+      return { street: order.customer_address };
+    }
+  })();
+
+  const shipping = order.shipping ?? (
+    order.shipping_manual_carrier || order.shipping_manual_receipt
+      ? {
+          courier: order.shipping_manual_carrier,
+          waybill: order.shipping_manual_receipt,
+          cost: order.shipping_manual_cost,
+        }
+      : null
+  );
 
   const events =
-    order.shipping?.waybill && order.shipping?.courier
-      ? await fetchTracking(order.shipping.waybill, order.shipping.courier)
+    shipping?.waybill && shipping?.courier
+      ? await fetchTracking(shipping.waybill, shipping.courier)
       : [];
 
   return (
@@ -114,7 +145,7 @@ export default async function PesananDetailPage({
       </div>
 
       {/* Shipping info */}
-      {order.shipping && (
+      {shipping && (
         <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
           <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
             Pengiriman
@@ -123,21 +154,21 @@ export default async function PesananDetailPage({
             <div>
               <p className="text-neutral-500 mb-0.5">Kurir</p>
               <p className="text-text-primary font-bold">
-                {order.shipping.courier?.toUpperCase()} {order.shipping.service}
+                {shipping.courier?.toUpperCase()} {shipping.service}
               </p>
             </div>
-            {order.shipping.waybill && (
+            {shipping.waybill && (
               <div>
                 <p className="text-neutral-500 mb-0.5">No. Resi</p>
                 <p className="text-text-primary font-mono font-bold">
-                  {order.shipping.waybill}
+                  {shipping.waybill}
                 </p>
               </div>
             )}
-            {order.shipping.etd && (
+            {shipping.etd && (
               <div>
                 <p className="text-neutral-500 mb-0.5">Estimasi</p>
-                <p className="text-text-primary font-bold">{order.shipping.etd} hari</p>
+                <p className="text-text-primary font-bold">{shipping.etd} hari</p>
               </div>
             )}
             <div>
@@ -161,7 +192,7 @@ export default async function PesananDetailPage({
       )}
 
       {/* Address */}
-      {order.customer_address && (
+      {address && (
         <div className="bg-surface-1 border-2 border-border-subtle p-4 mb-3">
           <div className="flex items-center gap-2 mb-2">
             <MapPin className="w-4 h-4 text-brand-black" />
@@ -171,11 +202,10 @@ export default async function PesananDetailPage({
           </div>
           <p className="text-sm font-bold text-text-primary">{order.customer_name}</p>
           <p className="text-xs text-text-muted mt-1">
-            {order.customer_address.phone}
+            {address.phone || order.customer_phone}
           </p>
           <p className="text-xs text-text-muted mt-1">
-            {order.customer_address.street}, {order.customer_address.city},{" "}
-            {order.customer_address.province} {order.customer_address.postal_code}
+            {address.street}, {address.city}, {address.province} {address.postal_code}
           </p>
         </div>
       )}

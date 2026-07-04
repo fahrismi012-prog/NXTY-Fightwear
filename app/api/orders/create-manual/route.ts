@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getProductById } from "@/lib/storefront/products";
-import { getActiveBankAccounts, getShippingManualFee } from "@/lib/storefront/settings";
+import { getActiveBankAccounts, getShippingManualFee, getShippingMode } from "@/lib/storefront/settings";
 import type { CartItem, Customer } from "@/types";
+import { getRates } from "@/lib/shipping/everpro";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +12,7 @@ export const dynamic = "force-dynamic";
 interface RequestBody {
   customer: Customer;
   items: CartItem[];
+  shipping?: { courier: string; service: string; rateCode?: string; cost: number; etd?: string } | null;
 }
 
 /**
@@ -73,6 +75,7 @@ export async function POST(request: NextRequest) {
   }> = [];
 
   let subtotal = 0;
+  let totalWeight = 0;
   for (const ci of body.items) {
     const product = await getProductById(ci.productId);
     if (!product) {
@@ -83,6 +86,7 @@ export async function POST(request: NextRequest) {
     }
     const qty = Math.max(1, Math.floor(ci.quantity || 1));
     subtotal += product.price * qty;
+    totalWeight += Math.max(1, product.weight_grams || 500) * qty;
     validatedItems.push({
       productId: product.id,
       name: product.name,
@@ -109,7 +113,27 @@ export async function POST(request: NextRequest) {
   const primaryBank = bankAccounts[0];
 
   // Hitung shipping cost (untuk mode manual, fixed fee; tapi admin bisa adjust)
-  const shippingFee = await getShippingManualFee();
+  const shippingMode = await getShippingMode();
+  let shippingFee = await getShippingManualFee();
+  let shipping: Record<string, unknown> | null = null;
+  if (shippingMode === "auto") {
+    if (!body.shipping?.courier || !body.shipping.service || !customer.postalCode) {
+      return NextResponse.json({ error: "Layanan pengiriman wajib dipilih" }, { status: 400 });
+    }
+    const rates = await getRates({
+      origin: "",
+      destination: customer.postalCode,
+      weight: totalWeight,
+      courier: body.shipping.courier,
+    });
+    const selected = rates.find((rate) =>
+      rate.courier.toLowerCase() === body.shipping!.courier.toLowerCase() &&
+      (rate.rateCode === body.shipping!.rateCode || rate.service === body.shipping!.service),
+    );
+    if (!selected) return NextResponse.json({ error: "Tarif pengiriman sudah tidak tersedia" }, { status: 409 });
+    shippingFee = selected.cost;
+    shipping = { ...selected, weight: totalWeight };
+  }
   const total = subtotal + shippingFee;
 
   // Payment expires at = now + expire hours dari setting
@@ -133,8 +157,8 @@ export async function POST(request: NextRequest) {
     phone: customer.phone,
     street: customer.address,
     city: customer.city,
-    province: "", // belum dikumpulkan di form checkout
-    postal_code: "",
+    province: customer.province ?? "",
+    postal_code: customer.postalCode ?? "",
   });
 
   const { data: order, error } = await supabase
@@ -152,7 +176,7 @@ export async function POST(request: NextRequest) {
       total,
       status: "awaiting_payment",
       items: validatedItems,
-      shipping: null,
+      shipping,
       payment_id: null,
       payment_method: "manual",
       payment_proof_url: null,
@@ -161,9 +185,9 @@ export async function POST(request: NextRequest) {
       payment_confirmed_by: null,
       payment_rejection_reason: null,
       bank_account_id: primaryBank.id,
-      shipping_method_used: "manual",
+      shipping_method_used: shippingMode,
       shipping_manual_carrier: null,
-      shipping_manual_cost: shippingFee,
+      shipping_manual_cost: shippingMode === "manual" ? shippingFee : null,
       shipping_manual_receipt: null,
       shipping_manual_receipt_url: null,
     })

@@ -2,6 +2,7 @@ import { Settings as SettingsIcon, Info } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/server";
 import SettingsForm from "./SettingsForm";
 import BankAccountsManager from "./BankAccountsManager";
+import IntegrationSettings from "./IntegrationSettings";
 
 export const dynamic = "force-dynamic";
 
@@ -120,6 +121,8 @@ export default async function AdminSettingsPage() {
         initialShippingManualFee={shippingManualFee}
         initialPaymentManualExpireHours={paymentManualExpireHours}
       />
+
+      <IntegrationSettings />
 
       {/* Bank accounts manager */}
       <div className="mt-8">

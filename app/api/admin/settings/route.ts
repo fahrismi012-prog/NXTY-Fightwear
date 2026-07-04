@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { getIntegrationCredential } from "@/lib/integrations/credentials";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -109,6 +110,25 @@ export async function PUT(request: NextRequest) {
 
   if (updates.length === 0) {
     return NextResponse.json({ error: "Body kosong" }, { status: 400 });
+  }
+
+  if (updates.some((item) => item.key === "payment_mode" && item.value === "gateway")) {
+    const credential = await getIntegrationCredential("midtrans");
+    if (!credential.secrets.serverKey || !credential.publicConfig.clientKey) {
+      return NextResponse.json(
+        { error: "Simpan Client Key dan Server Key Midtrans sebelum mengaktifkan mode otomatis" },
+        { status: 409 },
+      );
+    }
+  }
+  if (updates.some((item) => item.key === "shipping_mode" && item.value === "auto")) {
+    const credential = await getIntegrationCredential("everpro");
+    if (!credential.secrets.clientKey || !credential.secrets.clientSecret) {
+      return NextResponse.json(
+        { error: "Simpan Client Key dan Client Secret Everpro sebelum mengaktifkan shipping otomatis" },
+        { status: 409 },
+      );
+    }
   }
 
   const supabase = createAdminClient();
