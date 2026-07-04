@@ -15,23 +15,22 @@ export default function CategoryPills({
 }: CategoryPillsProps) {
   return (
     <div className="w-full">
-      {/* Grid 3 kolom (mobile) / 6 kolom (sm+) — semua kategori langsung terlihat.
-          Mobile: padding lebih besar supaya kotak lebih visible & tap-friendly.
-          Desktop: padding lebih compact karena grid lebih lebar. */}
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5 sm:gap-2">
+      {/* Grid compact ala quick-category mobile: tetap 3 kolom pada layar
+          kecil agar label 14px terbaca, lalu 6 kolom pada layar lebar. */}
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
         {/* Tombol "Semua" */}
         <button
           onClick={() => onSelect(null)}
           className={cn(
-            "flex flex-col items-center justify-center",
-            "py-4 sm:py-3 px-2 rounded-subtle border transition-all duration-150 min-h-[88px] sm:min-h-[72px]",
+            "flex min-h-[52px] items-center justify-center px-2.5 py-2 sm:min-h-[48px]",
+            "rounded-[6px] border transition-all duration-150",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-1",
             activeCategory === null
               ? "bg-brand-black border-brand-black text-white shadow-[2px_2px_0_black]"
-              : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
+              : "bg-surface-1 border-border-subtle text-brand-black hover:border-brand-black"
           )}
         >
-          <span className="text-[10px] sm:text-[10px] font-semibold leading-tight text-center tracking-wide">
+          <span className="text-center text-sm font-bold leading-[1.2]">
             Semua
           </span>
         </button>
@@ -42,15 +41,15 @@ export default function CategoryPills({
             key={cat}
             onClick={() => onSelect(cat)}
             className={cn(
-              "flex flex-col items-center justify-center",
-              "py-4 sm:py-3 px-2 rounded-subtle border transition-all duration-150 min-h-[88px] sm:min-h-[72px]",
+              "flex min-h-[52px] items-center justify-center px-2.5 py-2 sm:min-h-[48px]",
+              "rounded-[6px] border transition-all duration-150",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-1",
               activeCategory === cat
                 ? "bg-brand-black border-brand-black text-white shadow-[2px_2px_0_black]"
-                : "bg-surface-1 border-border-subtle text-text-secondary hover:border-brand-black hover:text-brand-black"
+                : "bg-surface-1 border-border-subtle text-brand-black hover:border-brand-black"
             )}
           >
-            <span className="text-[10px] font-semibold leading-tight text-center line-clamp-2 tracking-wide px-0.5">
+            <span className="line-clamp-2 break-words text-center text-sm font-bold leading-[1.2]">
               {cat}
             </span>
           </button>
