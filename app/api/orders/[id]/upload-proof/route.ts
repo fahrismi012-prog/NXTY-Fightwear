@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { randomUUID } from "node:crypto";
-import { createClient } from "@/lib/supabase/client";
 import { createAdminClient } from "@/lib/supabase/server";
+import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,18 +31,10 @@ interface RouteContext {
 export async function POST(request: NextRequest, context: RouteContext) {
   const { id } = await context.params;
 
-  // Auth: customer harus login (session cookie ada)
-  const cookieStore = await cookies();
-  const supabaseAuth = createClient();
-  const {
-    data: { user },
-  } = await supabaseAuth.auth.getUser();
-  if (!user) {
-    return NextResponse.json(
-      { error: "Anda harus login untuk upload bukti" },
-      { status: 401 },
-    );
-  }
+  // Auth check (untuk guest order, identifier order_id saja sudah cukup)
+  const user = await getCurrentCustomerUser();
+  // Guest order (customer_id NULL) tidak butuh auth — order_id adalah identifier
+  // Order dengan customer_id butuh login + ownership match
 
   // Validate order
   const supabaseAdmin = createAdminClient();
@@ -64,15 +55,23 @@ export async function POST(request: NextRequest, context: RouteContext) {
     return NextResponse.json({ error: "Pesanan tidak ditemukan" }, { status: 404 });
   }
 
-  // Validasi ownership (kalau ada customer_id) atau email match
-  const isOwner =
-    (order.customer_id && order.customer_id === user.id) ||
-    (order.customer_email && order.customer_email === user.email);
-  if (!isOwner) {
-    return NextResponse.json(
-      { error: "Anda tidak punya akses ke pesanan ini" },
-      { status: 403 },
-    );
+  // Untuk order dengan customer_id (linked user), wajib login + ownership match
+  if (order.customer_id) {
+    if (!user) {
+      return NextResponse.json(
+        { error: "Anda harus login untuk upload bukti pesanan ini" },
+        { status: 401 },
+      );
+    }
+    const isOwner =
+      order.customer_id === user.id ||
+      (order.customer_email && order.customer_email === user.email);
+    if (!isOwner) {
+      return NextResponse.json(
+        { error: "Anda tidak punya akses ke pesanan ini" },
+        { status: 403 },
+      );
+    }
   }
 
   // Validasi payment method

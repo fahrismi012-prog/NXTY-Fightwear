@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { createClient } from "@/lib/supabase/client";
 import { createAdminClient } from "@/lib/supabase/server";
+import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,28 +12,21 @@ interface RouteContext {
 /**
  * GET /api/orders/[id]
  *
- * Customer fetch order detail untuk halaman payment/pending.
+ * Customer fetch order detail untuk halaman payment/pending & lacak.
  *
- * Hanya boleh diakses oleh customer yang order-nya sendiri
- * (verified via session cookie atau email match).
+ * Akses diizinkan untuk:
+ * - Order milik customer yang login (customer_id atau email match)
+ * - Guest order (customer_id IS NULL) — publik, identifier = order_id
+ *
+ * Catatan keamanan: order_id adalah identifier semi-random (timestamp +
+ * random 5 digit), tidak enumerable dengan mudah. Untuk mutate (upload
+ * bukti), butuh verifikasi tambahan (lihat /upload-proof endpoint).
  *
  * Return: order info + bank_account info (kalau payment_method=manual).
  * BUKAN return full proof URL kalau bucket private — admin yang baca.
  */
 export async function GET(_request: NextRequest, context: RouteContext) {
   const { id } = await context.params;
-
-  // Auth: customer harus login
-  const supabaseAuth = createClient();
-  const {
-    data: { user },
-  } = await supabaseAuth.auth.getUser();
-  if (!user) {
-    return NextResponse.json(
-      { error: "Anda harus login untuk melihat pesanan" },
-      { status: 401 },
-    );
-  }
 
   const supabaseAdmin = createAdminClient();
   if (!supabaseAdmin) {
@@ -64,15 +56,25 @@ export async function GET(_request: NextRequest, context: RouteContext) {
     return NextResponse.json({ error: "Pesanan tidak ditemukan" }, { status: 404 });
   }
 
-  // Ownership check
-  const isOwner =
-    (order.customer_id && order.customer_id === user.id) ||
-    (order.customer_email && order.customer_email === user.email);
-  if (!isOwner) {
-    return NextResponse.json(
-      { error: "Anda tidak punya akses ke pesanan ini" },
-      { status: 403 },
-    );
+  // Ownership check (hanya untuk order yang terkait customer_id/login)
+  // Guest orders (customer_id IS NULL) — publik read-only, identifier order_id
+  if (order.customer_id) {
+    const user = await getCurrentCustomerUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Login dulu untuk melihat pesanan Anda" },
+        { status: 401 },
+      );
+    }
+    const isOwner =
+      order.customer_id === user.id ||
+      (order.customer_email && order.customer_email === user.email);
+    if (!isOwner) {
+      return NextResponse.json(
+        { error: "Anda tidak punya akses ke pesanan ini" },
+        { status: 403 },
+      );
+    }
   }
 
   return NextResponse.json({ order });
