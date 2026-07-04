@@ -2,9 +2,10 @@ import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { requireCustomerUser } from "@/lib/supabase/server-auth";
-import Link from "next/link";
-import { User, Package, MapPin, LogOut } from "lucide-react";
+import AccountSidebar from "@/components/customer/AccountSidebar";
 
 export default async function AkunLayout({
   children,
@@ -13,47 +14,38 @@ export default async function AkunLayout({
 }) {
   const user = await requireCustomerUser();
   const userId = user.id;
-  const userEmail = user.email;
+
+  // Fetch profile untuk sidebar (avatar inisial dari nama)
+  const cookieStore = await cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
+  const { data: profile } = await supabase
+    .from("customer_profiles")
+    .select("full_name")
+    .eq("id", userId)
+    .maybeSingle();
 
   return (
     <div className="min-h-screen bg-canvas">
-      <div className="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
-        {/* Sidebar nav (desktop) */}
-        <aside className="md:w-60 shrink-0">
-          <nav className="md:sticky md:top-20 flex md:flex-col gap-2 overflow-x-auto scrollbar-hide">
-            <Link
-              href="/akun"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
-            >
-              <User className="w-3.5 h-3.5 text-brand-black" />
-              Profil
-            </Link>
-            <Link
-              href="/akun/pesanan"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
-            >
-              <Package className="w-3.5 h-3.5 text-brand-black" />
-              Pesanan Saya
-            </Link>
-            <Link
-              href="/akun/alamat"
-              className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-text-primary bg-surface-1 border-2 border-border-subtle hover:border-brand-black min-w-fit"
-            >
-              <MapPin className="w-3.5 h-3.5 text-brand-black" />
-              Alamat Saya
-            </Link>
-            <form action="/api/customer/logout" method="post" className="md:mt-4">
-              <button
-                type="submit"
-                className="flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-brand-black bg-transparent border-2 border-border-subtle hover:border-brand-black hover:bg-brand-black hover:text-text-primary w-full min-w-fit"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-                Logout
-              </button>
-            </form>
-          </nav>
-        </aside>
-
+      <div className="max-w-5xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row gap-4 md:gap-6">
+        <AccountSidebar
+          email={user.email}
+          fullName={profile?.full_name ?? null}
+        />
         <main className="flex-1 min-w-0 pb-12">{children}</main>
       </div>
     </div>
