@@ -188,7 +188,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   // Validasi produk ada
   const { data: existing, error: findError } = await supabase
     .from("products")
-    .select("id")
+    .select("id, price, original_price, in_stock")
     .eq("id", id)
     .maybeSingle();
   if (findError) {
@@ -206,6 +206,29 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       .eq("id", id);
     if (updateError) {
       return NextResponse.json({ error: updateError.message }, { status: 400 });
+    }
+
+    // Catat riwayat perubahan harga/stok (tidak menggagalkan request kalau error)
+    const trackedFields = ["price", "original_price", "in_stock"] as const;
+    const logRows = trackedFields
+      .filter(
+        (field) =>
+          field in update &&
+          update[field] !== (existing as Record<string, unknown>)[field],
+      )
+      .map((field) => ({
+        product_id: id,
+        field,
+        old_value: String((existing as Record<string, unknown>)[field] ?? ""),
+        new_value: String(update[field] ?? ""),
+      }));
+    if (logRows.length > 0) {
+      const { error: logError } = await supabase
+        .from("product_audit_log")
+        .insert(logRows);
+      if (logError) {
+        console.error("[product-audit-log] gagal mencatat riwayat:", logError.message);
+      }
     }
   }
 

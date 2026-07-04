@@ -25,6 +25,34 @@ function normalizeCategory(c: Category | Category[] | null): Category | null {
   return Array.isArray(c) ? (c[0] ?? null) : c;
 }
 
+interface AuditLogRow {
+  id: string;
+  field: "price" | "original_price" | "in_stock";
+  old_value: string | null;
+  new_value: string | null;
+  changed_at: string;
+}
+
+const FIELD_LABELS: Record<AuditLogRow["field"], string> = {
+  price: "Harga",
+  original_price: "Harga Coret",
+  in_stock: "In Stock",
+};
+
+function formatFieldValue(field: AuditLogRow["field"], value: string | null): string {
+  if (value === null || value === "") return "—";
+  if (field === "in_stock") return value === "true" ? "Ya" : "Tidak";
+  const num = Number(value);
+  return Number.isFinite(num) ? `Rp${num.toLocaleString("id-ID")}` : value;
+}
+
+function formatFieldDate(iso: string): string {
+  return new Date(iso).toLocaleString("id-ID", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
+
 function toImageItems(images: ProductImage[] | null): ImageItem[] {
   if (!images) return [];
   return [...images]
@@ -43,7 +71,7 @@ export default async function EditProductPage({ params }: PageProps) {
     return null;
   }
 
-  const [productRes, categoriesRes] = await Promise.all([
+  const [productRes, categoriesRes, historyRes] = await Promise.all([
     supabase
       .from("products")
       .select(
@@ -52,6 +80,12 @@ export default async function EditProductPage({ params }: PageProps) {
       .eq("id", id)
       .maybeSingle(),
     supabase.from("categories").select("id, name, slug").order("name"),
+    supabase
+      .from("product_audit_log")
+      .select("id, field, old_value, new_value, changed_at")
+      .eq("product_id", id)
+      .order("changed_at", { ascending: false })
+      .limit(20),
   ]);
 
   if (productRes.error) {
@@ -91,6 +125,8 @@ export default async function EditProductPage({ params }: PageProps) {
   const categories: CategoryOption[] = (categoriesRes.data ??
     []) as CategoryOption[];
 
+  const history = (historyRes.data ?? []) as AuditLogRow[];
+
   return (
     <div className="p-4 md:p-8 max-w-4xl">
       <Link
@@ -112,6 +148,38 @@ export default async function EditProductPage({ params }: PageProps) {
       </div>
 
       <ProductForm mode="edit" categories={categories} initial={initial} />
+
+      <div className="mt-8 bg-white border-2 border-neutral-800 p-5 md:p-6">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-black mb-4">
+          Riwayat Perubahan Harga &amp; Stok
+        </h2>
+        {history.length === 0 ? (
+          <p className="text-xs text-neutral-500">
+            Belum ada perubahan harga/stok yang tercatat.
+          </p>
+        ) : (
+          <ul className="divide-y divide-neutral-200">
+            {history.map((entry) => (
+              <li
+                key={entry.id}
+                className="py-2.5 flex items-center justify-between gap-3 flex-wrap text-xs"
+              >
+                <span className="font-black uppercase tracking-wide text-black">
+                  {FIELD_LABELS[entry.field]}
+                </span>
+                <span className="text-neutral-600 font-mono">
+                  {formatFieldValue(entry.field, entry.old_value)}
+                  {" → "}
+                  {formatFieldValue(entry.field, entry.new_value)}
+                </span>
+                <span className="text-neutral-400">
+                  {formatFieldDate(entry.changed_at)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
