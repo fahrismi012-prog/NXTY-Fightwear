@@ -12,9 +12,15 @@ import { cookies } from "next/headers";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  // Type bisa 'recovery' (reset password), 'magiclink', 'signup', dll.
-  // Default ke /akun, kecuali recovery -> /akun (user update password di sana nanti).
-  const next = searchParams.get("next") ?? "/akun";
+  const type = searchParams.get("type");
+  // Untuk recovery (reset password flow), redirect ke halaman reset-password.
+  // Supabase sudah set session cookie via exchangeCodeForSession, jadi user
+  // sudah ter-authenticate dan bisa update password di /auth/reset-password.
+  // Untuk type lain (magiclink/signup/oauth), default ke /akun.
+  const next =
+    type === "recovery"
+      ? "/auth/reset-password"
+      : searchParams.get("next") ?? "/akun";
 
   if (code) {
     const cookieStore = await cookies();

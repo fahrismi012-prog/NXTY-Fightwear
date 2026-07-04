@@ -92,6 +92,21 @@ export async function resetPassword(email: string): Promise<void> {
 }
 
 /**
+ * Set password baru untuk user yang sedang login (pakai session aktif).
+ * Dipakai di:
+ * - Halaman reset-password setelah klik link dari email recovery
+ * - Halaman profile (ubah password opsional)
+ *
+ * Syarat: user harus sudah login (session aktif). Kalau reset password
+ * via email link, session sudah di-set otomatis oleh Supabase callback.
+ */
+export async function updatePassword(newPassword: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) throw error;
+}
+
+/**
  * Logout customer.
  */
 export async function signOut(): Promise<void> {
