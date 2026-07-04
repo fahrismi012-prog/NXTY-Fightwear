@@ -12,6 +12,10 @@ import {
   Phone,
   FileText,
   Search,
+  Edit3,
+  Save,
+  Trash2,
+  Settings,
 } from "lucide-react";
 import type { Order, OrderItem, OrderShipping } from "@/types/database";
 import { useToast } from "@/contexts/ToastContext";
@@ -99,6 +103,17 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   const [rejectReason, setRejectReason] = useState("");
   const [rejectingPayment, setRejectingPayment] = useState(false);
   const [proofZoomed, setProofZoomed] = useState(false);
+
+  // Admin order actions state
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [savingShipping, setSavingShipping] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [editShipping, setEditShipping] = useState({
+    carrier: order.shipping_manual_carrier ?? "",
+    cost: order.shipping_manual_cost ?? 0,
+    receipt: order.shipping_manual_receipt ?? "",
+  });
 
   const address = useMemo(
     () => parseCustomerAddress(order.customer_address),
@@ -257,6 +272,82 @@ export default function OrderDetailModal({ order, onClose }: Props) {
       showToast("info", "Terjadi kesalahan jaringan");
     } finally {
       setConfirmingPayment(false);
+    }
+  }
+
+  async function handleUpdateStatus(newStatus: string) {
+    if (!confirm(`Ubah status pesanan ke '${newStatus}'?`)) return;
+    setUpdatingStatus(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        showToast("info", json.error ?? "Gagal update status");
+        return;
+      }
+      showToast("success", `Status diubah ke '${newStatus}'`);
+      window.location.reload();
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setUpdatingStatus(false);
+    }
+  }
+
+  async function handleSaveShipping() {
+    setSavingShipping(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shipping_manual_carrier: editShipping.carrier.trim() || null,
+          shipping_manual_cost: editShipping.cost || null,
+          shipping_manual_receipt: editShipping.receipt.trim() || null,
+        }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        showToast("info", json.error ?? "Gagal update pengiriman");
+        return;
+      }
+      showToast("success", "Info pengiriman disimpan");
+      window.location.reload();
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setSavingShipping(false);
+    }
+  }
+
+  async function handleDeleteOrder() {
+    if (
+      !confirm(
+        `Hapus pesanan ${order.id}? Tindakan ini TIDAK bisa dibatalkan. Data order + bukti transfer akan dihapus permanen.`,
+      )
+    )
+      return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}`, {
+        method: "DELETE",
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        showToast("info", json.error ?? "Gagal menghapus");
+        return;
+      }
+      showToast("success", "Pesanan dihapus");
+      window.location.reload();
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setDeleting(false);
+      setShowDeleteConfirm(false);
     }
   }
 
@@ -571,6 +662,21 @@ export default function OrderDetailModal({ order, onClose }: Props) {
               )}
             </section>
           ) : null}
+
+          {/* Admin Order Actions */}
+          <AdminOrderActions
+            order={order}
+            updatingStatus={updatingStatus}
+            savingShipping={savingShipping}
+            deleting={deleting}
+            showDeleteConfirm={showDeleteConfirm}
+            setShowDeleteConfirm={setShowDeleteConfirm}
+            editShipping={editShipping}
+            setEditShipping={setEditShipping}
+            onUpdateStatus={handleUpdateStatus}
+            onSaveShipping={handleSaveShipping}
+            onDelete={handleDeleteOrder}
+          />
         </div>
 
         {/* Footer actions */}
@@ -788,6 +894,223 @@ function ManualPaymentSection({
           />
         </div>
       )}
+    </section>
+  );
+}
+
+function AdminOrderActions({
+  order,
+  updatingStatus,
+  savingShipping,
+  deleting,
+  showDeleteConfirm,
+  setShowDeleteConfirm,
+  editShipping,
+  setEditShipping,
+  onUpdateStatus,
+  onSaveShipping,
+  onDelete,
+}: {
+  order: Order;
+  updatingStatus: boolean;
+  savingShipping: boolean;
+  deleting: boolean;
+  showDeleteConfirm: boolean;
+  setShowDeleteConfirm: (v: boolean) => void;
+  editShipping: { carrier: string; cost: number; receipt: string };
+  setEditShipping: React.Dispatch<
+    React.SetStateAction<{ carrier: string; cost: number; receipt: string }>
+  >;
+  onUpdateStatus: (s: string) => void;
+  onSaveShipping: () => void;
+  onDelete: () => void;
+}) {
+  // Status transition options sesuai state machine (lihat API)
+  const transitions: { value: string; label: string; primary?: boolean }[] = [];
+  switch (order.status) {
+    case "awaiting_payment":
+      // Mode manual — confirmation handled di section Pembayaran Manual
+      break;
+    case "awaiting_confirmation":
+      // Mode manual — confirmation handled di section Pembayaran Manual
+      break;
+    case "pending":
+      transitions.push({ value: "paid", label: "Tandai Paid (Gateway)", primary: true });
+      transitions.push({ value: "cancelled", label: "Batalkan" });
+      break;
+    case "paid":
+      transitions.push({ value: "processed", label: "Diproses", primary: true });
+      transitions.push({ value: "shipped", label: "Dikirim" });
+      transitions.push({ value: "delivered", label: "Sampai" });
+      transitions.push({ value: "cancelled", label: "Batalkan" });
+      break;
+    case "processed":
+      transitions.push({ value: "shipped", label: "Dikirim", primary: true });
+      transitions.push({ value: "cancelled", label: "Batalkan" });
+      break;
+    case "shipped":
+      transitions.push({ value: "delivered", label: "Sampai", primary: true });
+      transitions.push({ value: "cancelled", label: "Batalkan" });
+      break;
+    default:
+      // delivered/cancelled: tidak ada transition
+      break;
+  }
+
+  const showShippingForm =
+    order.status === "processed" ||
+    order.status === "shipped" ||
+    order.status === "delivered" ||
+    Boolean(order.shipping_manual_carrier) ||
+    Boolean(order.shipping_manual_receipt);
+
+  return (
+    <section>
+      <SectionHeader icon={Settings} title="Aksi Admin" />
+
+      {/* Status transition buttons */}
+      {transitions.length > 0 && (
+        <div className="bg-white border-2 border-neutral-800 p-4 mb-3">
+          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-3">
+            Ubah Status
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {transitions.map((t) => (
+              <button
+                key={t.value}
+                type="button"
+                onClick={() => onUpdateStatus(t.value)}
+                disabled={updatingStatus}
+                className={`inline-flex items-center gap-2 px-4 py-2 text-[11px] font-black uppercase tracking-wider border-2 transition-all disabled:opacity-50 ${
+                  t.primary
+                    ? "bg-black text-white border-black hover:bg-white hover:text-black"
+                    : "bg-white text-black border-neutral-800 hover:border-black"
+                }`}
+              >
+                {updatingStatus ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : null}
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Shipping info form (untuk mode manual shipping) */}
+      {showShippingForm && (
+        <div className="bg-white border-2 border-neutral-800 p-4 mb-3">
+          <p className="text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-3">
+            Info Pengiriman (Mode Manual)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div>
+              <label className="block text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-1">
+                Kurir
+              </label>
+              <input
+                type="text"
+                value={editShipping.carrier}
+                onChange={(e) =>
+                  setEditShipping((s) => ({ ...s, carrier: e.target.value }))
+                }
+                placeholder="JNE / J&T / SiCepat"
+                className="w-full bg-canvas text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs"
+              />
+            </div>
+            <div>
+              <label className="block text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-1">
+                Ongkir (Rp)
+              </label>
+              <input
+                type="number"
+                min={0}
+                value={editShipping.cost}
+                onChange={(e) =>
+                  setEditShipping((s) => ({
+                    ...s,
+                    cost: Math.max(0, Number(e.target.value) || 0),
+                  }))
+                }
+                placeholder="0"
+                className="w-full bg-canvas text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs"
+              />
+            </div>
+            <div>
+              <label className="block text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-1">
+                No. Resi
+              </label>
+              <input
+                type="text"
+                value={editShipping.receipt}
+                onChange={(e) =>
+                  setEditShipping((s) => ({ ...s, receipt: e.target.value }))
+                }
+                placeholder="JX1234567890"
+                className="w-full bg-canvas text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onSaveShipping}
+            disabled={savingShipping}
+            className="mt-3 inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50"
+          >
+            {savingShipping ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <Save size={12} strokeWidth={2.5} />
+            )}
+            Simpan Info Pengiriman
+          </button>
+        </div>
+      )}
+
+      {/* Delete order (with confirmation) */}
+      <div className="bg-white border-2 border-red-600 p-4">
+        <p className="text-[10px] font-black uppercase tracking-widest text-red-600 mb-2">
+          Zona Berbahaya
+        </p>
+        <p className="text-xs text-neutral-700 mb-3">
+          Hapus pesanan permanen. Data order + bukti transfer di storage akan
+          ikut terhapus. Tidak bisa dibatalkan.
+        </p>
+        {!showDeleteConfirm ? (
+          <button
+            type="button"
+            onClick={() => setShowDeleteConfirm(true)}
+            className="inline-flex items-center gap-2 bg-white text-red-600 border-2 border-red-600 px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors"
+          >
+            <Trash2 size={12} strokeWidth={2.5} />
+            Hapus Pesanan
+          </button>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={onDelete}
+              disabled={deleting}
+              className="inline-flex items-center gap-2 bg-red-600 text-white border-2 border-red-600 px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:bg-red-700 transition-colors disabled:opacity-50"
+            >
+              {deleting ? (
+                <Loader2 size={12} className="animate-spin" />
+              ) : (
+                <Trash2 size={12} strokeWidth={2.5} />
+              )}
+              Konfirmasi Hapus
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowDeleteConfirm(false)}
+              disabled={deleting}
+              className="inline-flex items-center gap-2 bg-white text-black border-2 border-neutral-800 px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:border-black transition-colors disabled:opacity-50"
+            >
+              Batal
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
