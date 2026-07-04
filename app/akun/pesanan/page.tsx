@@ -64,12 +64,14 @@ export default async function PesananSayaPage({ searchParams }: PageProps) {
     VALID_STATUSES.includes(filterStatus as OrderStatus);
 
   // Query orders (filtered) + count per status paralel
+  // Tampilkan order milik user (customer_id match) + order lama dari guest
+  // checkout yang email-nya match dengan user.email (backward compat).
   let ordersQuery = supabase
     .from("orders")
     .select(
       "id, status, total, created_at, items, payment_method",
     )
-    .eq("customer_id", user.id)
+    .or(`customer_id.eq.${user.id},customer_email.eq.${user.email ?? ""}`)
     .order("created_at", { ascending: false });
 
   if (isValidStatus && filterStatus !== "all") {
@@ -82,7 +84,7 @@ export default async function PesananSayaPage({ searchParams }: PageProps) {
   const { data: allOrdersForCount } = await supabase
     .from("orders")
     .select("status")
-    .eq("customer_id", user.id);
+    .or(`customer_id.eq.${user.id},customer_email.eq.${user.email ?? ""}`);
 
   const countByStatus = (allOrdersForCount ?? []).reduce(
     (acc, o) => {

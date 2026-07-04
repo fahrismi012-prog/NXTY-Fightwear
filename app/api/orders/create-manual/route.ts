@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getProductById } from "@/lib/storefront/products";
 import { getActiveBankAccounts, getShippingManualFee } from "@/lib/storefront/settings";
 import type { CartItem, Customer } from "@/types";
@@ -54,6 +55,10 @@ export async function POST(request: NextRequest) {
   if (!supabase) {
     return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
   }
+
+  // Kalau user login, link order ke customer_id supaya muncul di "Pesanan Saya".
+  // Guest checkout (no session) tetap boleh — customer_id = null.
+  const currentUser = await getCurrentCustomerUser();
 
   // Recompute items server-side (never trust frontend price)
   const validatedItems: Array<{
@@ -136,7 +141,7 @@ export async function POST(request: NextRequest) {
     .from("orders")
     .insert({
       id: orderId,
-      customer_id: null, // guest checkout
+      customer_id: currentUser?.id ?? null, // null = guest; link ke user.id kalau login
       customer_name: customer.name,
       customer_email: customer.email,
       customer_phone: customer.phone,

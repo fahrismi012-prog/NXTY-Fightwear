@@ -103,12 +103,33 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   const [rejectReason, setRejectReason] = useState("");
   const [rejectingPayment, setRejectingPayment] = useState(false);
   const [proofZoomed, setProofZoomed] = useState(false);
+  const [proofSignedUrl, setProofSignedUrl] = useState<string | null>(null);
 
   // Admin order actions state
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [savingShipping, setSavingShipping] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Fetch signed URL untuk payment proof (private storage bucket)
+  useEffect(() => {
+    if (!order.payment_proof_url) {
+      setProofSignedUrl(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/admin/orders/${order.id}/proof-url`)
+      .then((r) => (r.ok ? r.json() : { url: null }))
+      .then((data: { url?: string | null }) => {
+        if (!cancelled) setProofSignedUrl(data.url ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setProofSignedUrl(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [order.id, order.payment_proof_url]);
   const [editShipping, setEditShipping] = useState({
     carrier: order.shipping_manual_carrier ?? "",
     cost: order.shipping_manual_cost ?? 0,
@@ -571,6 +592,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
               rejectingPayment={rejectingPayment}
               proofZoomed={proofZoomed}
               setProofZoomed={setProofZoomed}
+              proofSignedUrl={proofSignedUrl}
               onConfirm={handleConfirmPayment}
               onReject={handleRejectPayment}
             />
@@ -719,6 +741,7 @@ function ManualPaymentSection({
   rejectingPayment,
   proofZoomed,
   setProofZoomed,
+  proofSignedUrl,
   onConfirm,
   onReject,
 }: {
@@ -731,6 +754,7 @@ function ManualPaymentSection({
   rejectingPayment: boolean;
   proofZoomed: boolean;
   setProofZoomed: (v: boolean) => void;
+  proofSignedUrl: string | null;
   onConfirm: () => void;
   onReject: () => void;
 }) {
@@ -767,15 +791,21 @@ function ManualPaymentSection({
             <p className="text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
               Bukti Transfer
             </p>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={order.payment_proof_url}
-              alt="Bukti transfer"
-              onClick={() => setProofZoomed(true)}
-              className="max-w-full max-h-64 border-2 border-neutral-800 cursor-zoom-in"
-            />
+            {proofSignedUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={proofSignedUrl}
+                alt="Bukti transfer"
+                onClick={() => setProofZoomed(true)}
+                className="max-w-full max-h-64 border-2 border-neutral-800 cursor-zoom-in"
+              />
+            ) : (
+              <div className="border-2 border-dashed border-neutral-400 p-3 text-[11px] text-neutral-500 italic">
+                File bukti transfer tidak dapat dimuat.
+              </div>
+            )}
             <p className="text-[10px] text-neutral-500 mt-1">
-              Klik gambar untuk memperbesar.
+              Klik gambar untuk memperbesar. Link berlaku 1 jam.
             </p>
           </div>
         ) : needsConfirmation ? (
@@ -881,14 +911,14 @@ function ManualPaymentSection({
       </div>
 
       {/* Proof zoom modal */}
-      {proofZoomed && order.payment_proof_url && (
+      {proofZoomed && proofSignedUrl && (
         <div
           className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4 cursor-zoom-out"
           onClick={() => setProofZoomed(false)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={order.payment_proof_url}
+            src={proofSignedUrl}
             alt="Bukti transfer (perbesar)"
             className="max-w-full max-h-full object-contain"
           />
