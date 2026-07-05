@@ -33,11 +33,6 @@ export default function BrandIntroSection() {
           </div>
         </div>
 
-        {/* Teks panjang full-width di bawah */}
-        <p className="text-body-sm text-text-secondary leading-relaxed mb-6">
-          Dari sarung tinju, hand wrap, matras, deker, seragam pencak silat, hingga perlengkapan taekwondo dan karate — setiap produk dirancang dengan standar kualitas tinggi untuk mendukung performa atlet di semua level.
-        </p>
-
         {/* CTA */}
         <Link href="/#catalog">
           <Button
