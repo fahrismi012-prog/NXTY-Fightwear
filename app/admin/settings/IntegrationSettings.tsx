@@ -30,7 +30,7 @@ interface FormState {
 
 const EMPTY: Record<Provider, FormState> = {
   midtrans: { environment: "sandbox", clientKey: "", serverKey: "", clientSecret: "", callbackSecret: "", baseUrl: "", shipperName: "", shipperPhone: "", shipperAddress: "", shipperPostalCode: "" },
-  everpro: { environment: "sandbox", clientKey: "", serverKey: "", clientSecret: "", callbackSecret: "", baseUrl: "https://client-api-sandbox.everpro.id", shipperName: "NXTY Fightwear", shipperPhone: "", shipperAddress: "", shipperPostalCode: "" },
+  everpro: { environment: "sandbox", clientKey: "", serverKey: "", clientSecret: "", callbackSecret: "", baseUrl: "https://client-api-sandbox.everpro.id", shipperName: "Anxiety Fightwear", shipperPhone: "", shipperAddress: "", shipperPostalCode: "" },
 };
 
 export default function IntegrationSettings() {

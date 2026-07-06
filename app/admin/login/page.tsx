@@ -188,7 +188,7 @@ export default function AdminLoginPage() {
                 opacity: reducedMotion ? 1 : 0,
               }}
             >
-              NXTY
+              ANXIETY
             </h1>
             <div
               className={anim(
@@ -218,7 +218,7 @@ export default function AdminLoginPage() {
             style={{ animationDelay: "700ms", opacity: reducedMotion ? 1 : 0 }}
           >
             <p className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
-              © 2026 NXTY Fightwear · Internal Access
+              © 2026 Anxiety Fightwear · Internal Access
             </p>
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function AdminLoginPage() {
               )}
               style={{ animationDelay: "800ms", opacity: reducedMotion ? 1 : 0 }}
             >
-              Akses terbatas. Hanya untuk staff NXTY.
+              Akses terbatas. Hanya untuk staff Anxiety Fightwear.
             </p>
           </div>
         </div>

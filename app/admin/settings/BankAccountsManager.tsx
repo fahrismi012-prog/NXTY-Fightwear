@@ -52,6 +52,9 @@ export default function BankAccountsManager({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [reauthPassword, setReauthPassword] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<BankAccount | null>(null);
+  const [deletePassword, setDeletePassword] = useState("");
 
   const refresh = () => {
     startTransition(() => router.refresh());
@@ -59,6 +62,7 @@ export default function BankAccountsManager({
 
   const startNew = () => {
     setError(null);
+    setReauthPassword("");
     setEditing({ ...EMPTY_EDIT });
   };
 
@@ -76,6 +80,7 @@ export default function BankAccountsManager({
 
   const cancelEdit = () => {
     setEditing(null);
+    setReauthPassword("");
     setError(null);
   };
 
@@ -85,6 +90,10 @@ export default function BankAccountsManager({
 
     if (!editing.bank_name.trim() || !editing.account_number.trim() || !editing.account_holder.trim()) {
       setError("Nama bank, nomor rekening, dan atas nama wajib diisi");
+      return;
+    }
+    if (editing.id === null && !reauthPassword) {
+      setError("Password admin wajib diisi untuk menambah rekening");
       return;
     }
 
@@ -103,6 +112,7 @@ export default function BankAccountsManager({
           account_holder: editing.account_holder.trim(),
           instructions: editing.instructions.trim() || null,
           is_active: editing.is_active,
+          ...(editing.id === null ? { password: reauthPassword } : {}),
         }),
       });
       if (!res.ok) {
@@ -110,6 +120,7 @@ export default function BankAccountsManager({
         throw new Error(data.error || "Gagal menyimpan");
       }
       setEditing(null);
+      setReauthPassword("");
       refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal menyimpan");
@@ -118,18 +129,25 @@ export default function BankAccountsManager({
     }
   };
 
-  const handleDelete = async (acc: BankAccount) => {
-    if (!confirm(`Hapus rekening ${acc.bank_name} ${acc.account_number}?`)) return;
+  const handleDelete = async () => {
+    if (!deleteTarget || !deletePassword) {
+      setError("Password admin wajib diisi untuk menghapus rekening");
+      return;
+    }
     setError(null);
-    setBusyId(acc.id);
+    setBusyId(deleteTarget.id);
     try {
-      const res = await fetch(`/api/admin/bank-accounts/${acc.id}`, {
+      const res = await fetch(`/api/admin/bank-accounts/${deleteTarget.id}`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: deletePassword }),
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(data.error || "Gagal menghapus");
       }
+      setDeleteTarget(null);
+      setDeletePassword("");
       refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal menghapus");
@@ -202,7 +220,11 @@ export default function BankAccountsManager({
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDelete(acc)}
+                  onClick={() => {
+                    setError(null);
+                    setDeletePassword("");
+                    setDeleteTarget(acc);
+                  }}
                   disabled={isPending || busyId === acc.id}
                   className="p-2 border-2 border-neutral-800 hover:border-black hover:bg-black hover:text-white transition-all disabled:opacity-50"
                   aria-label="Hapus"
@@ -253,6 +275,16 @@ export default function BankAccountsManager({
               onChange={(v) => setEditing({ ...editing, instructions: v })}
               placeholder="Transfer tepat sampai 3 digit terakhir"
             />
+            {editing.id === null && (
+              <Field
+                label="Password Admin"
+                value={reauthPassword}
+                onChange={setReauthPassword}
+                placeholder="Masukkan ulang password admin"
+                type="password"
+                required
+              />
+            )}
           </div>
           <label className="mt-3 flex items-center gap-2 text-xs cursor-pointer">
             <input
@@ -306,6 +338,65 @@ export default function BankAccountsManager({
           </button>
         </div>
       )}
+
+      {deleteTarget && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-bank-title"
+        >
+          <div className="w-full max-w-md border-2 border-black bg-white p-5 shadow-[8px_8px_0_#000]">
+            <p className="mb-1 text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">
+              Verifikasi Keamanan
+            </p>
+            <h3 id="delete-bank-title" className="text-xl font-black text-black">
+              Hapus Rekening?
+            </h3>
+            <p className="mt-2 text-xs leading-5 text-neutral-600">
+              {deleteTarget.bank_name} · {deleteTarget.account_number}. Masukkan password admin untuk melanjutkan.
+            </p>
+            {error && (
+              <div className="mt-3 flex items-start gap-2 border border-black bg-neutral-100 p-2.5 text-xs text-black">
+                <AlertCircle size={14} className="mt-0.5 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+            <div className="mt-4">
+              <Field
+                label="Password Admin"
+                value={deletePassword}
+                onChange={setDeletePassword}
+                placeholder="Password admin"
+                type="password"
+                required
+              />
+            </div>
+            <div className="mt-5 flex gap-2">
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={busyId !== null || !deletePassword}
+                className="inline-flex min-h-10 items-center gap-2 bg-black px-4 py-2 text-[11px] font-black uppercase tracking-widest text-white disabled:opacity-50"
+              >
+                {busyId === deleteTarget.id && <Loader2 size={12} className="animate-spin" />}
+                Hapus Rekening
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDeleteTarget(null);
+                  setDeletePassword("");
+                }}
+                disabled={busyId !== null}
+                className="min-h-10 border-2 border-black px-4 py-2 text-[11px] font-black uppercase tracking-widest text-black disabled:opacity-50"
+              >
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -316,16 +407,17 @@ interface FieldProps {
   onChange: (v: string) => void;
   placeholder?: string;
   required?: boolean;
+  type?: "text" | "password";
 }
 
-function Field({ label, value, onChange, placeholder, required }: FieldProps) {
+function Field({ label, value, onChange, placeholder, required, type = "text" }: FieldProps) {
   return (
     <div>
       <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-1">
         {label} {required && <span className="text-black">*</span>}
       </label>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}

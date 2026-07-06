@@ -14,11 +14,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NXTY Fightwear — Peralatan Olahraga & Fightwear",
+  title: "Anxiety Fightwear — Peralatan Olahraga & Fightwear",
   description:
-    "Toko online NXTY Fightwear. Jual boxing gloves, hand wrap, rashguard, fight shorts, shin guard, dan apparel olahraga berkualitas dengan harga terjangkau.",
+    "Toko online Anxiety Fightwear. Jual boxing gloves, hand wrap, rashguard, fight shorts, shin guard, dan apparel olahraga berkualitas dengan harga terjangkau.",
+  manifest: "/storefront-manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon" },
+      { url: "/storefront-icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/storefront-icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/storefront-icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black",
+    title: "Anxiety Fightwear",
+  },
   keywords: [
-    "NXTY Fightwear",
+    "Anxiety Fightwear",
     "boxing gloves",
     "hand wrap",
     "rashguard",
@@ -31,18 +47,18 @@ export const metadata: Metadata = {
     "toko online",
     "UMKM",
   ],
-  authors: [{ name: "NXTY Fightwear" }],
+  authors: [{ name: "Anxiety Fightwear" }],
   openGraph: {
-    title: "NXTY Fightwear — Peralatan Olahraga & Fightwear",
+    title: "Anxiety Fightwear — Peralatan Olahraga & Fightwear",
     description:
       "Temukan perlengkapan latihan terbaik. Boxing gloves, rashguard, fight shorts, dan banyak lagi.",
     type: "website",
     locale: "id_ID",
-    siteName: "NXTY Fightwear",
+    siteName: "Anxiety Fightwear",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NXTY Fightwear",
+    title: "Anxiety Fightwear",
     description: "Peralatan Olahraga & Fightwear Berkualitas",
   },
   robots: "index, follow",

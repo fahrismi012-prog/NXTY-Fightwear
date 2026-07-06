@@ -43,7 +43,7 @@ export default function Sidebar() {
     <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-60 bg-white border-r-2 border-black flex-col z-40">
       {/* Logo */}
       <div className="border-b-2 border-black p-5">
-        <p className="text-2xl font-black tracking-tighter text-black">NXTY</p>
+        <p className="text-2xl font-black tracking-tighter text-black">ANXIETY</p>
         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">
           Admin Panel
         </p>

@@ -4,6 +4,7 @@ import {
   ADMIN_COOKIE,
   ADMIN_SESSION_MAX_AGE,
 } from "@/lib/supabase/auth";
+import { verifyAdminPassword } from "@/lib/admin/password";
 
 export const runtime = "nodejs";
 
@@ -27,16 +28,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) {
+  const passwordResult = verifyAdminPassword(password);
+  if (passwordResult === "unconfigured") {
     return NextResponse.json(
       { error: "ADMIN_PASSWORD belum di-set di server" },
       { status: 500 },
     );
   }
 
-  // Constant-time-ish compare (best-effort; bukan crypto-grade tapi cukup untuk single password)
-  if (password !== expected) {
+  if (passwordResult !== "valid") {
     return NextResponse.json({ error: "Password salah" }, { status: 401 });
   }
 

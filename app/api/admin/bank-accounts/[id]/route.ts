@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { verifyAdminPassword } from "@/lib/admin/password";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -95,9 +96,27 @@ export async function PUT(request: NextRequest, context: RouteContext) {
  * DELETE /api/admin/bank-accounts/[id]
  * Hapus bank account. Admin only.
  */
-export async function DELETE(_request: NextRequest, context: RouteContext) {
+export async function DELETE(request: NextRequest, context: RouteContext) {
   const auth = await requireAdmin();
   if (auth) return auth;
+
+  let body: { password?: string } = {};
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Password admin wajib diisi" }, { status: 400 });
+  }
+
+  const passwordResult = verifyAdminPassword(body.password);
+  if (passwordResult === "unconfigured") {
+    return NextResponse.json(
+      { error: "ADMIN_PASSWORD belum di-set di server" },
+      { status: 500 },
+    );
+  }
+  if (passwordResult !== "valid") {
+    return NextResponse.json({ error: "Password admin salah" }, { status: 401 });
+  }
 
   const { id } = await context.params;
 

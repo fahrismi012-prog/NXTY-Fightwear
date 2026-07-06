@@ -216,7 +216,7 @@ export default function MasukPage() {
         <div className="bg-surface-1 border-2 border-border-subtle p-6">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-black text-text-primary tracking-tighter">
-              <span className="text-brand-black">NXTY</span>{" "}
+              <span className="text-brand-black">Anxiety Fightwear</span>{" "}
               <span className="text-text-primary text-xl tracking-[0.2em]">
                 FIGHTWEAR
               </span>

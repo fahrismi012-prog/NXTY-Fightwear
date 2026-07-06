@@ -181,7 +181,7 @@ EVERPRO_BASE_URL
 
 ### 6. (Opsional) Custom Domain
 
-Jika punya domain sendiri (mis. `nxtyfightwear.id`):
+Jika punya domain sendiri (mis. `anxietyfightwear.com`):
 
 1. Di Vercel, pergi ke project → **Settings → Domains**
 2. Tambah domain custom

@@ -105,12 +105,12 @@ export function TopHeader() {
         <div className="md:hidden h-14 px-4 flex items-center gap-3">
           <Link
             href="/"
-            aria-label="NXTY Fightwear, beranda"
+            aria-label="Anxiety Fightwear, beranda"
             className="shrink-0 flex items-center"
           >
             <Image
               src="/brand/logo-mark.png"
-              alt="NXTY Fightwear"
+              alt="Anxiety Fightwear"
               width={395}
               height={129}
               priority
@@ -152,12 +152,12 @@ export function TopHeader() {
         <div className="hidden md:flex h-[4.5rem] px-8 max-w-7xl mx-auto items-center">
           <Link
             href="/"
-            aria-label="NXTY Fightwear, beranda"
+            aria-label="Anxiety Fightwear, beranda"
             className="shrink-0 flex items-center"
           >
             <Image
               src="/brand/logo-mark.png"
-              alt="NXTY Fightwear"
+              alt="Anxiety Fightwear"
               width={395}
               height={129}
               priority

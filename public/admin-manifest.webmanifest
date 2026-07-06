@@ -1,8 +1,8 @@
 {
   "id": "/admin/",
-  "name": "NXTY Fightwear Admin",
-  "short_name": "NXTY Admin",
-  "description": "Panel administrasi NXTY Fightwear",
+  "name": "Anxiety Fightwear Admin",
+  "short_name": "Anxiety Admin",
+  "description": "Panel administrasi Anxiety Fightwear",
   "lang": "id-ID",
   "start_url": "/admin/login",
   "scope": "/admin/",

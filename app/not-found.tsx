@@ -44,7 +44,7 @@ export default function NotFound() {
           <div className="flex items-center justify-center gap-2">
             <img
               src="/brand/logo-full.png"
-              alt="NXTY Fightwear"
+              alt="Anxiety Fightwear"
               className="h-12 object-contain"
               width={200}
               height={48}
@@ -100,7 +100,7 @@ export default function NotFound() {
           {/* Extra Info */}
           <div className="pt-8 border-t-4 border-brand-black">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 font-mono">
-              Jika masalah berlanjut, silakan hubungi kami di hello@nxtyfightwear.com
+              Jika masalah berlanjut, silakan hubungi kami di hello@anxietyfightwear.com
             </p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function NotFound() {
             <div className="flex items-center gap-2">
               <img
                 src="/brand/logo-full.png"
-                alt="NXTY Fightwear"
+                alt="Anxiety Fightwear"
                 className="h-8 object-contain"
                 width={200}
                 height={32}
@@ -124,7 +124,7 @@ export default function NotFound() {
                 LAHIR UNTUK BERTEMPUR · DIBUAT TAHAN LAMA
               </p>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-800 mt-1">
-                © 2024 NXTY · ALL RIGHTS RESERVED
+                © 2024 ANXIETY FIGHTWEAR · ALL RIGHTS RESERVED
               </p>
             </div>
           </div>

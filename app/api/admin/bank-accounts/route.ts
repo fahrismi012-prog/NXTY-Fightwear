@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { verifyAdminPassword } from "@/lib/admin/password";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,11 +49,23 @@ export async function POST(request: NextRequest) {
     account_holder?: string;
     instructions?: string | null;
     is_active?: boolean;
+    password?: string;
   } = {};
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Body harus JSON valid" }, { status: 400 });
+  }
+
+  const passwordResult = verifyAdminPassword(body.password);
+  if (passwordResult === "unconfigured") {
+    return NextResponse.json(
+      { error: "ADMIN_PASSWORD belum di-set di server" },
+      { status: 500 },
+    );
+  }
+  if (passwordResult !== "valid") {
+    return NextResponse.json({ error: "Password admin salah" }, { status: 401 });
   }
 
   const bank_name = String(body.bank_name ?? "").trim();

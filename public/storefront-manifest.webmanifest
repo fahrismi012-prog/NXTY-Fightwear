@@ -1,0 +1,31 @@
+{
+  "id": "/",
+  "name": "Anxiety Fightwear",
+  "short_name": "Anxiety",
+  "description": "Peralatan olahraga dan fightwear untuk latihan tanpa batas",
+  "lang": "id-ID",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "categories": ["shopping", "sports"],
+  "icons": [
+    {
+      "src": "/storefront-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/storefront-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/storefront-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

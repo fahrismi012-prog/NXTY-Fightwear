@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: "NXTY Fightwear Admin",
-  description: "Panel administrasi NXTY Fightwear",
+  title: "Anxiety Fightwear Admin",
+  description: "Panel administrasi Anxiety Fightwear",
   manifest: "/admin-manifest.webmanifest",
   icons: {
     icon: [
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black",
-    title: "NXTY Admin",
+    title: "Anxiety Admin",
   },
   robots: {
     index: false,

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nxtyfightwear.id/sitemap.xml
+Sitemap: https://anxietyfightwear.com/sitemap.xml

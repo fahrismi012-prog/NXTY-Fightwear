@@ -13,47 +13,41 @@ export default function CategoryPills({
   activeCategory,
   onSelect,
 }: CategoryPillsProps) {
-  return (
-    <div className="w-full">
-      {/* Grid compact ala quick-category mobile: tetap 3 kolom pada layar
-          kecil agar label 14px terbaca, lalu 6 kolom pada layar lebar. */}
-      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-        {/* Tombol "Semua" */}
-        <button
-          onClick={() => onSelect(null)}
-          className={cn(
-            "flex min-h-[52px] items-center justify-center px-2.5 py-2 sm:min-h-[48px]",
-            "rounded-[6px] border transition-all duration-150",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-1",
-            activeCategory === null
-              ? "bg-brand-black border-brand-black text-white shadow-[2px_2px_0_black]"
-              : "bg-surface-1 border-border-subtle text-brand-black hover:border-brand-black"
-          )}
-        >
-          <span className="text-center text-sm font-bold leading-[1.2]">
-            Semua
-          </span>
-        </button>
+  const items = [{ label: "Semua", value: null }, ...categories.map((category) => ({
+    label: category,
+    value: category,
+  }))];
 
-        {/* Kategori */}
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => onSelect(cat)}
-            className={cn(
-              "flex min-h-[52px] items-center justify-center px-2.5 py-2 sm:min-h-[48px]",
-              "rounded-[6px] border transition-all duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-1",
-              activeCategory === cat
-                ? "bg-brand-black border-brand-black text-white shadow-[2px_2px_0_black]"
-                : "bg-surface-1 border-border-subtle text-brand-black hover:border-brand-black"
-            )}
-          >
-            <span className="line-clamp-2 break-words text-center text-sm font-bold leading-[1.2]">
-              {cat}
-            </span>
-          </button>
-        ))}
+  return (
+    <div className="relative min-w-0">
+      <div className="flex gap-2 overflow-x-auto pb-1 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {items.map(({ label, value }) => {
+          const isActive = activeCategory === value;
+
+          return (
+            <button
+              key={label}
+              type="button"
+              aria-pressed={isActive}
+              onClick={() => onSelect(value)}
+              className={cn(
+                "shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
+                isActive
+                  ? "border-black bg-black text-white"
+                  : "border-neutral-300 bg-white text-black hover:border-black",
+              )}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-end bg-gradient-to-l from-white via-white/90 to-transparent text-lg font-bold text-black"
+        aria-hidden="true"
+      >
+        →
       </div>
     </div>
   );

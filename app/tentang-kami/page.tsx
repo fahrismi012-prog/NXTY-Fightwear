@@ -10,7 +10,7 @@ export default function TentangKamiPage() {
         <div className="text-center mb-8">
           <img
             src="/brand/logo-full.png"
-            alt="NXTY Fightwear"
+            alt="Anxiety Fightwear"
             className="h-16 object-contain mx-auto mb-2"
             width={300}
             height={64}

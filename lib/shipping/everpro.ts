@@ -40,7 +40,7 @@ async function everproConfig() {
     ).replace(/\/$/, ""),
     clientKey: credential.secrets.clientKey ?? "",
     clientSecret: credential.secrets.clientSecret ?? "",
-    shipperName: String(credential.publicConfig.shipperName || process.env.STORE_SHIPPER_NAME || "NXTY Fightwear"),
+    shipperName: String(credential.publicConfig.shipperName || process.env.STORE_SHIPPER_NAME || "Anxiety Fightwear"),
     shipperPhone: String(credential.publicConfig.shipperPhone || process.env.STORE_SHIPPER_PHONE || ""),
     shipperAddress: String(credential.publicConfig.shipperAddress || process.env.STORE_SHIPPER_ADDRESS || ""),
     shipperPostalCode: String(credential.publicConfig.shipperPostalCode || process.env.STORE_ORIGIN_POSTAL_CODE || ""),
