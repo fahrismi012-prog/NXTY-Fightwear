@@ -1,0 +1,31 @@
+{
+  "id": "/admin/",
+  "name": "NXTY Fightwear Admin",
+  "short_name": "NXTY Admin",
+  "description": "Panel administrasi NXTY Fightwear",
+  "lang": "id-ID",
+  "start_url": "/admin/login",
+  "scope": "/admin/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["business"],
+  "icons": [
+    {
+      "src": "/admin-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/admin-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/admin-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
