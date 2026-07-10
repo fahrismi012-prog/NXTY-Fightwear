@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* ============================================================
+   RUNTIME THEME VARIABLES — white-label.
+   Nilai default di sini; app/layout.tsx meng-override lewat inline
+   style di <html> berdasarkan settings `theme` di database
+   (lihat lib/theme.ts). Token di @theme inline di bawah merefer ke
+   var ini sehingga utility Tailwind ikut berubah saat theme diganti.
+   ============================================================ */
+:root {
+  --brand-primary: #0a0a0a;
+  --brand-primary-hover: #000000;
+  --brand-accent: #dc2626;
+  --brand-accent-hover: #b91c1c;
+  --page-canvas: #f5f4f0;
+  --page-surface-2: #f0efeb;
+  --theme-font: var(--font-inter);
+}
+
 @theme inline {
   /* ============================================================
      LEGACY TOKENS — dipertahankan untuk backward compatibility.
@@ -10,17 +27,17 @@
   --color-foreground: #212121;
   --color-card: #f5f5f5;
   --color-card-foreground: #212121;
-  --color-primary: #2d6a4f;
+  --color-primary: var(--brand-primary);
   --color-primary-foreground: #ffffff;
   --color-secondary: #e8e8e8;
   --color-secondary-foreground: #212121;
   --color-muted: #e8e8e8;
   --color-muted-foreground: #757575;
-  --color-accent: #2d6a4f;
+  --color-accent: var(--brand-accent);
   --color-accent-foreground: #ffffff;
   --color-border: #e0e0e0;
   --color-input: #e0e0e0;
-  --color-ring: #2d6a4f;
+  --color-ring: var(--brand-primary);
 
   /* Legacy radius — brand voice sharp. Existing utilities
      rounded-sm/md/lg tetap = 0 untuk tidak merusak komponen lama. */
@@ -42,12 +59,14 @@
      - border-strong   : input focus / selected
      ============================================================ */
 
-  /* Brand */
-  --color-brand-black: #0a0a0a;
-  --color-brand-black-hover: #000000;
+  /* Brand — nilai runtime dari theme settings (lihat :root di atas).
+     brand-black = warna utama brand (bisa jadi bukan hitam untuk klien
+     white-label; nama dipertahankan untuk backward compatibility). */
+  --color-brand-black: var(--brand-primary);
+  --color-brand-black-hover: var(--brand-primary-hover);
   --color-brand-white: #ffffff;
-  --color-brand-red: #dc2626;
-  --color-brand-red-hover: #b91c1c;
+  --color-brand-red: var(--brand-accent);
+  --color-brand-red-hover: var(--brand-accent-hover);
 
   /* Neutral scale */
   --color-neutral-50: #fafafa;
@@ -71,9 +90,9 @@
   --color-error-600: #dc2626;
 
   /* Surface aliases — LIGHT THEME (Tokopedia style) */
-  --color-canvas: #f5f4f0;
+  --color-canvas: var(--page-canvas);
   --color-surface-1: #ffffff;
-  --color-surface-2: #f0efeb;
+  --color-surface-2: var(--page-surface-2);
   --color-text-primary: #212121;
   --color-text-secondary: #545454;
   --color-text-muted: #9e9e9e;
@@ -117,7 +136,7 @@
   /* ============================================================
      FONT FAMILIES
      ============================================================ */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--theme-font, var(--font-inter)), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   /* ============================================================
@@ -159,7 +178,7 @@
    BASE STYLES
    ============================================================ */
 body {
-  background-color: #f5f4f0;
+  background-color: var(--page-canvas);
   color: #212121;
 }
 
@@ -169,7 +188,7 @@ html {
 
 /* Better focus states for accessibility */
 *:focus-visible {
-  outline: 2px solid #0a0a0a;
+  outline: 2px solid var(--brand-primary);
   outline-offset: 2px;
 }
 
@@ -278,7 +297,7 @@ html {
 
 /* Selection */
 ::selection {
-  background: #0a0a0a;
+  background: var(--brand-primary);
   color: white;
 }
 
@@ -291,10 +310,10 @@ html {
   background: #f5f5f5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #0a0a0a;
+  background: var(--brand-primary);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  background: var(--brand-primary-hover);
 }
 
 /* Hide scrollbar utility */

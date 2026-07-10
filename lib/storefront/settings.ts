@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/server";
+import { normalizeTheme, type ThemeSettings } from "@/lib/theme";
 
 /**
  * Helper untuk baca settings di server-side.
@@ -63,6 +64,36 @@ async function readSetting(key: string): Promise<string> {
     return unwrapValue(data.value);
   } catch {
     return fallback;
+  }
+}
+
+/**
+ * Return theme settings storefront (white-label).
+ * Value di DB berupa jsonb object; field invalid/hilang di-fallback ke
+ * DEFAULT_THEME oleh normalizeTheme, jadi selalu aman dipakai.
+ */
+export async function getTheme(): Promise<ThemeSettings> {
+  const supabase = createAdminClient();
+  if (!supabase) return normalizeTheme(null);
+  try {
+    const { data, error } = await supabase
+      .from("settings")
+      .select("value")
+      .eq("key", "theme")
+      .maybeSingle();
+    if (error || !data) return normalizeTheme(null);
+    let value: unknown = data.value;
+    // Tolerate jsonb yang tersimpan sebagai string JSON
+    if (typeof value === "string") {
+      try {
+        value = JSON.parse(value);
+      } catch {
+        value = null;
+      }
+    }
+    return normalizeTheme(value);
+  } catch {
+    return normalizeTheme(null);
   }
 }
 

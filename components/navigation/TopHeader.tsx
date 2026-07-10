@@ -10,6 +10,7 @@ import { UserMenu } from "./UserMenu";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useUI } from "@/contexts/UIContext";
+import { useBrand } from "@/contexts/BrandContext";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,6 +33,7 @@ const NAV_LINKS = [
 
 export function TopHeader() {
   const pathname = usePathname();
+  const { brandName, logoUrl } = useBrand();
   const { totalItems: cartCount } = useCart();
   const { totalItems: wishlistCount, hydrated: wishlistHydrated } =
     useWishlist();
@@ -105,12 +107,12 @@ export function TopHeader() {
         <div className="md:hidden h-14 px-4 flex items-center gap-3">
           <Link
             href="/"
-            aria-label="Anxiety Fightwear, beranda"
+            aria-label={`${brandName}, beranda`}
             className="shrink-0 flex items-center"
           >
             <Image
-              src="/brand/logo-mark.png"
-              alt="Anxiety Fightwear"
+              src={logoUrl}
+              alt={brandName}
               width={395}
               height={129}
               priority
@@ -152,12 +154,12 @@ export function TopHeader() {
         <div className="hidden md:flex h-[4.5rem] px-8 max-w-7xl mx-auto items-center">
           <Link
             href="/"
-            aria-label="Anxiety Fightwear, beranda"
+            aria-label={`${brandName}, beranda`}
             className="shrink-0 flex items-center"
           >
             <Image
-              src="/brand/logo-mark.png"
-              alt="Anxiety Fightwear"
+              src={logoUrl}
+              alt={brandName}
               width={395}
               height={129}
               priority

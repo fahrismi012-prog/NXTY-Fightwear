@@ -9,6 +9,7 @@ import {
   Tag,
   ShoppingBag,
   Settings,
+  Palette,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ const NAV_ITEMS = [
   { label: "Produk", href: "/admin/produk", icon: Package },
   { label: "Promo", href: "/admin/promo", icon: Tag },
   { label: "Pesanan", href: "/admin/pesanan", icon: ShoppingBag },
+  { label: "Tampilan", href: "/admin/tampilan", icon: Palette },
   { label: "Pengaturan", href: "/admin/settings", icon: Settings },
 ];
 

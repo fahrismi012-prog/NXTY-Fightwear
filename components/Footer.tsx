@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useBrand } from "@/contexts/BrandContext";
 
 /**
  * Footer — mengikuti pola Venum:
@@ -26,7 +27,7 @@ const COLUMNS = [
   {
     title: "Tentang Kami",
     links: [
-      { href: "/tentang-kami", label: "Tentang Anxiety Fightwear" },
+      { href: "/tentang-kami", label: "Tentang Kami" },
       { href: "/b2b", label: "B2B / Grosir" },
       { href: "/kontak", label: "Kontak" },
       { href: "/cara-order", label: "Cara Berbelanja" },
@@ -47,6 +48,7 @@ const COLUMNS = [
 ];
 
 export function Footer() {
+  const { brandName } = useBrand();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -63,7 +65,7 @@ export function Footer() {
       <div className="border-b border-white/10">
         <div className="max-w-2xl mx-auto px-4 py-10">
           <h3 className="text-body-lg font-bold text-white mb-2">
-            Newsletter Anxiety Fightwear
+            Newsletter {brandName}
           </h3>
           <p className="text-body-sm text-white/70 mb-6 leading-relaxed">
             Daftar newsletter kami untuk mendapatkan info produk terbaru, drop koleksi, dan penawaran eksklusif.
@@ -152,7 +154,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-caption text-white/50">
-            © {new Date().getFullYear()} Anxiety Fightwear. Hak cipta dilindungi.
+            © {new Date().getFullYear()} {brandName}. Hak cipta dilindungi.
           </p>
           <div className="flex items-center gap-4 text-caption text-white/50">
             <Link href="/kebijakan-privasi" className="hover:text-white transition-colors">

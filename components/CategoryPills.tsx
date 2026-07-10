@@ -32,10 +32,10 @@ export default function CategoryPills({
               onClick={() => onSelect(value)}
               className={cn(
                 "shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:ring-offset-2",
                 isActive
-                  ? "border-black bg-black text-white"
-                  : "border-neutral-300 bg-white text-black hover:border-black",
+                  ? "border-brand-black bg-brand-black text-white"
+                  : "border-neutral-300 bg-white text-black hover:border-brand-black",
               )}
             >
               {label}

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
 import { getIntegrationCredential } from "@/lib/integrations/credentials";
+import { normalizeTheme, validateTheme } from "@/lib/theme";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,6 +13,7 @@ const ALLOWED_KEYS = new Set([
   "shipping_mode",
   "shipping_manual_fee",
   "payment_manual_expire_hours",
+  "theme",
 ]);
 
 const VALUE_VALIDATORS: Record<string, (v: unknown) => unknown> = {
@@ -42,6 +44,17 @@ const VALUE_VALIDATORS: Record<string, (v: unknown) => unknown> = {
       throw new Error("payment_manual_expire_hours harus angka >= 1");
     }
     return String(Math.round(n));
+  },
+  theme: (v) => {
+    if (!v || typeof v !== "object" || Array.isArray(v)) {
+      throw new Error("theme harus berupa object");
+    }
+    const errors = validateTheme(v as Record<string, unknown>);
+    if (errors.length > 0) {
+      throw new Error(errors.join(" · "));
+    }
+    // Simpan bentuk ternormalisasi (merged dengan default) sebagai jsonb
+    return normalizeTheme(v);
   },
 };
 
