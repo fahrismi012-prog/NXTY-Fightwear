@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>User Guide Website Anxiety Fightwear</title>
+  <style>
+    @page { size: A4; margin: 14mm 15mm 16mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #101010; font: 10.5pt/1.45 Arial, sans-serif; }
+    h1, h2, h3 { margin: 0 0 8px; line-height: 1.16; }
+    h1 { font-size: 28pt; } h2 { font-size: 19pt; } h3 { font-size: 12pt; }
+    p { margin: 0 0 8px; }
+    ul, ol { margin: 5px 0 10px; padding-left: 22px; }
+    li { margin: 3px 0; }
+    .page { page-break-after: always; min-height: 260mm; position: relative; }
+    .page:last-child { page-break-after: auto; }
+    .cover { background: #080808; color: white; margin: -14mm -15mm -16mm; padding: 34mm 22mm; min-height: 297mm; }
+    .eyebrow { font-size: 9pt; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+    .cover h1 { margin-top: 55mm; font-size: 38pt; max-width: 140mm; }
+    .cover .brand { font-size: 17pt; margin-top: 8px; color: #ddd; }
+    .cover .meta { position: absolute; bottom: 28mm; left: 22mm; color: #aaa; }
+    .rule { height: 4px; background: #111; margin: 8px 0 14px; }
+    .shot { width: 100%; max-height: 128mm; object-fit: contain; object-position: top; border: 1px solid #aaa; margin: 7px 0 10px; }
+    .shot.tall { max-height: 155mm; }
+    .note, .warn, .tip { padding: 9px 11px; margin: 9px 0; border-left: 4px solid #111; background: #f2f2f2; }
+    .warn { border-color: #c62828; background: #fff0f0; }
+    .tip { border-color: #157347; background: #eef9f1; }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 9.5pt; }
+    th, td { border: 1px solid #999; padding: 6px 7px; vertical-align: top; }
+    th { background: #111; color: white; text-align: left; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+    .steps { counter-reset: item; list-style: none; padding: 0; }
+    .steps li { counter-increment: item; position: relative; padding-left: 28px; margin: 7px 0; }
+    .steps li::before { content: counter(item); position: absolute; left: 0; top: 0; width: 20px; height: 20px; background: #111; color: white; text-align: center; line-height: 20px; font-weight: bold; }
+    .footer { position: absolute; bottom: 0; width: 100%; border-top: 1px solid #bbb; padding-top: 4px; color: #777; font-size: 8pt; }
+    .small { font-size: 8.5pt; color: #666; }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div class="eyebrow">Panduan Operasional</div>
+    <h1>User Guide Website</h1>
+    <div class="brand">Anxiety Fightwear · NXTY Admin Panel</div>
+    <p class="meta">Versi 1.0 · 5 Juli 2026<br>Untuk pemilik toko dan staf admin</p>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">01 · Gambaran Umum</div><h2>Tentang panduan ini</h2><div class="rule"></div>
+    <p>Panduan ini menjelaskan pekerjaan harian di website Anxiety Fightwear: mengelola katalog, kategori, promo, pesanan, pembayaran, pengiriman, dan konfigurasi toko.</p>
+    <h3>Alamat yang digunakan</h3>
+    <table><tr><th>Keperluan</th><th>Alamat</th></tr><tr><td>Website pelanggan</td><td>Gunakan domain resmi toko</td></tr><tr><td>Panel admin</td><td><code>/admin/login</code> di belakang domain resmi</td></tr></table>
+    <h3>Menu panel admin</h3>
+    <table><tr><th>Menu</th><th>Fungsi</th></tr><tr><td>Dashboard</td><td>Ringkasan jumlah produk, kategori, promo aktif, dan pesanan.</td></tr><tr><td>Kategori</td><td>Mengelompokkan produk agar katalog mudah dicari.</td></tr><tr><td>Produk</td><td>Menambah dan mengubah harga, stok, varian, foto, serta status tampil.</td></tr><tr><td>Promo</td><td>Mengelola banner, flash sale, dan voucher.</td></tr><tr><td>Pesanan</td><td>Memeriksa pembayaran, memproses order, dan mengisi pengiriman.</td></tr><tr><td>Pengaturan</td><td>Mengatur pembayaran, pengiriman, rekening, dan credential integrasi.</td></tr></table>
+    <div class="warn"><strong>Keamanan:</strong> jangan membagikan password admin, credential Midtrans/Everpro, bukti transfer, atau data pelanggan melalui grup publik.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Gambaran Umum</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">02 · Website Pelanggan</div><h2>Memeriksa tampilan toko</h2><div class="rule"></div>
+    <img class="shot tall" src="assets/01-homepage.png" alt="Homepage Anxiety Fightwear">
+    <ol class="steps"><li>Buka homepage dan pastikan logo, menu, kategori, serta daftar produk tampil.</li><li>Klik kategori untuk memastikan filter produk bekerja.</li><li>Buka salah satu produk dan periksa nama, foto, harga, stok, ukuran, serta warna.</li><li>Lakukan simulasi tambah ke keranjang setelah perubahan besar pada katalog.</li></ol>
+    <div class="tip"><strong>Praktik baik:</strong> periksa homepage setelah menambah produk, mengganti foto, mengaktifkan promo, atau mengubah mode pembayaran/pengiriman.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Website Pelanggan</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">03 · Akses Admin</div><h2>Login dan logout</h2><div class="rule"></div>
+    <img class="shot" src="assets/02-login-admin.png" alt="Login admin">
+    <h3>Login</h3><ol class="steps"><li>Buka alamat panel admin.</li><li>Masukkan password admin.</li><li>Klik tombol login dan tunggu sampai Dashboard tampil.</li></ol>
+    <h3>Logout</h3><p>Klik <strong>Logout</strong> di kiri bawah setelah selesai, terutama saat memakai komputer bersama.</p>
+    <div class="warn"><strong>Jika login gagal:</strong> cek penulisan password dan koneksi internet. Jangan mencoba berkali-kali dengan password yang dibagikan melalui chat. Hubungi pengelola teknis bila password perlu diganti.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Login Admin</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">04 · Dashboard</div><h2>Membaca ringkasan toko</h2><div class="rule"></div>
+    <img class="shot tall" src="assets/03-dashboard.png" alt="Dashboard admin">
+    <ul><li><strong>Total Produk:</strong> seluruh produk yang tercatat.</li><li><strong>Total Kategori:</strong> kelompok katalog yang tersedia.</li><li><strong>Promo Aktif:</strong> promo dalam periode aktif.</li><li><strong>Pesanan Hari Ini:</strong> order yang masuk pada hari berjalan.</li></ul>
+    <p>Gunakan bagian <strong>Aksi Cepat</strong> untuk langsung menuju Produk, Kategori, Promo, atau Pesanan.</p>
+    <div class="footer">User Guide Anxiety Fightwear · Dashboard</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">05 · Produk</div><h2>Mengelola daftar produk</h2><div class="rule"></div>
+    <img class="shot" src="assets/04-daftar-produk.png" alt="Daftar produk">
+    <h3>Aktivitas umum</h3><ul><li>Cari produk melalui kolom pencarian dan filter kategori.</li><li>Klik <strong>Edit</strong> untuk mengganti informasi, harga, stok, varian, atau foto.</li><li>Klik <strong>Hapus</strong> hanya bila produk memang tidak diperlukan lagi.</li></ul>
+    <div class="note"><strong>Disarankan:</strong> untuk produk yang sementara tidak dijual, nonaktifkan status tampil/aktif. Menghapus produk bersifat permanen dan dapat mengganggu referensi lama.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Daftar Produk</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">06 · Produk Baru</div><h2>Menambah produk</h2><div class="rule"></div>
+    <img class="shot" src="assets/05-tambah-produk.png" alt="Form tambah produk">
+    <div class="cols"><div><h3>Data wajib diperiksa</h3><ul><li>Nama dan slug unik</li><li>Kategori yang benar</li><li>Harga jual dan harga coret bila ada</li><li>Berat dalam gram untuk ongkir</li><li>Stok</li></ul></div><div><h3>Data pelengkap</h3><ul><li>Deskripsi produk</li><li>Ukuran dan warna</li><li>Foto utama dan foto tambahan</li><li>Status aktif/featured</li><li>Rating bila digunakan</li></ul></div></div>
+    <ol class="steps"><li>Klik <strong>Tambah Produk</strong>.</li><li>Isi identitas, harga, berat, stok, dan kategori.</li><li>Tambahkan ukuran/warna satu per satu.</li><li>Unggah foto yang tajam dan konsisten.</li><li>Klik <strong>Simpan Produk</strong>, lalu cek hasilnya di website pelanggan.</li></ol>
+    <div class="tip"><strong>Foto:</strong> gunakan rasio dan latar yang konsisten. Hindari file terlalu besar agar halaman tetap cepat.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Produk Baru</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">07 · Kategori</div><h2>Mengelola kategori katalog</h2><div class="rule"></div>
+    <img class="shot tall" src="assets/06-kategori.png" alt="Daftar kategori">
+    <ol class="steps"><li>Klik <strong>Tambah Kategori</strong>.</li><li>Isi nama, slug, dan deskripsi opsional.</li><li>Simpan, kemudian pilih kategori tersebut pada produk yang sesuai.</li></ol>
+    <div class="warn"><strong>Sebelum menghapus:</strong> pastikan tidak ada produk yang masih memakai kategori itu. Gunakan nama singkat dan konsisten agar filter homepage mudah dibaca.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Kategori</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">08 · Promo</div><h2>Banner, flash sale, dan voucher</h2><div class="rule"></div>
+    <img class="shot" src="assets/08-promo.png" alt="Daftar promo">
+    <table><tr><th>Jenis</th><th>Penggunaan</th><th>Hal penting</th></tr><tr><td>Banner</td><td>Komunikasi visual di storefront.</td><td>Gambar, CTA, link tujuan, periode aktif.</td></tr><tr><td>Flash Sale</td><td>Harga khusus untuk produk tertentu.</td><td>Produk, harga flash, stok flash, tanggal mulai/akhir.</td></tr><tr><td>Voucher</td><td>Potongan persen atau nominal.</td><td>Kode, nilai diskon, minimum belanja, periode aktif.</td></tr></table>
+    <ol class="steps"><li>Klik <strong>Tambah Promo</strong> dan pilih jenisnya.</li><li>Isi judul, periode, serta data khusus sesuai jenis promo.</li><li>Simpan dan pastikan statusnya aktif pada waktu yang benar.</li><li>Uji dari sisi pelanggan sebelum mengumumkan promo.</li></ol>
+    <div class="warn"><strong>Hindari promo tumpang tindih:</strong> periksa harga akhir, stok flash, minimum belanja, dan tanggal berakhir sebelum publikasi.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Promo</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">09 · Pesanan</div><h2>Memproses order pelanggan</h2><div class="rule"></div>
+    <img class="shot" src="assets/07-pesanan.png" alt="Daftar pesanan dengan data contoh">
+    <ol class="steps"><li>Cari berdasarkan Order ID, nama, atau email; gunakan filter status bila perlu.</li><li>Klik <strong>Detail</strong> dan cocokkan item, varian, jumlah, alamat, serta total.</li><li>Untuk transfer manual, cek bukti dan nominal sebelum konfirmasi pembayaran.</li><li>Proses dan kemas barang sesuai detail order.</li><li>Isi kurir, ongkir, serta nomor resi atau buat resi melalui integrasi.</li><li>Pastikan status akhir sesuai proses pengiriman.</li></ol>
+    <div class="warn"><strong>Jangan konfirmasi pembayaran hanya dari pesan pelanggan.</strong> Cocokkan bukti dengan mutasi rekening dan nominal order. Jika ditolak, tulis alasan yang jelas.</div>
+    <p class="small">Nama, email, dan Order ID pada screenshot telah diganti dengan data contoh.</p>
+    <div class="footer">User Guide Anxiety Fightwear · Pesanan</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">10 · Pengaturan</div><h2>Pembayaran dan pengiriman</h2><div class="rule"></div>
+    <img class="shot" src="assets/09-pengaturan.png" alt="Pengaturan toko">
+    <h3>Mode pembayaran</h3><ul><li><strong>Otomatis (Midtrans):</strong> pembayaran dan konfirmasi diproses melalui Midtrans.</li><li><strong>Manual (transfer bank):</strong> pelanggan unggah bukti, lalu admin memverifikasi.</li></ul>
+    <h3>Mode pengiriman</h3><ul><li><strong>Otomatis (Everpro API):</strong> ongkir dihitung dan resi dapat dibuat melalui integrasi.</li><li><strong>Manual:</strong> gunakan ongkos kirim tetap, lalu admin mengisi kurir dan resi.</li></ul>
+    <div class="warn"><strong>Perubahan langsung berlaku untuk order baru.</strong> Jangan mengganti mode saat ada transaksi aktif tanpa koordinasi dengan pengelola toko.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Pengaturan</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">11 · Integrasi dan Rekening</div><h2>Data sensitif toko</h2><div class="rule"></div>
+    <h3>Rekening bank</h3><ul><li>Tambah nama bank, nomor rekening, nama pemilik, dan instruksi transfer.</li><li>Aktifkan hanya rekening yang boleh tampil di checkout.</li><li>Uji checkout setelah mengganti rekening.</li></ul>
+    <h3>Credential Midtrans dan Everpro</h3><ul><li>Pastikan mode sandbox/production sesuai tujuan.</li><li>Masukkan key hanya di panel Pengaturan.</li><li>Jangan menyalin key ke dokumen, screenshot, spreadsheet publik, atau chat grup.</li><li>Jika key diduga bocor, segera lakukan rotasi dari dashboard penyedia.</li></ul>
+    <div class="note"><strong>Prinsip akses minimum:</strong> hanya pemilik toko dan staf yang bertanggung jawab atas pembayaran/pengiriman yang boleh mengubah bagian ini.</div>
+    <h3>Setelah perubahan integrasi</h3><ol class="steps"><li>Simpan pengaturan.</li><li>Lakukan satu transaksi uji bernilai kecil.</li><li>Periksa callback pembayaran atau tarif pengiriman.</li><li>Pastikan status order berubah sesuai alur.</li></ol>
+    <div class="footer">User Guide Anxiety Fightwear · Integrasi</div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">12 · Operasional</div><h2>Checklist dan troubleshooting</h2><div class="rule"></div>
+    <h3>Checklist harian</h3><ul><li>Periksa pesanan dan pembayaran baru.</li><li>Proses order berstatus siap diproses.</li><li>Perbarui resi dan status pengiriman.</li><li>Pastikan stok produk populer masih akurat.</li></ul>
+    <h3>Checklist sebelum promo</h3><ul><li>Periksa periode, produk, harga, stok, kode voucher, dan minimum belanja.</li><li>Uji promo dari homepage sampai checkout.</li><li>Siapkan stok dan kapasitas pemrosesan order.</li></ul>
+    <table><tr><th>Masalah</th><th>Pemeriksaan awal</th></tr><tr><td>Produk tidak tampil</td><td>Cek status aktif, stok, kategori, dan apakah penyimpanan berhasil.</td></tr><tr><td>Harga tidak sesuai</td><td>Cek harga normal, harga coret, serta promo aktif.</td></tr><tr><td>Ongkir tidak muncul</td><td>Cek berat produk, alamat pelanggan, mode pengiriman, dan credential Everpro.</td></tr><tr><td>Pembayaran tidak terkonfirmasi</td><td>Cek mode pembayaran, status di Midtrans/mutasi bank, dan konfigurasi callback.</td></tr><tr><td>Gambar gagal tampil</td><td>Unggah ulang file yang valid, cek ukuran, lalu simpan kembali.</td></tr><tr><td>Panel tidak dapat dibuka</td><td>Cek internet, login ulang, lalu hubungi pengelola teknis bila berlanjut.</td></tr></table>
+    <div class="warn"><strong>Saat melaporkan masalah:</strong> sertakan waktu kejadian, halaman, Order ID bila relevan, langkah sebelum error, dan screenshot. Jangan sertakan password atau secret key.</div>
+    <div class="footer">User Guide Anxiety Fightwear · Checklist</div>
+  </section>
+</body>
+</html>
