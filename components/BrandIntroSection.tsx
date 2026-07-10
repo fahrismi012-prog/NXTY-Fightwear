@@ -1,123 +1,103 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Factory, ShieldCheck, Truck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useBrand } from "@/contexts/BrandContext";
 
-const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
-
-function subscribeReducedMotion(onChange: () => void) {
-  const mq = window.matchMedia(reducedMotionQuery);
-  mq.addEventListener("change", onChange);
-  return () => mq.removeEventListener("change", onChange);
-}
-
 /**
- * Intro brand scroll-driven: saat pengguna scroll, teks WELCOME memudar dan
- * kartu logo membesar sampai persegi penuh selebar layar mobile (dibatasi
- * 560px di layar besar). Progress 0..1 disimpan di CSS variable --p sehingga
- * semua interpolasi berjalan lewat calc() tanpa re-render React per frame.
- * Pengguna dengan prefers-reduced-motion mendapat layout statis tanpa animasi.
+ * Hero brand — full-bleed di atas warna utama brand (mengikuti theme
+ * white-label). Mengganti versi scroll-driven 180vh sebelumnya: user
+ * langsung melihat value proposition + CTA tanpa harus scroll 2 layar.
  */
+
+const TRUST_ITEMS = [
+  { icon: Factory, label: "Produksi Pabrik Sendiri" },
+  { icon: ShieldCheck, label: "Kualitas Terjamin" },
+  { icon: Truck, label: "Kirim ke Seluruh Indonesia" },
+];
+
 export default function BrandIntroSection() {
-  const { brandName } = useBrand();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useSyncExternalStore(
-    subscribeReducedMotion,
-    () => window.matchMedia(reducedMotionQuery).matches,
-    () => false
-  );
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const track = trackRef.current;
-    if (!track) return;
-
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const rect = track.getBoundingClientRect();
-      const range = rect.height - window.innerHeight;
-      const p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
-      track.style.setProperty("--p", p.toFixed(4));
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [reducedMotion]);
-
-  const textStyle = reducedMotion
-    ? undefined
-    : ({
-        opacity: "clamp(0, calc(1 - var(--p, 0) * 1.8), 1)",
-        transform: "translateY(calc(var(--p, 0) * -1.5rem))",
-      } as React.CSSProperties);
-
-  const panelStyle = reducedMotion
-    ? undefined
-    : ({
-        width: "min(calc(7rem + (100vw - 7rem) * var(--p, 0)), 560px)",
-        borderRadius: "calc((1 - var(--p, 0)) * 0.75rem)",
-      } as React.CSSProperties);
+  const { brandName, logoUrl } = useBrand();
 
   return (
-    <section className="bg-surface-1">
+    <section className="relative bg-brand-black text-white overflow-hidden">
+      {/* Watermark logo halus di background */}
       <div
-        ref={trackRef}
-        className={reducedMotion ? "" : "relative h-[180vh]"}
-        style={{ "--p": 0 } as React.CSSProperties}
+        aria-hidden
+        className="absolute inset-y-0 right-0 hidden lg:flex items-center pr-[-4rem] opacity-[0.06] pointer-events-none"
       >
-        <div
-          className={
-            reducedMotion
-              ? "max-w-2xl mx-auto px-4 py-10 sm:py-14 flex flex-col items-center gap-6 text-center"
-              : "sticky top-14 md:top-[72px] h-[calc(100vh-3.5rem)] md:h-[calc(100vh-72px)] flex flex-col items-center justify-center gap-6 overflow-hidden text-center"
-          }
-        >
-          {/* Teks: WELCOME + deskripsi singkat (memudar saat scroll) */}
-          <div style={textStyle} className="max-w-2xl px-4 will-change-transform">
-            <h2 className="text-heading-2 font-bold text-text-primary uppercase tracking-wide mb-1.5">
-              Welcome
-            </h2>
-            <p className="text-body-sm text-text-secondary leading-relaxed">
-              Anxiety Fightwear adalah brand peralatan olahraga beladiri yang berasal dari Bandung. Berdiri sejak 2014 dan kami memproduksi barang di pabrik kami sendiri sehingga dapat menjamin kualitas dan harga yang bersaing.
-            </p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={logoUrl}
+          alt=""
+          className="h-[24rem] w-auto object-contain brightness-0 invert translate-x-1/4"
+        />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-24 grid lg:grid-cols-[1fr_auto] gap-10 items-center">
+        {/* Copy + CTA */}
+        <div className="max-w-2xl">
+          <p className="text-eyebrow font-bold uppercase tracking-[0.3em] text-white/60 mb-4">
+            Sejak 2014 · Bandung, Indonesia
+          </p>
+          <h1 className="text-display-2 md:text-display-1 font-black uppercase tracking-tight mb-4">
+            Peralatan Beladiri
+            <br />
+            Langsung dari Pabrik
+          </h1>
+          <p className="text-body md:text-body-lg text-white/70 leading-relaxed mb-8">
+            {brandName} memproduksi peralatan olahraga beladiri di pabrik kami
+            sendiri — kualitas terjamin dengan harga yang bersaing, dari matras
+            hingga body protector.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 mb-10">
+            <Link href="/#catalog">
+              <Button
+                variant="primary"
+                size="lg"
+                rightIcon={<ArrowRight className="w-4 h-4" />}
+                className="bg-white !text-brand-black hover:bg-white/90"
+              >
+                Lihat Katalog
+              </Button>
+            </Link>
+            <Link href="/tentang-kami">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="text-white hover:bg-white/10"
+              >
+                Tentang Kami
+              </Button>
+            </Link>
           </div>
 
-          {/* Kartu logo (membesar jadi persegi penuh saat scroll) */}
-          <div
-            style={panelStyle}
-            className="w-28 aspect-square shrink-0 bg-brand-black flex items-center justify-center shadow-sm will-change-[width]"
-          >
-            <img
-              src="/brand/logo-full.png"
-              alt={brandName}
-              className="w-3/4 h-auto object-contain"
-              width={313}
-              height={113}
-            />
-          </div>
+          {/* Trust chips */}
+          <ul className="flex flex-wrap gap-x-6 gap-y-3">
+            {TRUST_ITEMS.map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="flex items-center gap-2 text-body-sm font-semibold text-white/80"
+              >
+                <Icon className="w-4 h-4 shrink-0 text-white/50" aria-hidden />
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          {/* CTA */}
-          <Link href="/#catalog">
-            <Button
-              variant="primary"
-              size="md"
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-            >
-              Lihat Katalog
-            </Button>
-          </Link>
+        {/* Panel logo (desktop) */}
+        <div className="hidden lg:flex w-72 aspect-square shrink-0 border border-white/15 bg-white/5 items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoUrl}
+            alt={brandName}
+            className="w-3/4 h-auto object-contain brightness-0 invert"
+            width={313}
+            height={113}
+          />
         </div>
       </div>
     </section>

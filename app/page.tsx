@@ -13,12 +13,12 @@ import type { Product as LegacyProduct } from "@/types";
 export const revalidate = 60;
 
 const PROMO_MARQUEE = [
-  "Premium Gear",
-  "Fast Shipping",
-  "100% Authentic",
-  "Fight Spirit",
-  "Indonesian Brand",
-  "Limited Drop",
+  "Kualitas Premium",
+  "Pengiriman Cepat",
+  "100% Original",
+  "Produksi Pabrik Sendiri",
+  "Brand Indonesia",
+  "Harga Pabrik",
 ];
 
 // Urutan kategori yang diprioritaskan sesuai permintaan klien
@@ -97,7 +97,7 @@ export default async function Home({ searchParams }: PageProps) {
       {/* Marquee promo strip */}
       <div
         id="categories"
-        className="bg-brand-black text-white overflow-hidden"
+        className="bg-brand-black text-white overflow-hidden border-t border-white/15"
       >
         <div className="flex animate-marquee whitespace-nowrap py-3">
           {[...Array(4)].map((_, i) => (
