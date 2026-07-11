@@ -388,7 +388,21 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
             />
             <p className="mt-1 text-[11px] text-neutral-500">
               Format internasional tanpa + atau spasi (contoh: 628123456789).
+              Dipakai di tombol melayang dan footer.
             </p>
+          </div>
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Email CS (footer)
+            </label>
+            <input
+              type="email"
+              value={theme.contactEmail}
+              maxLength={120}
+              onChange={(e) => set("contactEmail", e.target.value)}
+              placeholder="cs@brandanda.com — kosongkan untuk sembunyikan"
+              className="w-full max-w-sm bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm"
+            />
           </div>
         </section>
 

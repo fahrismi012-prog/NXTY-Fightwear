@@ -36,6 +36,8 @@ export interface ThemeSettings {
   promoBarText: string;
   /** Nomor WhatsApp CS format internasional (628...). Kosong = tombol float disembunyikan. */
   whatsappNumber: string;
+  /** Email CS untuk footer. Kosong = baris email disembunyikan. */
+  contactEmail: string;
 }
 
 export type ThemeFont = "inter" | "poppins" | "manrope" | "jakarta";
@@ -61,6 +63,7 @@ export const DEFAULT_THEME: ThemeSettings = {
     "{brand} memproduksi peralatan olahraga beladiri di pabrik kami sendiri — kualitas terjamin dengan harga yang bersaing, dari matras hingga body protector.",
   promoBarText: "",
   whatsappNumber: "",
+  contactEmail: "",
 };
 
 export interface ThemePreset {
@@ -197,9 +200,16 @@ export function validateTheme(input: Partial<ThemeSettings>): string[] {
   return errors;
 }
 
-/** Merge input (jsonb dari DB / body request) dengan default, buang field invalid. */
-export function normalizeTheme(raw: unknown): ThemeSettings {
-  const t: ThemeSettings = { ...DEFAULT_THEME };
+/**
+ * Merge input (jsonb dari DB / body request) dengan `base`, buang field
+ * invalid. Default base = DEFAULT_THEME; untuk update parsial, pass theme
+ * tersimpan sebagai base supaya field yang tidak dikirim tidak ter-reset.
+ */
+export function normalizeTheme(
+  raw: unknown,
+  base: ThemeSettings = DEFAULT_THEME,
+): ThemeSettings {
+  const t: ThemeSettings = { ...base };
   if (!raw || typeof raw !== "object") return t;
   const input = raw as Record<string, unknown>;
 
@@ -227,6 +237,11 @@ export function normalizeTheme(raw: unknown): ThemeSettings {
     t.promoBarText = input.promoBarText.trim().slice(0, 120);
   if (typeof input.whatsappNumber === "string")
     t.whatsappNumber = input.whatsappNumber.replace(/\D/g, "").slice(0, 20);
+  if (typeof input.contactEmail === "string") {
+    const email = input.contactEmail.trim().slice(0, 120);
+    if (email === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      t.contactEmail = email;
+  }
 
   return t;
 }

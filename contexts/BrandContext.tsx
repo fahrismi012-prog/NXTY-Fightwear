@@ -19,6 +19,7 @@ export interface BrandInfo {
   heroSubtitle: string;
   promoBarText: string;
   whatsappNumber: string;
+  contactEmail: string;
 }
 
 const BrandContext = createContext<BrandInfo>({
@@ -30,6 +31,7 @@ const BrandContext = createContext<BrandInfo>({
   heroSubtitle: DEFAULT_THEME.heroSubtitle,
   promoBarText: DEFAULT_THEME.promoBarText,
   whatsappNumber: DEFAULT_THEME.whatsappNumber,
+  contactEmail: DEFAULT_THEME.contactEmail,
 });
 
 export function BrandProvider({

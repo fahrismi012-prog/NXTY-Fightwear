@@ -63,7 +63,7 @@ const COLUMNS = [
 ];
 
 export function Footer() {
-  const { brandName } = useBrand();
+  const { brandName, contactEmail, whatsappNumber } = useBrand();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -108,9 +108,11 @@ export function Footer() {
                 type="submit"
                 className={cn(
                   "w-full sm:max-w-xs py-3",
-                  "bg-brand-black !text-white",
+                  // "!" penting: tanpa itu tailwind-merge salah anggap konflik
+                  // dengan text-body-sm dan membuang kelas warnanya
+                  "bg-white !text-brand-black",
                   "text-body-sm font-bold text-center rounded-subtle",
-                  "hover:bg-brand-black-hover",
+                  "hover:bg-white/90",
                   "transition-colors duration-fast",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 )}
@@ -131,21 +133,26 @@ export function Footer() {
           <p className="text-body-sm text-white/70 mb-5">
             Butuh saran atau informasi? Hubungi kami.
           </p>
+          {/* Kontak dari theme settings (admin Tampilan); kosong = disembunyikan */}
           <div className="flex flex-col gap-3 pl-2">
-            <a
-              href="mailto:anxietyfightwear@gmail.com"
-              className="text-body-sm text-white/80 hover:text-white transition-colors"
-            >
-              anxietyfightwear@gmail.com
-            </a>
-            <a
-              href="https://wa.me/6281234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-body-sm text-white/80 hover:text-white transition-colors"
-            >
-              +62 812-3456-7890
-            </a>
+            {contactEmail && (
+              <a
+                href={`mailto:${contactEmail}`}
+                className="text-body-sm text-white/80 hover:text-white transition-colors"
+              >
+                {contactEmail}
+              </a>
+            )}
+            {whatsappNumber && (
+              <a
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-body-sm text-white/80 hover:text-white transition-colors"
+              >
+                WhatsApp: +{whatsappNumber}
+              </a>
+            )}
             <p className="text-body-sm text-white/70">
               Senin – Jumat: 09.00 – 17.00 WIB
             </p>

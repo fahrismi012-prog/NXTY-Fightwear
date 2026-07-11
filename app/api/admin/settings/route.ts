@@ -54,8 +54,10 @@ const VALUE_VALIDATORS: Record<string, (v: unknown) => unknown> = {
     if (errors.length > 0) {
       throw new Error(errors.join(" · "));
     }
-    // Simpan bentuk ternormalisasi (merged dengan default) sebagai jsonb
-    return normalizeTheme(v);
+    // Return raw (sudah tervalidasi); merge dengan theme tersimpan terjadi
+    // di PUT setelah nilai lama di-fetch, supaya update parsial tidak
+    // me-reset field lain ke default.
+    return v;
   },
 };
 
@@ -158,6 +160,22 @@ export async function PUT(request: NextRequest) {
   const oldMap = new Map<string, unknown>(
     (oldRows ?? []).map((r: { key: string; value: unknown }) => [r.key, r.value]),
   );
+
+  // Theme: merge input parsial di atas theme tersimpan sebelum normalisasi,
+  // supaya field yang tidak dikirim tidak ter-reset ke default.
+  for (const u of updates) {
+    if (u.key !== "theme") continue;
+    let stored: unknown = oldMap.get("theme") ?? null;
+    if (typeof stored === "string") {
+      try {
+        stored = JSON.parse(stored);
+      } catch {
+        stored = null;
+      }
+    }
+    const base = normalizeTheme(stored);
+    u.value = normalizeTheme({ ...base, ...(u.value as object) }, base);
+  }
 
   // Upsert each setting
   for (const u of updates) {

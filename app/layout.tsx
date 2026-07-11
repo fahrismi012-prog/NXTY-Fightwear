@@ -142,6 +142,7 @@ export default async function RootLayout({
             heroSubtitle: theme.heroSubtitle,
             promoBarText: theme.promoBarText,
             whatsappNumber: theme.whatsappNumber,
+            contactEmail: theme.contactEmail,
           }}
         >
           <CartProvider>
