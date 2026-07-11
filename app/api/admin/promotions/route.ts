@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
@@ -185,5 +186,6 @@ export async function POST(req: NextRequest) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
+  revalidatePath("/", "layout");
   return NextResponse.json(data, { status: 201 });
 }

@@ -13,11 +13,23 @@ import { DEFAULT_THEME } from "@/lib/theme";
 export interface BrandInfo {
   brandName: string;
   logoUrl: string;
+  logoInvert: boolean;
+  heroEyebrow: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  promoBarText: string;
+  whatsappNumber: string;
 }
 
 const BrandContext = createContext<BrandInfo>({
   brandName: DEFAULT_THEME.brandName,
   logoUrl: DEFAULT_THEME.logoUrl,
+  logoInvert: DEFAULT_THEME.logoInvert,
+  heroEyebrow: DEFAULT_THEME.heroEyebrow,
+  heroTitle: DEFAULT_THEME.heroTitle,
+  heroSubtitle: DEFAULT_THEME.heroSubtitle,
+  promoBarText: DEFAULT_THEME.promoBarText,
+  whatsappNumber: DEFAULT_THEME.whatsappNumber,
 });
 
 export function BrandProvider({

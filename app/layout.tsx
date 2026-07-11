@@ -133,7 +133,16 @@ export default async function RootLayout({
         className={`${inter.variable} ${poppins.variable} ${manrope.variable} ${jakarta.variable} antialiased min-h-screen bg-canvas text-text-primary selection:bg-brand-black selection:text-white`}
       >
         <BrandProvider
-          value={{ brandName: theme.brandName, logoUrl: theme.logoUrl }}
+          value={{
+            brandName: theme.brandName,
+            logoUrl: theme.logoUrl,
+            logoInvert: theme.logoInvert,
+            heroEyebrow: theme.heroEyebrow,
+            heroTitle: theme.heroTitle,
+            heroSubtitle: theme.heroSubtitle,
+            promoBarText: theme.promoBarText,
+            whatsappNumber: theme.whatsappNumber,
+          }}
         >
           <CartProvider>
             <WishlistProvider>

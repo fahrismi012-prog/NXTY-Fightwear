@@ -13,6 +13,21 @@ import { useBrand } from "@/contexts/BrandContext";
  * 4. Bottom bar: legal + copyright
  */
 
+// ponytail: chip teks dulu; ganti ke logo image kalau klien menyediakan asetnya
+const PAYMENT_METHODS = [
+  "QRIS",
+  "BCA",
+  "Mandiri",
+  "BNI",
+  "BRI",
+  "GoPay",
+  "OVO",
+  "DANA",
+  "ShopeePay",
+  "Visa",
+  "Mastercard",
+];
+
 const COLUMNS = [
   {
     title: "Akun Saya",
@@ -147,6 +162,25 @@ export function Footer() {
           {COLUMNS.map((col) => (
             <FooterColumn key={col.title} column={col} />
           ))}
+        </div>
+      </div>
+
+      {/* Metode pembayaran */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-5">
+          <p className="text-caption font-bold uppercase tracking-wider text-white/50 mb-3">
+            Pembayaran
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {PAYMENT_METHODS.map((m) => (
+              <li
+                key={m}
+                className="border border-white/20 text-white/70 text-caption font-semibold px-2.5 py-1 rounded-subtle"
+              >
+                {m}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
@@ -192,6 +193,10 @@ export async function PUT(request: NextRequest) {
     // Audit log failure tidak boleh block update — log warning
     console.warn("[api/admin/settings] audit log error:", auditError.message);
   }
+
+  // Settings (theme, payment/shipping mode) dipakai layout & halaman ISR —
+  // invalidate supaya perubahan langsung tampil tanpa menunggu revalidate window.
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ ok: true, updated: updates.map((u) => u.key) });
 }

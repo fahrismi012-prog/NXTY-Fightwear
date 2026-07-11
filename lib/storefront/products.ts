@@ -177,7 +177,11 @@ export async function getPromotions(): Promise<Promotion[]> {
       );
       return mapLegacyPromotions();
     }
-    return (data ?? []) as Promotion[];
+    // Promo dengan end_time lewat tidak boleh tampil di storefront
+    const now = Date.now();
+    return ((data ?? []) as Promotion[]).filter(
+      (p) => !p.end_time || new Date(p.end_time).getTime() > now,
+    );
   } catch (err) {
     console.warn("[storefront] promotions fallback:", err);
     return mapLegacyPromotions();

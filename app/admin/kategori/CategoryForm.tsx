@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Loader2, Trash2 } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
+import { slugify } from "@/lib/utils";
 
 interface CategoryFormProps {
   mode: "create" | "edit";
@@ -14,17 +15,6 @@ interface CategoryFormProps {
     slug: string;
     description: string | null;
   };
-}
-
-function slugify(input: string): string {
-  return input
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
 }
 
 export default function CategoryForm({ mode, initial }: CategoryFormProps) {
@@ -52,11 +42,6 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
       showToast("info", "Nama kategori wajib diisi");
       return;
     }
-    if (!trimmedSlug) {
-      showToast("info", "Slug kategori wajib diisi");
-      return;
-    }
-
     setSubmitting(true);
     try {
       const url =
@@ -162,7 +147,6 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
           <input
             id="slug"
             type="text"
-            required
             value={slug}
             onChange={(e) => {
               setSlug(e.target.value);
@@ -173,8 +157,8 @@ export default function CategoryForm({ mode, initial }: CategoryFormProps) {
             disabled={submitting || deleting}
           />
           <p className="mt-2 text-[10px] text-neutral-500">
-            URL-friendly identifier. Otomatis terisi dari nama, tapi bisa
-            diubah.
+            URL-friendly identifier. Otomatis terisi dari nama; kosongkan
+            untuk generate ulang dari nama saat disimpan.
           </p>
         </div>
 

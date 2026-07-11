@@ -33,7 +33,8 @@ const NAV_LINKS = [
 
 export function TopHeader() {
   const pathname = usePathname();
-  const { brandName, logoUrl } = useBrand();
+  const { brandName, logoUrl, logoInvert } = useBrand();
+  const logoClass = logoInvert ? "brightness-0 invert" : "";
   const { totalItems: cartCount } = useCart();
   const { totalItems: wishlistCount, hydrated: wishlistHydrated } =
     useWishlist();
@@ -116,7 +117,7 @@ export function TopHeader() {
               width={395}
               height={129}
               priority
-              className="h-8 w-auto object-contain brightness-0 invert"
+              className={`h-8 w-auto object-contain ${logoClass}`}
             />
           </Link>
 
@@ -163,7 +164,7 @@ export function TopHeader() {
               width={395}
               height={129}
               priority
-              className="h-10 w-auto object-contain brightness-0 invert"
+              className={`h-10 w-auto object-contain ${logoClass}`}
             />
           </Link>
 

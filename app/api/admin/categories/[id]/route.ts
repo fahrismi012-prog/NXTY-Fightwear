@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { slugify } from "@/lib/utils";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -76,7 +77,8 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     update.name = name;
   }
   if (typeof body.slug === "string") {
-    const slug = body.slug.trim();
+    // Server selalu menormalisasi slug; kosong = generate ulang dari nama.
+    const slug = slugify(body.slug.trim() || (update.name as string) || "");
     if (!slug) {
       return NextResponse.json(
         { error: "Slug kategori tidak boleh kosong" },
@@ -111,7 +113,11 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    const msg =
+      error.code === "23505"
+        ? `Slug "${update.slug}" sudah dipakai kategori lain — gunakan nama/slug berbeda.`
+        : error.message;
+    return NextResponse.json({ error: msg }, { status: 400 });
   }
   return NextResponse.json(data);
 }

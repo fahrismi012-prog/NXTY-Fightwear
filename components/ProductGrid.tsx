@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Product } from "@/types";
 import ProductCard from "./ProductCard";
 import { Button } from "@/components/ui/Button";
@@ -18,9 +19,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
         <p className="text-body text-text-muted mb-4">
           Coba kata kunci atau kategori lain
         </p>
-        <Button variant="primary" size="md">
-          Lihat Semua Produk
-        </Button>
+        <Link href="/#catalog">
+          <Button variant="primary" size="md">
+            Lihat Semua Produk
+          </Button>
+        </Link>
       </div>
     );
   }

@@ -7,6 +7,8 @@ import { MegaMenuSheet } from "./navigation/MegaMenuSheet";
 import { MobileSearchSheet } from "./navigation/MobileSearchSheet";
 import { SearchModal } from "./navigation/SearchModal";
 import { Footer } from "./Footer";
+import PromoTopBar from "./PromoTopBar";
+import WhatsAppFloat from "./WhatsAppFloat";
 import CartDrawer from "./CartDrawer";
 import MobileFilterSheet from "./MobileFilterSheet";
 import { useUI } from "@/contexts/UIContext";
@@ -41,6 +43,7 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <>
+      {showShell && <PromoTopBar />}
       <TopHeader />
 
       <main className={showShell ? "min-h-screen pb-16 md:pb-0" : "min-h-screen"}>
@@ -49,6 +52,7 @@ export default function AppShell({ children }: AppShellProps) {
 
       {showShell && <Footer />}
       {showShell && <BottomNav />}
+      {showShell && <WhatsAppFloat />}
 
       {/* Overlay layer */}
       <CartDrawer isOpen={cartOpen} onClose={closeCart} />

@@ -93,6 +93,12 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
 
   const handleLogoUpload = async (file: File) => {
     setError(null);
+    // JPEG tidak punya transparansi — hasilnya kotak solid di atas warna primary
+    if (!["image/png", "image/webp"].includes(file.type)) {
+      setError("Logo harus PNG atau WebP dengan latar transparan");
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const fd = new FormData();
@@ -272,7 +278,7 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
                 <img
                   src={theme.logoUrl}
                   alt="Preview logo"
-                  className="h-9 w-auto object-contain brightness-0 invert"
+                  className={`h-9 w-auto object-contain ${theme.logoInvert ? "brightness-0 invert" : ""}`}
                 />
               </span>
               <button
@@ -291,7 +297,7 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
               <input
                 ref={fileRef}
                 type="file"
-                accept="image/png,image/webp,image/jpeg"
+                accept="image/png,image/webp"
                 className="hidden"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
@@ -300,8 +306,88 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
               />
             </div>
             <p className="mt-1 text-[11px] text-neutral-500">
-              Logo ditampilkan putih di atas warna utama (otomatis di-invert).
-              Ideal: PNG transparan, lebar ≥ 400px.
+              Ideal: PNG/WebP transparan, lebar ≥ 400px.
+            </p>
+            <label className="mt-3 flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={theme.logoInvert}
+                onChange={(e) => set("logoInvert", e.target.checked)}
+                className="mt-0.5 accent-black"
+              />
+              <span>
+                <span className="block text-sm font-bold">
+                  Tampilkan logo sebagai putih
+                </span>
+                <span className="block text-[11px] text-neutral-500">
+                  Logo di-invert jadi siluet putih di atas warna utama. Matikan
+                  untuk logo berwarna yang sudah kontras di latar gelap.
+                </span>
+              </span>
+            </label>
+          </div>
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Teks Hero (Home Page)
+            </label>
+            <div className="space-y-3 max-w-sm">
+              <input
+                type="text"
+                value={theme.heroEyebrow}
+                maxLength={80}
+                onChange={(e) => set("heroEyebrow", e.target.value)}
+                placeholder="Baris kecil di atas judul (boleh kosong)"
+                className="w-full bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm"
+              />
+              <textarea
+                value={theme.heroTitle}
+                maxLength={120}
+                rows={2}
+                onChange={(e) => set("heroTitle", e.target.value)}
+                placeholder="Judul utama"
+                className="w-full bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm font-semibold"
+              />
+              <textarea
+                value={theme.heroSubtitle}
+                maxLength={300}
+                rows={3}
+                onChange={(e) => set("heroSubtitle", e.target.value)}
+                placeholder="Deskripsi singkat"
+                className="w-full bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm"
+              />
+              <p className="text-[11px] text-neutral-500">
+                Enter di judul = baris baru. Tulis <code>{"{brand}"}</code> di
+                deskripsi untuk otomatis diganti nama brand.
+              </p>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Bar Promo (atas header)
+            </label>
+            <input
+              type="text"
+              value={theme.promoBarText}
+              maxLength={120}
+              onChange={(e) => set("promoBarText", e.target.value)}
+              placeholder="Contoh: Gratis ongkir min. Rp 500.000 — kosongkan untuk sembunyikan"
+              className="w-full max-w-sm bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              WhatsApp CS (tombol melayang)
+            </label>
+            <input
+              type="tel"
+              value={theme.whatsappNumber}
+              maxLength={20}
+              onChange={(e) => set("whatsappNumber", e.target.value)}
+              placeholder="628123456789 — kosongkan untuk sembunyikan"
+              className="w-full max-w-sm bg-white text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-sm font-mono"
+            />
+            <p className="mt-1 text-[11px] text-neutral-500">
+              Format internasional tanpa + atau spasi (contoh: 628123456789).
             </p>
           </div>
         </section>
@@ -359,7 +445,7 @@ export default function ThemeEditor({ initialTheme }: ThemeEditorProps) {
             <img
               src={theme.logoUrl}
               alt=""
-              className="h-5 w-auto object-contain brightness-0 invert"
+              className={`h-5 w-auto object-contain ${theme.logoInvert ? "brightness-0 invert" : ""}`}
             />
             <span className="flex-1" />
             <Search size={14} color="#ffffff" />

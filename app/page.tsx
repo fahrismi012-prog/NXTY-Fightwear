@@ -1,6 +1,9 @@
 import { Suspense } from "react";
+import { Factory, ShieldCheck, Truck } from "lucide-react";
+import BannerCarousel from "@/components/BannerCarousel";
 import BrandIntroSection from "@/components/BrandIntroSection";
 import ScrollToTop from "@/components/ScrollToTop";
+import { TrustStrip } from "@/components/TrustStrip";
 import ProductList from "./_components/ProductList";
 import { getProducts, getPromotions } from "@/lib/storefront/products";
 import type { ProductWithRelations } from "@/types/database";
@@ -12,23 +15,36 @@ import type { Product as LegacyProduct } from "@/types";
 // pure static (data hanya berubah saat redeploy).
 export const revalidate = 60;
 
-const PROMO_MARQUEE = [
-  "Kualitas Premium",
-  "Pengiriman Cepat",
-  "100% Original",
-  "Produksi Pabrik Sendiri",
-  "Brand Indonesia",
-  "Harga Pabrik",
+const TRUST_ITEMS = [
+  {
+    icon: <Factory className="w-5 h-5" />,
+    label: "Produksi Pabrik Sendiri",
+    description: "Harga pabrik, kualitas terkontrol",
+  },
+  {
+    icon: <ShieldCheck className="w-5 h-5" />,
+    label: "100% Original",
+    description: "Kualitas premium terjamin",
+  },
+  {
+    icon: <Truck className="w-5 h-5" />,
+    label: "Kirim ke Seluruh Indonesia",
+    description: "Pengiriman cepat & aman",
+  },
 ];
 
-// Urutan kategori yang diprioritaskan sesuai permintaan klien
-const PRIORITY_CATEGORIES = [
-  "Pencak Silat",
-  "Taekwondo",
-  "Karate",
-  "Muaythai",
-  "Boxing",
-  "Matras",
+// Urutan kategori yang diprioritaskan sesuai permintaan klien.
+// Match berdasarkan slug (stabil & ternormalisasi server) — nama kategori
+// bebas ditulis ulang admin tanpa merusak urutan ini.
+// ponytail: hardcoded per klien; pindah ke kolom display_order di admin
+// kalau sudah multi-klien.
+const PRIORITY_SLUGS = [
+  "pencak-silat",
+  "tae-kwon-do",
+  "karate",
+  "muay-thai",
+  "boxing",
+  "matras",
 ];
 
 interface PageProps {
@@ -64,11 +80,11 @@ export default async function Home({ searchParams }: PageProps) {
 
   // Priority order: tampilkan priority duluan dalam urutan yang ditentukan,
   // lalu sisanya alfabet
-  const priorityCats = PRIORITY_CATEGORIES.map((name) =>
-    allCategories.find((c) => c.name === name),
+  const priorityCats = PRIORITY_SLUGS.map((slug) =>
+    allCategories.find((c) => c.slug === slug),
   ).filter((c): c is { name: string; slug: string } => Boolean(c));
   const restCats = allCategories
-    .filter((c) => !PRIORITY_CATEGORIES.includes(c.name))
+    .filter((c) => !PRIORITY_SLUGS.includes(c.slug))
     .sort((a, b) => a.name.localeCompare(b.name));
   const categories = [...priorityCats, ...restCats];
 
@@ -89,30 +105,25 @@ export default async function Home({ searchParams }: PageProps) {
     );
   }
 
+  const heroBanners = promotions.filter(
+    (p) => p.type === "banner" && p.image,
+  );
+
   return (
     <div className="min-h-screen bg-canvas">
       <ScrollToTop />
-      <BrandIntroSection />
+      {/* Hero: slider foto dari promo banner admin; kalau belum ada banner,
+          fallback ke hero teks brand supaya home tidak tanpa kepala. */}
+      {heroBanners.length > 0 ? (
+        <BannerCarousel banners={heroBanners} />
+      ) : (
+        <BrandIntroSection />
+      )}
 
-      {/* Marquee promo strip */}
-      <div
-        id="categories"
-        className="bg-brand-black text-white overflow-hidden border-t border-white/15"
-      >
-        <div className="flex animate-marquee whitespace-nowrap py-3">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex items-center shrink-0">
-              {PROMO_MARQUEE.map((t, j) => (
-                <span
-                  key={j}
-                  className="px-6 text-body-sm font-semibold flex items-center gap-6"
-                >
-                  {t}
-                  <span className="text-canvas/40">◆</span>
-                </span>
-              ))}
-            </div>
-          ))}
+      {/* Trust strip tipis (pengganti marquee) */}
+      <div className="border-b border-neutral-200 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <TrustStrip items={TRUST_ITEMS} variant="compact" />
         </div>
       </div>
 

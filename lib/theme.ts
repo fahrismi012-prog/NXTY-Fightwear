@@ -23,6 +23,19 @@ export interface ThemeSettings {
   brandName: string;
   /** URL logo (path lokal /brand/... atau URL Supabase Storage). */
   logoUrl: string;
+  /**
+   * Render logo sebagai siluet putih (brightness-0 invert) di atas warna
+   * primary. Matikan untuk logo berwarna yang sudah kontras di latar gelap.
+   */
+  logoInvert: boolean;
+  /** Copy hero home page — white-label, editable per klien. */
+  heroEyebrow: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  /** Teks bar promo tipis di atas header. Kosong = bar disembunyikan. */
+  promoBarText: string;
+  /** Nomor WhatsApp CS format internasional (628...). Kosong = tombol float disembunyikan. */
+  whatsappNumber: string;
 }
 
 export type ThemeFont = "inter" | "poppins" | "manrope" | "jakarta";
@@ -41,6 +54,13 @@ export const DEFAULT_THEME: ThemeSettings = {
   font: "inter",
   brandName: "Anxiety Fightwear",
   logoUrl: "/brand/logo-mark.png",
+  logoInvert: true,
+  heroEyebrow: "Sejak 2014 · Bandung, Indonesia",
+  heroTitle: "Peralatan Beladiri\nLangsung dari Pabrik",
+  heroSubtitle:
+    "{brand} memproduksi peralatan olahraga beladiri di pabrik kami sendiri — kualitas terjamin dengan harga yang bersaing, dari matras hingga body protector.",
+  promoBarText: "",
+  whatsappNumber: "",
 };
 
 export interface ThemePreset {
@@ -133,6 +153,8 @@ export function contrastRatio(a: string, b: string): number {
  */
 export const PRIMARY_MIN_CONTRAST = 4.5;
 export const CANVAS_MIN_CONTRAST = 7;
+/** Badge diskon: teks putih bold ukuran kecil → minimal AA large (3:1). */
+export const ACCENT_MIN_CONTRAST = 3;
 
 export function validateTheme(input: Partial<ThemeSettings>): string[] {
   const errors: string[] = [];
@@ -143,8 +165,12 @@ export function validateTheme(input: Partial<ThemeSettings>): string[] {
         "Warna utama terlalu terang — teks putih di header/tombol tidak akan terbaca. Pilih warna yang lebih gelap.",
       );
   }
-  if (input.accent !== undefined && !isHexColor(input.accent)) {
-    errors.push("Warna aksen harus format hex #rrggbb");
+  if (input.accent !== undefined) {
+    if (!isHexColor(input.accent)) errors.push("Warna aksen harus format hex #rrggbb");
+    else if (contrastRatio(input.accent, "#ffffff") < ACCENT_MIN_CONTRAST)
+      errors.push(
+        "Warna aksen terlalu terang — teks putih di badge diskon tidak akan terbaca. Pilih warna yang lebih pekat.",
+      );
   }
   if (input.canvas !== undefined) {
     if (!isHexColor(input.canvas)) errors.push("Warna background harus format hex #rrggbb");
@@ -190,6 +216,17 @@ export function normalizeTheme(raw: unknown): ThemeSettings {
     (input.logoUrl.startsWith("/") || input.logoUrl.startsWith("https://"))
   )
     t.logoUrl = input.logoUrl.trim().slice(0, 500);
+  if (typeof input.logoInvert === "boolean") t.logoInvert = input.logoInvert;
+  if (typeof input.heroEyebrow === "string")
+    t.heroEyebrow = input.heroEyebrow.trim().slice(0, 80);
+  if (typeof input.heroTitle === "string" && input.heroTitle.trim())
+    t.heroTitle = input.heroTitle.trim().slice(0, 120);
+  if (typeof input.heroSubtitle === "string" && input.heroSubtitle.trim())
+    t.heroSubtitle = input.heroSubtitle.trim().slice(0, 300);
+  if (typeof input.promoBarText === "string")
+    t.promoBarText = input.promoBarText.trim().slice(0, 120);
+  if (typeof input.whatsappNumber === "string")
+    t.whatsappNumber = input.whatsappNumber.replace(/\D/g, "").slice(0, 20);
 
   return t;
 }

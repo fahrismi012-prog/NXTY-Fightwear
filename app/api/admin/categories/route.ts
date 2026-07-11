@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { appendFileSync } from "node:fs";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { slugify } from "@/lib/utils";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -82,10 +83,16 @@ export async function POST(req: NextRequest) {
   }
 
   const name = (body.name ?? "").trim();
-  const slug = (body.slug ?? "").trim();
-
   if (!name) return NextResponse.json({ error: "Nama wajib" }, { status: 400 });
-  if (!slug) return NextResponse.json({ error: "Slug wajib" }, { status: 400 });
+
+  // Server selalu menormalisasi slug; kosong = generate dari nama.
+  const slug = slugify((body.slug ?? "").trim() || name);
+  if (!slug) {
+    return NextResponse.json(
+      { error: "Slug tidak valid — gunakan huruf/angka" },
+      { status: 400 },
+    );
+  }
 
   const supabase = createAdminClient();
   if (!supabase) return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
@@ -96,6 +103,12 @@ export async function POST(req: NextRequest) {
     .select()
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (error) {
+    const msg =
+      error.code === "23505"
+        ? `Slug "${slug}" sudah dipakai kategori lain — gunakan nama/slug berbeda.`
+        : error.message;
+    return NextResponse.json({ error: msg }, { status: 400 });
+  }
   return NextResponse.json(data, { status: 201 });
 }

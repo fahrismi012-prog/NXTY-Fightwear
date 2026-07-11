@@ -18,7 +18,9 @@ const TRUST_ITEMS = [
 ];
 
 export default function BrandIntroSection() {
-  const { brandName, logoUrl } = useBrand();
+  const { brandName, logoUrl, logoInvert, heroEyebrow, heroTitle, heroSubtitle } =
+    useBrand();
+  const logoClass = logoInvert ? "brightness-0 invert" : "";
 
   return (
     <section className="relative bg-brand-black text-white overflow-hidden">
@@ -31,29 +33,28 @@ export default function BrandIntroSection() {
         <img
           src={logoUrl}
           alt=""
-          className="h-[24rem] w-auto object-contain brightness-0 invert translate-x-1/4"
+          className={`h-[24rem] w-auto object-contain translate-x-1/4 ${logoClass}`}
         />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-24 grid lg:grid-cols-[1fr_auto] gap-10 items-center">
         {/* Copy + CTA */}
         <div className="max-w-2xl">
-          <p className="text-eyebrow font-bold uppercase tracking-[0.3em] text-white/60 mb-4">
-            Sejak 2014 · Bandung, Indonesia
-          </p>
-          <h1 className="text-display-2 md:text-display-1 font-black uppercase tracking-tight mb-4">
-            Peralatan Beladiri
-            <br />
-            Langsung dari Pabrik
+          {heroEyebrow && (
+            <p className="text-eyebrow font-bold uppercase tracking-[0.3em] text-white/60 mb-4">
+              {heroEyebrow}
+            </p>
+          )}
+          <h1 className="text-display-2 md:text-display-1 font-black uppercase tracking-tight mb-4 whitespace-pre-line">
+            {heroTitle}
           </h1>
           <p className="text-body md:text-body-lg text-white/70 leading-relaxed mb-8">
-            {brandName} memproduksi peralatan olahraga beladiri di pabrik kami
-            sendiri — kualitas terjamin dengan harga yang bersaing, dari matras
-            hingga body protector.
+            {heroSubtitle.replaceAll("{brand}", brandName)}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 mb-10">
-            <Link href="/#catalog">
+            {/* Plain anchor: hero hanya tampil di home, scroll native ke #catalog */}
+            <a href="#catalog">
               <Button
                 variant="primary"
                 size="lg"
@@ -62,7 +63,7 @@ export default function BrandIntroSection() {
               >
                 Lihat Katalog
               </Button>
-            </Link>
+            </a>
             <Link href="/tentang-kami">
               <Button
                 variant="ghost"
@@ -94,7 +95,7 @@ export default function BrandIntroSection() {
           <img
             src={logoUrl}
             alt={brandName}
-            className="w-3/4 h-auto object-contain brightness-0 invert"
+            className={`w-3/4 h-auto object-contain ${logoClass}`}
             width={313}
             height={113}
           />

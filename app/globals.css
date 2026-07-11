@@ -231,6 +231,23 @@ html {
   animation: marquee 30s linear infinite;
 }
 
+/* Progress fill hero slider — durasi harus sinkron dengan SLIDE_MS di
+   BannerCarousel.tsx */
+@keyframes slide-progress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.animate-slide-progress {
+  animation: slide-progress 5s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* Skeleton loading animations */
 @keyframes skeleton-gradient {
   0% { background-position: 200% 0; }
