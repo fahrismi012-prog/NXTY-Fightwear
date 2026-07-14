@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import { normalizeTheme, type ThemeSettings } from "@/lib/theme";
+import { resolveManualShippingFee, type ShippingZone } from "@/lib/shipping/manual";
 
 /**
  * Helper untuk baca settings di server-side.
@@ -109,11 +110,50 @@ export async function getShippingMode(): Promise<"auto" | "manual"> {
   return v === "manual" ? "manual" : "auto";
 }
 
-/** Return fixed shipping fee untuk mode manual (Rupiah) */
+/** Return fixed shipping fee (default nasional) untuk mode manual (Rupiah) */
 export async function getShippingManualFee(): Promise<number> {
   const v = await readSetting("shipping_manual_fee");
   const n = Number(v);
   return Number.isFinite(n) && n >= 0 ? Math.round(n) : 15000;
+}
+
+/** Return daftar zona ongkir manual (per provinsi). Kosong = belum diset admin. */
+export async function getShippingManualZones(): Promise<ShippingZone[]> {
+  const supabase = createAdminClient();
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from("settings")
+      .select("value")
+      .eq("key", "shipping_manual_zones")
+      .maybeSingle();
+    if (error || !data) return [];
+    let value: unknown = data.value;
+    if (typeof value === "string") {
+      try {
+        value = JSON.parse(value);
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(value) ? (value as ShippingZone[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Ongkir manual final untuk sebuah provinsi: pakai fee zona kalau
+ * provinsi cocok, fallback ke fee nasional (shipping_manual_fee).
+ */
+export async function getManualShippingFee(
+  province?: string | null,
+): Promise<number> {
+  const [defaultFee, zones] = await Promise.all([
+    getShippingManualFee(),
+    getShippingManualZones(),
+  ]);
+  return resolveManualShippingFee(zones, defaultFee, province);
 }
 
 /** Return bank accounts yang aktif (untuk display di checkout manual) */

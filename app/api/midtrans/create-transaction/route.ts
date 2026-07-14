@@ -6,7 +6,7 @@ import { getProductById } from "@/lib/storefront/products";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getIntegrationCredential } from "@/lib/integrations/credentials";
-import { getPaymentMode, getShippingMode, getShippingManualFee } from "@/lib/storefront/settings";
+import { getPaymentMode, getShippingMode, getManualShippingFee } from "@/lib/storefront/settings";
 import { getRates } from "@/lib/shipping/everpro";
 
 interface RequestBody {
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       grossAmount += shippingCost;
       itemDetails.push({ id: "SHIPPING", price: shippingCost, quantity: 1, name: `Ongkir ${selected.courier} ${selected.service}` });
     } else {
-      shippingCost = await getShippingManualFee();
+      shippingCost = await getManualShippingFee(customer.province);
       grossAmount += shippingCost;
       if (shippingCost > 0) {
         itemDetails.push({ id: "SHIPPING", price: shippingCost, quantity: 1, name: "Ongkir" });

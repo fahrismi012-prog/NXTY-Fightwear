@@ -13,6 +13,7 @@ const ALLOWED_KEYS = new Set([
   "payment_mode",
   "shipping_mode",
   "shipping_manual_fee",
+  "shipping_manual_zones",
   "payment_manual_expire_hours",
   "theme",
 ]);
@@ -38,6 +39,31 @@ const VALUE_VALIDATORS: Record<string, (v: unknown) => unknown> = {
       throw new Error("shipping_manual_fee harus angka >= 0");
     }
     return String(Math.round(n));
+  },
+  shipping_manual_zones: (v) => {
+    if (!Array.isArray(v)) {
+      throw new Error("shipping_manual_zones harus array");
+    }
+    return v.map((zone, idx) => {
+      if (!zone || typeof zone !== "object") {
+        throw new Error(`Zona ongkir #${idx + 1} tidak valid`);
+      }
+      const z = zone as Record<string, unknown>;
+      const label = typeof z.label === "string" ? z.label.trim() : "";
+      if (!label) {
+        throw new Error(`Zona ongkir #${idx + 1} butuh nama`);
+      }
+      const provinces = Array.isArray(z.provinces)
+        ? z.provinces
+            .filter((p): p is string => typeof p === "string" && p.trim() !== "")
+            .map((p) => p.trim())
+        : [];
+      const fee = Number(z.fee);
+      if (!Number.isFinite(fee) || fee < 0) {
+        throw new Error(`Ongkir zona "${label}" harus angka >= 0`);
+      }
+      return { label, provinces, fee: Math.round(fee) };
+    });
   },
   payment_manual_expire_hours: (v) => {
     const n = Number(v);

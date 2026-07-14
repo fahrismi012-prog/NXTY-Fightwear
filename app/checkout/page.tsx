@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Card } from "@/components/ui/Card";
 import { TrustStrip } from "@/components/TrustStrip";
+import { PROVINCES } from "@/lib/shipping/regions";
+import { resolveManualShippingFee, type ShippingZone } from "@/lib/shipping/manual";
 
 interface FormData {
   name: string;
@@ -100,10 +102,14 @@ export default function CheckoutPage() {
   const [midtransConfig, setMidtransConfig] = useState({ clientKey: "", environment: "sandbox" });
   const [shippingMode, setShippingMode] = useState<"auto" | "manual">("manual");
   const [manualShippingFee, setManualShippingFee] = useState(0);
+  const [manualShippingZones, setManualShippingZones] = useState<ShippingZone[]>([]);
   const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
   const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
   const [ratesLoading, setRatesLoading] = useState(false);
-  const shippingCost = shippingMode === "auto" ? (selectedRate?.cost ?? 0) : manualShippingFee;
+  const shippingCost =
+    shippingMode === "auto"
+      ? (selectedRate?.cost ?? 0)
+      : resolveManualShippingFee(manualShippingZones, manualShippingFee, form.province);
   const checkoutTotal = totalPrice + shippingCost;
 
   useEffect(() => {
@@ -134,7 +140,7 @@ export default function CheckoutPage() {
     let cancelled = false;
     fetch("/api/storefront/payment-mode")
       .then((r) => (r.ok ? r.json() : { mode: "gateway" }))
-      .then((data: { mode?: string; shippingMode?: string; shippingManualFee?: number; midtrans?: { clientKey?: string; environment?: string } }) => {
+      .then((data: { mode?: string; shippingMode?: string; shippingManualFee?: number; shippingManualZones?: ShippingZone[]; midtrans?: { clientKey?: string; environment?: string } }) => {
         if (cancelled) return;
         if (data.mode === "manual" || data.mode === "gateway") {
           setPaymentMode(data.mode);
@@ -145,6 +151,7 @@ export default function CheckoutPage() {
         });
         setShippingMode(data.shippingMode === "auto" ? "auto" : "manual");
         setManualShippingFee(Number(data.shippingManualFee) || 0);
+        setManualShippingZones(Array.isArray(data.shippingManualZones) ? data.shippingManualZones : []);
       })
       .catch(() => {
         if (!cancelled) setPaymentMode("gateway");
@@ -247,7 +254,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
     if (errors[e.target.name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
@@ -445,7 +452,10 @@ export default function CheckoutPage() {
             <p className="text-heading-3 font-semibold text-text-primary mb-4">Pengiriman</p>
             {shippingMode === "manual" ? (
               <div className="rounded-subtle border border-border-subtle bg-surface-1 p-4 text-sm">
-                Ongkir tetap: <strong>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(manualShippingFee)}</strong>
+                Ongkir: <strong>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(shippingCost)}</strong>
+                {!form.province && (
+                  <span className="block text-text-muted mt-1">Pilih provinsi di bawah untuk ongkir sesuai zona.</span>
+                )}
               </div>
             ) : (
               <div className="space-y-3">
@@ -485,14 +495,32 @@ export default function CheckoutPage() {
                 error={errors.city}
               />
               <div className="grid grid-cols-2 gap-3">
-                <Input
-                  label="Provinsi"
-                  name="province"
-                  value={form.province}
-                  onChange={handleChange}
-                  placeholder="Jawa Barat"
-                  error={errors.province}
-                />
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="province" className="text-caption font-medium text-text-secondary">
+                    Provinsi
+                  </label>
+                  <select
+                    id="province"
+                    name="province"
+                    value={form.province}
+                    onChange={handleChange}
+                    className={`w-full h-11 rounded-subtle border bg-surface-1 text-text-primary pl-4 pr-4 text-body focus:outline-none transition-colors duration-fast ${
+                      errors.province ? "border-error-500 focus:border-error-500" : "border-border-default focus:border-brand-black"
+                    }`}
+                  >
+                    <option value="">Pilih provinsi</option>
+                    {PROVINCES.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.province && (
+                    <p className="text-body-sm text-error-500" role="alert">
+                      {errors.province}
+                    </p>
+                  )}
+                </div>
                 <Input
                   label="Kode Pos"
                   name="postalCode"

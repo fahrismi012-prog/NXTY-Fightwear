@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getProductById } from "@/lib/storefront/products";
-import { getActiveBankAccounts, getShippingManualFee, getShippingMode } from "@/lib/storefront/settings";
+import { getActiveBankAccounts, getManualShippingFee, getShippingMode } from "@/lib/storefront/settings";
 import type { CartItem, Customer } from "@/types";
 import { getRates } from "@/lib/shipping/everpro";
 
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
 
   // Hitung shipping cost (untuk mode manual, fixed fee; tapi admin bisa adjust)
   const shippingMode = await getShippingMode();
-  let shippingFee = await getShippingManualFee();
+  let shippingFee = await getManualShippingFee(customer.province);
   let shipping: Record<string, unknown> | null = null;
   if (shippingMode === "auto") {
     if (!body.shipping?.courier || !body.shipping.service || !customer.postalCode) {

@@ -1,5 +1,6 @@
 import { Settings as SettingsIcon, Info } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/server";
+import type { ShippingZone } from "@/lib/shipping/manual";
 import SettingsForm from "./SettingsForm";
 import BankAccountsManager from "./BankAccountsManager";
 import IntegrationSettings from "./IntegrationSettings";
@@ -73,6 +74,9 @@ export default async function AdminSettingsPage() {
     typeof settings["shipping_manual_fee"]?.value === "string"
       ? Number(settings["shipping_manual_fee"].value)
       : 15000;
+  const shippingManualZones = Array.isArray(settings["shipping_manual_zones"]?.value)
+    ? (settings["shipping_manual_zones"]!.value as ShippingZone[])
+    : [];
   const paymentManualExpireHours =
     typeof settings["payment_manual_expire_hours"]?.value === "string"
       ? Number(settings["payment_manual_expire_hours"].value)
@@ -119,6 +123,7 @@ export default async function AdminSettingsPage() {
         initialPaymentMode={paymentMode}
         initialShippingMode={shippingMode}
         initialShippingManualFee={shippingManualFee}
+        initialShippingManualZones={shippingManualZones}
         initialPaymentManualExpireHours={paymentManualExpireHours}
       />
 

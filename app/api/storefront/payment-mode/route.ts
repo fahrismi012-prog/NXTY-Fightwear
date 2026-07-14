@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
-import { getPaymentMode, getShippingMode, getShippingManualFee } from "@/lib/storefront/settings";
+import {
+  getPaymentMode,
+  getShippingMode,
+  getShippingManualFee,
+  getShippingManualZones,
+} from "@/lib/storefront/settings";
 import { getIntegrationCredential } from "@/lib/integrations/credentials";
 
 export const runtime = "nodejs";
@@ -17,16 +22,18 @@ export const revalidate = 60;
 
 export async function GET() {
   try {
-    const [mode, shippingMode, shippingManualFee, midtrans] = await Promise.all([
+    const [mode, shippingMode, shippingManualFee, shippingManualZones, midtrans] = await Promise.all([
       getPaymentMode(),
       getShippingMode(),
       getShippingManualFee(),
+      getShippingManualZones(),
       getIntegrationCredential("midtrans"),
     ]);
     return NextResponse.json({
       mode,
       shippingMode,
       shippingManualFee,
+      shippingManualZones,
       midtrans: {
         clientKey: String(midtrans.publicConfig.clientKey ?? ""),
         environment: midtrans.environment,
