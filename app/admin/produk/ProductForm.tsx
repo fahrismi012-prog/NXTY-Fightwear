@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Loader2, Plus, X } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 import ImageUploader, { type ImageItem } from "@/components/admin/ImageUploader";
+import { variantKey } from "@/lib/pricing";
 
 export interface CategoryOption {
   id: string;
@@ -28,6 +29,8 @@ export interface ProductInitial {
   featured: boolean;
   in_stock: boolean;
   weight_grams: number;
+  variant_prices: Record<string, number>;
+  legacy_price: number | null;
   images: ImageItem[];
 }
 
@@ -69,6 +72,14 @@ export default function ProductForm({
   );
   const [originalPrice, setOriginalPrice] = useState<string>(
     initial?.original_price != null ? String(initial.original_price) : "",
+  );
+  const [legacyPrice, setLegacyPrice] = useState<string>(
+    initial?.legacy_price != null ? String(initial.legacy_price) : "",
+  );
+  const [variantPrices, setVariantPrices] = useState<Record<string, string>>(
+    Object.fromEntries(
+      Object.entries(initial?.variant_prices ?? {}).map(([k, v]) => [k, String(v)]),
+    ),
   );
   const [weightGrams, setWeightGrams] = useState<string>(
     initial?.weight_grams != null ? String(initial.weight_grams) : "500",
@@ -123,6 +134,19 @@ export default function ProductForm({
     setColors(colors.filter((c) => c !== value));
   }
 
+  // Kombinasi size/color yang bisa diberi harga override. Kalau produk cuma
+  // punya sizes atau cuma colors, matrix-nya jadi list 1 dimensi.
+  const variantCombos: Array<{ key: string; label: string }> =
+    sizes.length > 0 && colors.length > 0
+      ? sizes.flatMap((s) =>
+          colors.map((c) => ({ key: variantKey(s, c), label: `${s} / ${c}` })),
+        )
+      : sizes.length > 0
+        ? sizes.map((s) => ({ key: variantKey(s, undefined), label: s }))
+        : colors.length > 0
+          ? colors.map((c) => ({ key: variantKey(undefined, c), label: c }))
+          : [];
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
@@ -167,6 +191,27 @@ export default function ProductForm({
       originalPriceNum = op;
     }
 
+    let legacyPriceNum: number | null = null;
+    if (legacyPrice.trim() !== "") {
+      const lp = Number(legacyPrice);
+      if (!Number.isFinite(lp) || lp < 0) {
+        showToast("info", "Harga legacy harus angka >= 0");
+        return;
+      }
+      legacyPriceNum = lp;
+    }
+
+    const variantPricesPayload: Record<string, number> = {};
+    for (const [key, raw] of Object.entries(variantPrices)) {
+      if (raw.trim() === "") continue;
+      const v = Number(raw);
+      if (!Number.isFinite(v) || v < 0) {
+        showToast("info", "Harga variasi harus angka >= 0");
+        return;
+      }
+      variantPricesPayload[key] = v;
+    }
+
     setSubmitting(true);
     try {
       const payload = {
@@ -176,6 +221,8 @@ export default function ProductForm({
         description: description.trim() || null,
         price: priceNum,
         original_price: originalPriceNum,
+        legacy_price: legacyPriceNum,
+        variant_prices: variantPricesPayload,
         sizes,
         colors,
         rating: ratingNum,
@@ -362,6 +409,28 @@ export default function ProductForm({
               className={`${baseInput} font-mono`}
               disabled={submitting}
             />
+          </div>
+
+          <div>
+            <label
+              htmlFor="legacyPrice"
+              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
+            >
+              Harga Pelanggan Lama (IDR)
+            </label>
+            <input
+              id="legacyPrice"
+              type="number"
+              min={0}
+              value={legacyPrice}
+              onChange={(e) => setLegacyPrice(e.target.value)}
+              placeholder="Opsional, kosongkan kalau sama dengan harga normal"
+              className={`${baseInput} font-mono`}
+              disabled={submitting}
+            />
+            <p className="mt-2 text-[10px] text-neutral-500">
+              Berlaku untuk pelanggan tier &quot;legacy&quot; (akun sebelum sistem harga ini ada). Menimpa harga variasi.
+            </p>
           </div>
 
           <div>
@@ -609,6 +678,37 @@ export default function ProductForm({
             </p>
           )}
         </div>
+
+        {variantCombos.length > 0 && (
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Harga per Variasi
+            </label>
+            <p className="mb-3 text-[10px] text-neutral-500">
+              Kosongkan untuk pakai harga normal di atas.
+            </p>
+            <div className="space-y-2">
+              {variantCombos.map(({ key, label }) => (
+                <div key={key} className="flex items-center gap-3">
+                  <span className="w-40 shrink-0 text-xs font-bold uppercase tracking-wide text-black">
+                    {label}
+                  </span>
+                  <input
+                    type="number"
+                    min={0}
+                    value={variantPrices[key] ?? ""}
+                    onChange={(e) =>
+                      setVariantPrices((prev) => ({ ...prev, [key]: e.target.value }))
+                    }
+                    placeholder={price || "Harga normal"}
+                    className={`${baseInput} font-mono`}
+                    disabled={submitting}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* SECTION: Gambar */}

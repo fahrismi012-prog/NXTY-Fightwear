@@ -43,6 +43,10 @@ export interface Product {
   featured: boolean;
   in_stock: boolean;
   weight_grams: number;
+  // Harga per kombinasi size/color, key "size|color". Lihat lib/pricing.ts.
+  variant_prices: Record<string, number>;
+  // Harga khusus pelanggan tier "legacy". Null = pakai harga normal.
+  legacy_price: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -131,11 +135,14 @@ export interface Order {
   shipping_manual_receipt_url: string | null;
 }
 
+export type PriceTier = "standard" | "legacy";
+
 export interface CustomerProfile {
   id: string;
   full_name: string | null;
   phone: string | null;
   default_address_id: string | null;
+  price_tier: PriceTier;
   created_at: string;
   updated_at: string;
 }

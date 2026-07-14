@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -22,6 +22,8 @@ import { PriceTag } from "@/components/ui/PriceTag";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { TrustStrip } from "@/components/TrustStrip";
+import { resolvePrice } from "@/lib/pricing";
+import type { PriceTier } from "@/types/database";
 
 // Trust items untuk product detail
 const PRODUCT_TRUST_ITEMS = [
@@ -38,6 +40,8 @@ export interface ProductDetailData {
   description: string;
   price: number;
   originalPrice?: number;
+  variantPrices: Record<string, number>;
+  legacyPrice: number | null;
   sizes: string[];
   colors: string[];
   images: string[];
@@ -59,11 +63,30 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [adding, setAdding] = useState<"cart" | "buy" | null>(null);
   // Multi-image gallery state (kalau produk punya >1 foto)
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [priceTier, setPriceTier] = useState<PriceTier>("standard");
   const hasMultipleImages = product.images.length > 1;
   const mainImage = product.images[activeImageIndex] ?? product.images[0];
 
+  useEffect(() => {
+    fetch("/api/customer/price-tier")
+      .then((res) => res.json())
+      .then((data) => setPriceTier(data.tier === "legacy" ? "legacy" : "standard"))
+      .catch(() => setPriceTier("standard"));
+  }, []);
+
+  const displayPrice = useMemo(
+    () =>
+      resolvePrice(
+        { price: product.price, variant_prices: product.variantPrices, legacy_price: product.legacyPrice },
+        selectedSize,
+        selectedColor,
+        priceTier,
+      ),
+    [product, selectedSize, selectedColor, priceTier],
+  );
+
   const isPromo =
-    product.originalPrice !== undefined && product.originalPrice > product.price;
+    product.originalPrice !== undefined && product.originalPrice > displayPrice;
   const canAdd = selectedSize && selectedColor;
 
   const buildCartItem = () => ({
@@ -71,7 +94,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     name: product.name,
     slug: product.slug,
     image: product.images[0],
-    price: product.price,
+    price: displayPrice,
     size: selectedSize,
     color: selectedColor,
     quantity,
@@ -226,7 +249,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             {/* Price */}
             <div className="mb-5">
               <PriceTag
-                price={product.price}
+                price={displayPrice}
                 originalPrice={product.originalPrice}
                 size="xl"
                 showDiscountBadge

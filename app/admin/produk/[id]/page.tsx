@@ -119,6 +119,8 @@ export default async function EditProductPage({ params }: PageProps) {
     featured: row.featured,
     in_stock: row.in_stock,
     weight_grams: row.weight_grams,
+    variant_prices: row.variant_prices ?? {},
+    legacy_price: row.legacy_price,
     images: toImageItems(row.images),
   };
 

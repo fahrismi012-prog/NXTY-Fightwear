@@ -151,6 +151,27 @@ export async function POST(req: NextRequest) {
   const featured = body.featured === true;
   const inStock = body.in_stock === false ? false : true;
 
+  const variantPrices =
+    body.variant_prices && typeof body.variant_prices === "object"
+      ? Object.fromEntries(
+          Object.entries(body.variant_prices as Record<string, unknown>)
+            .map(([k, v]) => [k, Number(v)] as const)
+            .filter(([, v]) => Number.isFinite(v) && v >= 0),
+        )
+      : {};
+
+  let legacyPrice: number | null = null;
+  if (body.legacy_price !== undefined && body.legacy_price !== null && body.legacy_price !== "") {
+    const lp = Number(body.legacy_price);
+    if (!Number.isFinite(lp) || lp < 0) {
+      return NextResponse.json(
+        { error: "Harga legacy harus berupa angka >= 0" },
+        { status: 400 },
+      );
+    }
+    legacyPrice = lp;
+  }
+
   const supabase = createAdminClient();
   if (!supabase) {
     return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
@@ -173,6 +194,8 @@ export async function POST(req: NextRequest) {
       featured,
       in_stock: inStock,
       weight_grams: weightGrams,
+      variant_prices: variantPrices,
+      legacy_price: legacyPrice,
     })
     .select("*, category:categories(id, name, slug)")
     .single();

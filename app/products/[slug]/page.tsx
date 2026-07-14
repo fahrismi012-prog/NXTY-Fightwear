@@ -33,6 +33,8 @@ function toDetail(p: ProductWithRelations) {
     description: p.description ?? "",
     price: p.price,
     originalPrice: p.original_price ?? undefined,
+    variantPrices: p.variant_prices ?? {},
+    legacyPrice: p.legacy_price,
     sizes: p.sizes ?? [],
     colors: p.colors ?? [],
     images: (p.images ?? []).map((img) => img.url).filter(Boolean),

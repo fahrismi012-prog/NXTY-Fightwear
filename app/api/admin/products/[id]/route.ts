@@ -169,6 +169,27 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   }
   if (typeof body.featured === "boolean") update.featured = body.featured;
   if (typeof body.in_stock === "boolean") update.in_stock = body.in_stock;
+  if (body.variant_prices && typeof body.variant_prices === "object") {
+    update.variant_prices = Object.fromEntries(
+      Object.entries(body.variant_prices as Record<string, unknown>)
+        .map(([k, v]) => [k, Number(v)] as const)
+        .filter(([, v]) => Number.isFinite(v) && v >= 0),
+    );
+  }
+  if (body.legacy_price !== undefined) {
+    if (body.legacy_price === null || body.legacy_price === "") {
+      update.legacy_price = null;
+    } else {
+      const lp = Number(body.legacy_price);
+      if (!Number.isFinite(lp) || lp < 0) {
+        return NextResponse.json(
+          { error: "Harga legacy harus angka >= 0" },
+          { status: 400 },
+        );
+      }
+      update.legacy_price = lp;
+    }
+  }
   if (body.weight_grams !== undefined) {
     const w = Number(body.weight_grams);
     if (!Number.isFinite(w) || w < 0) {
