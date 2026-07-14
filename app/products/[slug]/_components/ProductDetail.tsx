@@ -257,7 +257,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 showDiscountBadge
               />
               {product.isPreorder && (
-                <div className="mt-2 inline-flex items-center gap-1.5 bg-brand-black text-text-primary text-eyebrow font-bold uppercase tracking-[0.08em] px-2.5 py-1.5 rounded-subtle">
+                <div className="mt-2 flex w-fit items-center gap-1.5 bg-brand-black text-text-primary text-eyebrow font-bold uppercase tracking-[0.08em] px-2.5 py-1.5 rounded-subtle">
                   Pre-Order · Kirim dalam {product.preorderDays} hari
                 </div>
               )}
