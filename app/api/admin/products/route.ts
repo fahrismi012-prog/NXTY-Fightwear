@@ -172,6 +172,19 @@ export async function POST(req: NextRequest) {
     legacyPrice = lp;
   }
 
+  const isPreorder = body.is_preorder === true;
+  let preorderDays: number | null = null;
+  if (isPreorder) {
+    const pd = Number(body.preorder_days);
+    if (!Number.isFinite(pd) || pd <= 0) {
+      return NextResponse.json(
+        { error: "Lama proses pre-order harus angka > 0" },
+        { status: 400 },
+      );
+    }
+    preorderDays = Math.floor(pd);
+  }
+
   const supabase = createAdminClient();
   if (!supabase) {
     return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
@@ -196,6 +209,8 @@ export async function POST(req: NextRequest) {
       weight_grams: weightGrams,
       variant_prices: variantPrices,
       legacy_price: legacyPrice,
+      is_preorder: isPreorder,
+      preorder_days: preorderDays,
     })
     .select("*, category:categories(id, name, slug)")
     .single();

@@ -47,6 +47,8 @@ export interface Product {
   variant_prices: Record<string, number>;
   // Harga khusus pelanggan tier "legacy". Null = pakai harga normal.
   legacy_price: number | null;
+  is_preorder: boolean;
+  preorder_days: number | null;
   created_at: string;
   updated_at: string;
 }

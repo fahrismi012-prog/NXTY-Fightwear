@@ -190,6 +190,21 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       update.legacy_price = lp;
     }
   }
+  if (typeof body.is_preorder === "boolean") {
+    update.is_preorder = body.is_preorder;
+    if (body.is_preorder) {
+      const pd = Number(body.preorder_days);
+      if (!Number.isFinite(pd) || pd <= 0) {
+        return NextResponse.json(
+          { error: "Lama proses pre-order harus angka > 0" },
+          { status: 400 },
+        );
+      }
+      update.preorder_days = Math.floor(pd);
+    } else {
+      update.preorder_days = null;
+    }
+  }
   if (body.weight_grams !== undefined) {
     const w = Number(body.weight_grams);
     if (!Number.isFinite(w) || w < 0) {

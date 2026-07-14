@@ -14,6 +14,8 @@ export interface Product {
   reviewsCount: number;
   featured?: boolean;
   inStock: boolean;
+  isPreorder?: boolean;
+  preorderDays?: number | null;
 
   // Optional rich fields (untuk Shopee-style schema)
   brand?: string;

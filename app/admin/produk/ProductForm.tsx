@@ -31,6 +31,8 @@ export interface ProductInitial {
   weight_grams: number;
   variant_prices: Record<string, number>;
   legacy_price: number | null;
+  is_preorder: boolean;
+  preorder_days: number | null;
   images: ImageItem[];
 }
 
@@ -96,6 +98,10 @@ export default function ProductForm({
   );
   const [featured, setFeatured] = useState<boolean>(initial?.featured ?? false);
   const [inStock, setInStock] = useState<boolean>(initial?.in_stock ?? true);
+  const [isPreorder, setIsPreorder] = useState<boolean>(initial?.is_preorder ?? false);
+  const [preorderDays, setPreorderDays] = useState<string>(
+    initial?.preorder_days != null ? String(initial.preorder_days) : "",
+  );
   const [images, setImages] = useState<ImageItem[]>(initial?.images ?? []);
   const [submitting, setSubmitting] = useState(false);
 
@@ -212,6 +218,16 @@ export default function ProductForm({
       variantPricesPayload[key] = v;
     }
 
+    let preorderDaysNum: number | null = null;
+    if (isPreorder) {
+      const pd = Number(preorderDays);
+      if (!Number.isFinite(pd) || pd <= 0) {
+        showToast("info", "Lama proses pre-order harus angka > 0");
+        return;
+      }
+      preorderDaysNum = Math.floor(pd);
+    }
+
     setSubmitting(true);
     try {
       const payload = {
@@ -229,6 +245,8 @@ export default function ProductForm({
         reviews_count: Math.floor(reviewsNum),
         featured,
         in_stock: inStock,
+        is_preorder: isPreorder,
+        preorder_days: preorderDaysNum,
         weight_grams: Math.floor(weightNum),
         images: images.map((img, idx) => ({
           url: img.url,
@@ -550,6 +568,59 @@ export default function ProductForm({
               In Stock
             </span>
           </label>
+        </div>
+
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+            Ketersediaan
+          </label>
+          <div className="inline-flex border-2 border-neutral-800">
+            <button
+              type="button"
+              onClick={() => setIsPreorder(false)}
+              disabled={submitting}
+              className={`px-4 py-2 text-xs font-black uppercase tracking-wider transition-colors ${
+                !isPreorder ? "bg-black text-white" : "bg-white text-black hover:bg-neutral-100"
+              }`}
+            >
+              Live
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsPreorder(true)}
+              disabled={submitting}
+              className={`px-4 py-2 text-xs font-black uppercase tracking-wider transition-colors border-l-2 border-neutral-800 ${
+                isPreorder ? "bg-black text-white" : "bg-white text-black hover:bg-neutral-100"
+              }`}
+            >
+              Pre-Order
+            </button>
+          </div>
+
+          {isPreorder && (
+            <div className="mt-3 max-w-xs">
+              <label
+                htmlFor="preorderDays"
+                className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
+              >
+                Lama Proses (hari) <span className="text-black">*</span>
+              </label>
+              <input
+                id="preorderDays"
+                type="number"
+                min={1}
+                required={isPreorder}
+                value={preorderDays}
+                onChange={(e) => setPreorderDays(e.target.value)}
+                placeholder="14"
+                className={`${baseInput} font-mono`}
+                disabled={submitting}
+              />
+              <p className="mt-2 text-[10px] text-neutral-500">
+                Ditampilkan ke pembeli sebagai &quot;Pre-Order · Kirim dalam {preorderDays || "X"} hari&quot;.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

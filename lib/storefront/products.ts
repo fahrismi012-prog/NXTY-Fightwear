@@ -287,6 +287,8 @@ function mapLegacyProducts(): ProductWithRelations[] {
       colors: p.colors,
       variant_prices: {},
       legacy_price: null,
+      is_preorder: false,
+      preorder_days: null,
       rating: p.rating,
       reviews_count: p.reviewsCount,
       featured: p.featured ?? false,

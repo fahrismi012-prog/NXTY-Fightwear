@@ -29,6 +29,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           Promo
         </div>
       )}
+      {product.isPreorder && (
+        <div className="absolute top-2 left-2 z-10 bg-brand-black text-text-primary text-caption font-bold px-2 py-1 rounded-subtle">
+          Pre-Order
+        </div>
+      )}
 
       <div className="relative aspect-[4/5] bg-surface-1 overflow-hidden">
         <Image

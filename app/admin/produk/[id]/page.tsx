@@ -121,6 +121,8 @@ export default async function EditProductPage({ params }: PageProps) {
     weight_grams: row.weight_grams,
     variant_prices: row.variant_prices ?? {},
     legacy_price: row.legacy_price,
+    is_preorder: row.is_preorder,
+    preorder_days: row.preorder_days,
     images: toImageItems(row.images),
   };
 

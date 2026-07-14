@@ -159,5 +159,7 @@ function toLegacyProducts(items: ProductWithRelations[]): LegacyProduct[] {
     reviewsCount: p.reviews_count ?? 0,
     featured: p.featured,
     inStock: p.in_stock,
+    isPreorder: p.is_preorder,
+    preorderDays: p.preorder_days,
   }));
 }
