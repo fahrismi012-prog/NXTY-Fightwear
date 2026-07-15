@@ -8,6 +8,7 @@ import {
   Package,
   Tag,
   ShoppingBag,
+  Users,
   Settings,
   Palette,
   LogOut,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { label: "Produk", href: "/admin/produk", icon: Package },
   { label: "Promo", href: "/admin/promo", icon: Tag },
   { label: "Pesanan", href: "/admin/pesanan", icon: ShoppingBag },
+  { label: "Pelanggan", href: "/admin/pelanggan", icon: Users },
   { label: "Tampilan", href: "/admin/tampilan", icon: Palette },
   { label: "Pengaturan", href: "/admin/settings", icon: Settings },
 ];
