@@ -71,6 +71,12 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
       }
+      if (!product.in_stock) {
+        return NextResponse.json(
+          { error: `Produk sudah habis: ${product.name}` },
+          { status: 400 }
+        );
+      }
       const price = product.price;
       const quantity = Math.max(1, Math.floor(cartItem.quantity || 1));
       const lineTotal = price * quantity;

@@ -84,6 +84,12 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+    if (!product.in_stock) {
+      return NextResponse.json(
+        { error: `Produk sudah habis: ${product.name}` },
+        { status: 400 },
+      );
+    }
     const qty = Math.max(1, Math.floor(ci.quantity || 1));
     subtotal += product.price * qty;
     totalWeight += Math.max(1, product.weight_grams || 500) * qty;

@@ -47,6 +47,22 @@ export async function POST(request: NextRequest) {
 
   const supabase = createAdminClient();
   if (!supabase) return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
+
+  const { data: existingOrder, error: fetchError } = await supabase
+    .from("orders")
+    .select("status")
+    .eq("id", body.order_id)
+    .maybeSingle();
+  if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 });
+  if (!existingOrder) return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+
+  // Notifikasi Midtrans bisa terlambat/terduplikasi. Order yang sudah diproses lebih lanjut
+  // (paid/processed/shipped/delivered) tidak boleh ditimpa balik oleh notifikasi lama.
+  const finalizedStatuses: OrderStatus[] = ["paid", "processed", "shipped", "delivered"];
+  if (finalizedStatuses.includes(existingOrder.status as OrderStatus)) {
+    return NextResponse.json({ ok: true, skipped: "order sudah final" });
+  }
+
   const { error } = await supabase.from("orders").update({
     status,
     payment_id: body.transaction_id ?? null,
