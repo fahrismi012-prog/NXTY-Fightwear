@@ -203,25 +203,25 @@ export default function MasukPage() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-text-muted hover:text-text-primary mb-6 text-sm"
+          className="inline-flex items-center gap-1 text-neutral-400 hover:text-white mb-6 text-sm"
         >
           <ChevronLeft className="w-4 h-4" />
           Kembali
         </Link>
 
-        <div className="bg-surface-1 border-2 border-border-subtle p-6">
+        <div className="bg-neutral-900 border-2 border-neutral-800 p-6">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-black text-text-primary tracking-tighter">
-              <span className="text-brand-black">Anxiety Fightwear</span>{" "}
-              <span className="text-text-primary text-xl tracking-[0.2em]">
+            <h1 className="text-3xl font-black text-white tracking-tighter">
+              <span className="text-white">Anxiety Fightwear</span>{" "}
+              <span className="text-white text-xl tracking-[0.2em]">
                 FIGHTWEAR
               </span>
             </h1>
-            <p className="text-sm text-text-muted mt-2">
+            <p className="text-sm text-neutral-400 mt-2">
               {authMode === "password"
                 ? pwdSub === "forgot"
                   ? "Reset password Anda"
@@ -233,14 +233,14 @@ export default function MasukPage() {
           </div>
 
           {/* Tab utama: Password / OTP */}
-          <div className="flex gap-2 mb-5 border-b-2 border-border-subtle">
+          <div className="flex gap-2 mb-5 border-b-2 border-neutral-800">
             <button
               type="button"
               onClick={() => switchAuthMode("password")}
               className={`flex-1 pb-2 text-xs font-black uppercase tracking-wider border-b-2 transition-colors -mb-0.5 ${
                 authMode === "password"
-                  ? "border-brand-black text-text-primary"
-                  : "border-transparent text-text-muted hover:text-text-primary"
+                  ? "border-white text-white"
+                  : "border-transparent text-neutral-400 hover:text-white"
               }`}
             >
               <Lock className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" />
@@ -251,8 +251,8 @@ export default function MasukPage() {
               onClick={() => switchAuthMode("otp")}
               className={`flex-1 pb-2 text-xs font-black uppercase tracking-wider border-b-2 transition-colors -mb-0.5 ${
                 authMode === "otp"
-                  ? "border-brand-black text-text-primary"
-                  : "border-transparent text-text-muted hover:text-text-primary"
+                  ? "border-white text-white"
+                  : "border-transparent text-neutral-400 hover:text-white"
               }`}
             >
               <Mail className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" />
@@ -271,20 +271,20 @@ export default function MasukPage() {
                     onClick={() => switchPwdSub("login")}
                     className={`font-bold uppercase tracking-wider ${
                       pwdSub === "login"
-                        ? "text-brand-black underline underline-offset-4"
-                        : "text-text-muted hover:text-text-primary"
+                        ? "text-white underline underline-offset-4"
+                        : "text-neutral-400 hover:text-white"
                     }`}
                   >
                     Masuk
                   </button>
-                  <span className="text-text-muted">·</span>
+                  <span className="text-neutral-400">·</span>
                   <button
                     type="button"
                     onClick={() => switchPwdSub("signup")}
                     className={`font-bold uppercase tracking-wider ${
                       pwdSub === "signup"
-                        ? "text-brand-black underline underline-offset-4"
-                        : "text-text-muted hover:text-text-primary"
+                        ? "text-white underline underline-offset-4"
+                        : "text-neutral-400 hover:text-white"
                     }`}
                   >
                     Daftar
@@ -310,7 +310,7 @@ export default function MasukPage() {
                     <button
                       type="button"
                       onClick={() => switchPwdSub("forgot")}
-                      className="text-[11px] text-text-muted hover:text-brand-black underline"
+                      className="text-[11px] text-neutral-400 hover:text-white underline"
                     >
                       Lupa password?
                     </button>
@@ -346,7 +346,7 @@ export default function MasukPage() {
               {/* FORM: Forgot */}
               {pwdSub === "forgot" && (
                 <form onSubmit={handleForgotPassword} className="space-y-4">
-                  <p className="text-xs text-text-muted text-center">
+                  <p className="text-xs text-neutral-400 text-center">
                     Masukkan email Anda. Kami akan kirim link untuk reset
                     password.
                   </p>
@@ -360,7 +360,7 @@ export default function MasukPage() {
                     <button
                       type="button"
                       onClick={() => switchPwdSub("login")}
-                      className="text-[11px] text-text-muted hover:text-brand-black underline"
+                      className="text-[11px] text-neutral-400 hover:text-white underline"
                     >
                       Kembali ke Masuk
                     </button>
@@ -382,8 +382,8 @@ export default function MasukPage() {
                       onClick={() => setOtpMode("link")}
                       className={`flex-1 py-2 text-xs font-black uppercase tracking-wider border-2 transition-colors ${
                         otpMode === "link"
-                          ? "bg-brand-black border-brand-black text-text-primary"
-                          : "bg-transparent border-border-subtle text-text-muted hover:border-brand-black hover:text-brand-black"
+                          ? "bg-white border-white text-black"
+                          : "bg-transparent border-neutral-800 text-neutral-400 hover:border-white hover:text-white"
                       }`}
                     >
                       Kirim Link
@@ -393,8 +393,8 @@ export default function MasukPage() {
                       onClick={() => setOtpMode("code")}
                       className={`flex-1 py-2 text-xs font-black uppercase tracking-wider border-2 transition-colors ${
                         otpMode === "code"
-                          ? "bg-brand-black border-brand-black text-text-primary"
-                          : "bg-transparent border-border-subtle text-text-muted hover:border-brand-black hover:text-brand-black"
+                          ? "bg-white border-white text-black"
+                          : "bg-transparent border-neutral-800 text-neutral-400 hover:border-white hover:text-white"
                       }`}
                     >
                       Kirim OTP
@@ -409,9 +409,9 @@ export default function MasukPage() {
 
               {step === "verify" && (
                 <form onSubmit={handleOtpVerify} className="space-y-4">
-                  <p className="text-sm text-text-muted text-center">
+                  <p className="text-sm text-neutral-400 text-center">
                     Masukkan 6 digit kode yang dikirim ke{" "}
-                    <strong>{email}</strong>
+                    <strong className="text-white">{email}</strong>
                   </p>
                   <input
                     type="text"
@@ -421,7 +421,7 @@ export default function MasukPage() {
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                     placeholder="123456"
                     required
-                    className="w-full bg-canvas text-text-primary text-center text-2xl tracking-[0.5em] py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none font-mono"
+                    className="w-full bg-black text-white text-center text-2xl tracking-[0.5em] py-3 border-2 border-neutral-800 focus:border-white focus:outline-none font-mono"
                   />
                   {error && <ErrorBox message={error} />}
                   <SubmitButton
@@ -438,7 +438,7 @@ export default function MasukPage() {
                         setOtp("");
                         resetFeedback();
                       }}
-                      className="text-[11px] text-text-muted hover:text-brand-black underline"
+                      className="text-[11px] text-neutral-400 hover:text-white underline"
                     >
                       Kembali
                     </button>
@@ -448,13 +448,13 @@ export default function MasukPage() {
 
               {step === "sent" && (
                 <div className="text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto border-2 border-brand-black flex items-center justify-center">
-                    <Mail className="w-7 h-7 text-brand-black" />
+                  <div className="w-16 h-16 mx-auto border-2 border-white flex items-center justify-center">
+                    <Mail className="w-7 h-7 text-white" />
                   </div>
-                  <p className="text-sm text-text-primary font-bold">
+                  <p className="text-sm text-white font-bold">
                     Cek email Anda
                   </p>
-                  <p className="text-xs text-text-muted">
+                  <p className="text-xs text-neutral-400">
                     Kami sudah mengirim {otpMode === "code" ? "kode OTP" : "link login"} ke{" "}
                     <strong>{email}</strong>. Cek juga folder spam.
                   </p>
@@ -465,7 +465,7 @@ export default function MasukPage() {
                       setOtp("");
                       resetFeedback();
                     }}
-                    className="text-xs text-brand-black hover:text-text-primary underline"
+                    className="text-xs text-white hover:text-neutral-300 underline"
                   >
                     Kirim ulang
                   </button>
@@ -477,18 +477,18 @@ export default function MasukPage() {
           {/* Step 'sent' dari password signup (konfirmasi email) */}
           {authMode === "password" && step === "sent" && (
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto border-2 border-brand-black flex items-center justify-center">
-                <Mail className="w-7 h-7 text-brand-black" />
+              <div className="w-16 h-16 mx-auto border-2 border-white flex items-center justify-center">
+                <Mail className="w-7 h-7 text-white" />
               </div>
-              <p className="text-sm text-text-primary font-bold">
+              <p className="text-sm text-white font-bold">
                 Konfirmasi Email
               </p>
-              <p className="text-xs text-text-muted">
+              <p className="text-xs text-neutral-400">
                 {info ?? "Cek email Anda untuk konfirmasi akun."}
               </p>
               <Link
                 href="/"
-                className="inline-block text-xs text-brand-black hover:text-text-primary underline"
+                className="inline-block text-xs text-white hover:text-neutral-300 underline"
               >
                 Kembali ke beranda
               </Link>
@@ -513,12 +513,12 @@ function EmailField({
     <div>
       <label
         htmlFor="email"
-        className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2"
+        className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2"
       >
         Email
       </label>
       <div className="relative">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-black" />
+        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
         <input
           id="email"
           type="email"
@@ -527,7 +527,7 @@ function EmailField({
           placeholder="nama@email.com"
           required
           autoComplete="email"
-          className="w-full bg-canvas text-text-primary pl-10 pr-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-black text-white pl-10 pr-3 py-3 border-2 border-neutral-800 focus:border-white focus:outline-none placeholder:text-neutral-600"
         />
       </div>
     </div>
@@ -553,12 +553,12 @@ function PasswordField({
     <div>
       <label
         htmlFor={label.toLowerCase().replace(/\s+/g, "-")}
-        className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2"
+        className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2"
       >
         {label}
       </label>
       <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-black" />
+        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
         <input
           id={label.toLowerCase().replace(/\s+/g, "-")}
           type={show ? "text" : "password"}
@@ -571,13 +571,13 @@ function PasswordField({
               ? "new-password"
               : "current-password"
           }
-          className="w-full bg-canvas text-text-primary pl-10 pr-10 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
+          className="w-full bg-black text-white pl-10 pr-10 py-3 border-2 border-neutral-800 focus:border-white focus:outline-none placeholder:text-neutral-600"
         />
         <button
           type="button"
           onClick={onToggleShow}
           aria-label={show ? "Sembunyikan password" : "Tampilkan password"}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary p-1"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white p-1"
         >
           {show ? (
             <EyeOff className="w-4 h-4" />
@@ -592,7 +592,7 @@ function PasswordField({
 
 function ErrorBox({ message }: { message: string }) {
   return (
-    <div className="bg-brand-black/10 border border-brand-black text-brand-black text-xs p-2">
+    <div className="bg-red-950/60 border border-red-800 text-red-400 text-xs p-2">
       {message}
     </div>
   );
@@ -600,7 +600,7 @@ function ErrorBox({ message }: { message: string }) {
 
 function InfoBox({ message }: { message: string }) {
   return (
-    <div className="bg-brand-black text-white text-xs p-2 font-semibold">
+    <div className="bg-white text-black text-xs p-2 font-semibold">
       {message}
     </div>
   );
@@ -619,7 +619,7 @@ function SubmitButton({
     <button
       type="submit"
       disabled={loading || disabled}
-      className="w-full py-3 bg-brand-black text-text-primary font-black uppercase tracking-wider hover:bg-white hover:text-brand-black transition-colors disabled:bg-surface-2 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px] inline-flex items-center justify-center gap-2"
+      className="w-full py-3 bg-white text-black font-black uppercase tracking-wider hover:bg-neutral-200 transition-colors disabled:bg-neutral-800 disabled:text-neutral-600 disabled:cursor-not-allowed min-h-[48px] inline-flex items-center justify-center gap-2"
     >
       {loading ? (
         <>
