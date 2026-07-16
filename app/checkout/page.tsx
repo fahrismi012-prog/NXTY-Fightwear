@@ -70,6 +70,7 @@ declare global {
 }
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const GUEST_ADDRESS_KEY = "nxty_checkout_address";
 
 // Trust items untuk checkout
 const CHECKOUT_TRUST_ITEMS = [
@@ -81,15 +82,25 @@ const CHECKOUT_TRUST_ITEMS = [
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCart();
-  const [form, setForm] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    province: "",
-    postalCode: "",
-    notes: "",
+  const [form, setForm] = useState<FormData>(() => {
+    const base: FormData = {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      notes: "",
+    };
+    if (typeof window === "undefined") return base;
+    try {
+      const saved = localStorage.getItem(GUEST_ADDRESS_KEY);
+      if (!saved) return base;
+      return { ...base, ...(JSON.parse(saved) as Partial<FormData>), notes: "" };
+    } catch {
+      return base;
+    }
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
@@ -266,6 +277,23 @@ export default function CheckoutPage() {
     setErrorMsg("");
     if (!validate()) return;
     setLoading(true);
+
+    try {
+      localStorage.setItem(
+        GUEST_ADDRESS_KEY,
+        JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
+          city: form.city,
+          province: form.province,
+          postalCode: form.postalCode,
+        }),
+      );
+    } catch {
+      // localStorage unavailable (private mode dsb) — abaikan
+    }
 
     try {
       if (!modeLoaded) {

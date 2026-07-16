@@ -8,6 +8,7 @@ import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getIntegrationCredential } from "@/lib/integrations/credentials";
 import { getPaymentMode, getShippingMode, getManualShippingFee } from "@/lib/storefront/settings";
 import { getRates } from "@/lib/shipping/everpro";
+import { saveCheckoutAddress } from "@/lib/customer/save-address";
 
 interface RequestBody {
   customer: Customer;
@@ -219,6 +220,10 @@ export async function POST(request: NextRequest) {
     if (insertError) {
       console.error("Midtrans order insert error:", insertError);
       return NextResponse.json({ error: "Transaksi dibuat tetapi order gagal disimpan" }, { status: 500 });
+    }
+
+    if (currentUser) {
+      await saveCheckoutAddress(supabase, currentUser.id, customer);
     }
 
     return NextResponse.json({

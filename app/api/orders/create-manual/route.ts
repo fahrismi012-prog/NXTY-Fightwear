@@ -5,6 +5,7 @@ import { getProductById } from "@/lib/storefront/products";
 import { getActiveBankAccounts, getManualShippingFee, getShippingMode } from "@/lib/storefront/settings";
 import type { CartItem, Customer } from "@/types";
 import { getRates } from "@/lib/shipping/everpro";
+import { saveCheckoutAddress } from "@/lib/customer/save-address";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -206,6 +207,10 @@ export async function POST(request: NextRequest) {
       { error: `Gagal membuat pesanan: ${error.message}` },
       { status: 500 },
     );
+  }
+
+  if (currentUser) {
+    await saveCheckoutAddress(supabase, currentUser.id, customer);
   }
 
   return NextResponse.json({ orderId, order }, { status: 201 });
