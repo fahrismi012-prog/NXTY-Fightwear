@@ -79,19 +79,29 @@ export function UserMenu() {
 
   return (
     <div ref={containerRef} className="relative">
-      <button
-        type="button"
-        aria-label={user ? "Menu akun" : "Masuk"}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 h-11 px-2 rounded-subtle text-white hover:bg-white/20 transition-colors duration-fast"
-      >
-        <User className="w-5 h-5" />
-        {!user && <span className="text-body-sm font-medium hidden sm:inline">Masuk</span>}
-      </button>
+      {user ? (
+        <button
+          type="button"
+          aria-label="Menu akun"
+          aria-expanded={open}
+          aria-haspopup="menu"
+          onClick={() => setOpen((o) => !o)}
+          className="flex items-center gap-1.5 h-11 px-2 rounded-subtle text-white hover:bg-white/20 transition-colors duration-fast"
+        >
+          <User className="w-5 h-5" />
+        </button>
+      ) : (
+        <Link
+          href="/masuk"
+          aria-label="Masuk"
+          className="flex items-center gap-1.5 h-11 px-2 rounded-subtle text-white hover:bg-white/20 transition-colors duration-fast"
+        >
+          <User className="w-5 h-5" />
+          <span className="text-body-sm font-medium hidden sm:inline">Masuk</span>
+        </Link>
+      )}
 
-      {open && (
+      {open && user && (
         <div
           role="menu"
           aria-label="Menu akun"
@@ -102,59 +112,47 @@ export function UserMenu() {
             "overflow-hidden"
           )}
         >
-          {user ? (
-            <>
-              <div className="px-4 py-3 border-b border-border-subtle">
-                <p className="text-caption text-text-muted">Login sebagai</p>
-                <p className="text-body-sm font-semibold text-text-primary truncate">
-                  {user.email}
-                </p>
-              </div>
-              <MenuLink
-                href="/akun"
-                icon={<User className="w-4 h-4" />}
-                onClick={() => setOpen(false)}
-              >
-                Akun Saya
-              </MenuLink>
-              <MenuLink
-                href="/akun/pesanan"
-                icon={<Package className="w-4 h-4" />}
-                onClick={() => setOpen(false)}
-              >
-                Pesanan Saya
-              </MenuLink>
-              <MenuLink
-                href="/akun/alamat"
-                icon={<MapPin className="w-4 h-4" />}
-                onClick={() => setOpen(false)}
-              >
-                Alamat Saya
-              </MenuLink>
-              <button
-                type="button"
-                role="menuitem"
-                onClick={handleSignOut}
-                className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 text-left",
-                  "text-body-sm font-medium text-error-500",
-                  "border-t border-border-subtle",
-                  "hover:bg-surface-1 transition-colors duration-fast"
-                )}
-              >
-                <LogOut className="w-4 h-4" aria-hidden />
-                Logout
-              </button>
-            </>
-          ) : (
-            <MenuLink
-              href="/masuk"
-              icon={<User className="w-4 h-4" />}
-              onClick={() => setOpen(false)}
-            >
-              Masuk
-            </MenuLink>
-          )}
+          <div className="px-4 py-3 border-b border-border-subtle">
+            <p className="text-caption text-text-muted">Login sebagai</p>
+            <p className="text-body-sm font-semibold text-text-primary truncate">
+              {user.email}
+            </p>
+          </div>
+          <MenuLink
+            href="/akun"
+            icon={<User className="w-4 h-4" />}
+            onClick={() => setOpen(false)}
+          >
+            Akun Saya
+          </MenuLink>
+          <MenuLink
+            href="/akun/pesanan"
+            icon={<Package className="w-4 h-4" />}
+            onClick={() => setOpen(false)}
+          >
+            Pesanan Saya
+          </MenuLink>
+          <MenuLink
+            href="/akun/alamat"
+            icon={<MapPin className="w-4 h-4" />}
+            onClick={() => setOpen(false)}
+          >
+            Alamat Saya
+          </MenuLink>
+          <button
+            type="button"
+            role="menuitem"
+            onClick={handleSignOut}
+            className={cn(
+              "w-full flex items-center gap-3 px-4 py-3 text-left",
+              "text-body-sm font-medium text-error-500",
+              "border-t border-border-subtle",
+              "hover:bg-surface-1 transition-colors duration-fast"
+            )}
+          >
+            <LogOut className="w-4 h-4" aria-hidden />
+            Logout
+          </button>
         </div>
       )}
     </div>
