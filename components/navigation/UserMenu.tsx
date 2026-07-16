@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { User, LogOut, Package, MapPin } from "lucide-react";
-import { IconButton } from "@/components/ui";
 import {
   getCurrentUser,
   onAuthStateChange,
@@ -80,15 +79,17 @@ export function UserMenu() {
 
   return (
     <div ref={containerRef} className="relative">
-      <IconButton
-        icon={<User className="w-5 h-5" />}
-        variant="ghost"
-        size="lg"
+      <button
+        type="button"
         aria-label={user ? "Menu akun" : "Masuk"}
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={() => setOpen((o) => !o)}
-      />
+        className="flex items-center gap-1.5 h-11 px-2 rounded-subtle text-white hover:bg-white/20 transition-colors duration-fast"
+      >
+        <User className="w-5 h-5" />
+        {!user && <span className="text-body-sm font-medium hidden sm:inline">Masuk</span>}
+      </button>
 
       {open && (
         <div
