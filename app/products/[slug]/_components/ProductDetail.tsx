@@ -89,7 +89,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   const isPromo =
     product.originalPrice !== undefined && product.originalPrice > displayPrice;
-  const canAdd = selectedSize && selectedColor;
+  const needsSize = product.sizes.length > 0;
+  const needsColor = product.colors.length > 0;
+  const canAdd = (!needsSize || selectedSize) && (!needsColor || selectedColor);
 
   const buildCartItem = () => ({
     productId: product.id,
@@ -379,7 +381,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
             {!canAdd && (
               <p className="text-body-sm text-text-muted">
-                Pilih ukuran dan warna terlebih dahulu
+                {needsSize && needsColor
+                  ? "Pilih ukuran dan warna terlebih dahulu"
+                  : needsSize
+                    ? "Pilih ukuran terlebih dahulu"
+                    : "Pilih warna terlebih dahulu"}
               </p>
             )}
 
