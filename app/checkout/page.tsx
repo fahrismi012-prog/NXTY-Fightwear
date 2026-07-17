@@ -217,9 +217,7 @@ export default function CheckoutPage() {
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
     if (!form.name.trim()) newErrors.name = "Nama wajib diisi";
-    if (!form.email.trim()) {
-      newErrors.email = "Email wajib diisi";
-    } else if (!validateEmail(form.email)) {
+    if (form.email.trim() && !validateEmail(form.email)) {
       newErrors.email = "Format email tidak valid";
     }
     if (!form.phone.trim()) {
@@ -454,7 +452,7 @@ export default function CheckoutPage() {
                 error={errors.name}
               />
               <Input
-                label="Email"
+                label="Email (opsional)"
                 type="email"
                 inputMode="email"
                 name="email"

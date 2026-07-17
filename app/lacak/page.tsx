@@ -2,7 +2,7 @@
 
 import { useState, useEffect, type FormEvent } from "react";
 import Link from "next/link";
-import { ChevronLeft, Package, Loader2, MapPin, Mail } from "lucide-react";
+import { ChevronLeft, Package, Loader2, MapPin } from "lucide-react";
 import TrackingTimeline from "@/components/admin/TrackingTimeline";
 import type { TrackingEvent } from "@/lib/shipping/everpro";
 
@@ -56,7 +56,7 @@ const STATUS_LABEL: Record<string, string> = {
 
 export default function LacakPage() {
   const [orderId, setOrderId] = useState("");
-  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderData | null>(null);
   const [events, setEvents] = useState<TrackingEvent[]>([]);
@@ -70,7 +70,7 @@ export default function LacakPage() {
     setEvents([]);
     try {
       const res = await fetch(
-        `/api/track/order?id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`
+        `/api/track/order?id=${encodeURIComponent(orderId)}&contact=${encodeURIComponent(contact)}`
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Gagal melacak");
@@ -115,7 +115,7 @@ export default function LacakPage() {
           Lacak Pesanan
         </h1>
         <p className="text-sm text-text-muted mb-6">
-          Masukkan Order ID dan email yang dipakai saat checkout
+          Masukkan Order ID dan email/nomor HP yang dipakai saat checkout
         </p>
 
         <form
@@ -138,13 +138,13 @@ export default function LacakPage() {
 
           <div>
             <label className="block text-xs font-black uppercase tracking-wider text-text-muted mb-2">
-              Email
+              Email atau Nomor HP
             </label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="email@contoh.com"
+              type="text"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+              placeholder="email@contoh.com atau 08123456789"
               required
               className="w-full bg-canvas text-text-primary px-3 py-3 border-2 border-border-subtle focus:border-brand-black focus:outline-none placeholder:text-neutral-600"
             />

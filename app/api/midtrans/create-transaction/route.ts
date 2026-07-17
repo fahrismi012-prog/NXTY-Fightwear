@@ -34,7 +34,6 @@ export async function POST(request: NextRequest) {
     const customer = body.customer;
     if (
       !customer?.name?.trim() ||
-      !customer?.email?.trim() ||
       !customer?.phone?.trim() ||
       !customer?.address?.trim() ||
       !customer?.city?.trim()
@@ -46,7 +45,8 @@ export async function POST(request: NextRequest) {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(customer.email)) {
+    const customerEmail = customer.email?.trim() || "";
+    if (customerEmail && !emailRegex.test(customerEmail)) {
       return NextResponse.json(
         { error: "Format email tidak valid" },
         { status: 400 }
@@ -161,12 +161,12 @@ export async function POST(request: NextRequest) {
       customer_details: {
         first_name: customer.name.split(" ")[0],
         last_name: customer.name.split(" ").slice(1).join(" ") || undefined,
-        email: customer.email,
+        email: customerEmail || undefined,
         phone: customer.phone,
         billing_address: {
           first_name: customer.name.split(" ")[0],
           last_name: customer.name.split(" ").slice(1).join(" ") || undefined,
-          email: customer.email,
+          email: customerEmail || undefined,
           phone: customer.phone,
           address: customer.address,
           city: customer.city,
@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
         shipping_address: {
           first_name: customer.name.split(" ")[0],
           last_name: customer.name.split(" ").slice(1).join(" ") || undefined,
-          email: customer.email,
+          email: customerEmail || undefined,
           phone: customer.phone,
           address: customer.address,
           city: customer.city,
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
       id: orderId,
       customer_id: currentUser?.id ?? null,
       customer_name: customer.name,
-      customer_email: customer.email,
+      customer_email: customerEmail || null,
       customer_phone: customer.phone,
       customer_address: customerAddress,
       notes: customer.notes ?? null,

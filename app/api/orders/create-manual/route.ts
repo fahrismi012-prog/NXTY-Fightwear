@@ -43,7 +43,6 @@ export async function POST(request: NextRequest) {
   const customer = body.customer;
   if (
     !customer?.name?.trim() ||
-    !customer?.email?.trim() ||
     !customer?.phone?.trim() ||
     !customer?.address?.trim() ||
     !customer?.city?.trim()
@@ -52,6 +51,11 @@ export async function POST(request: NextRequest) {
       { error: "Data customer tidak lengkap" },
       { status: 400 },
     );
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const customerEmail = customer.email?.trim() || "";
+  if (customerEmail && !emailRegex.test(customerEmail)) {
+    return NextResponse.json({ error: "Format email tidak valid" }, { status: 400 });
   }
 
   const supabase = createAdminClient();
@@ -174,7 +178,7 @@ export async function POST(request: NextRequest) {
       id: orderId,
       customer_id: currentUser?.id ?? null, // null = guest; link ke user.id kalau login
       customer_name: customer.name,
-      customer_email: customer.email,
+      customer_email: customerEmail || null,
       customer_phone: customer.phone,
       customer_address: customerAddress,
       notes: customer.notes ?? null,
