@@ -452,16 +452,6 @@ export default function CheckoutPage() {
                 error={errors.name}
               />
               <Input
-                label="Email (opsional)"
-                type="email"
-                inputMode="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="email@contoh.com"
-                error={errors.email}
-              />
-              <Input
                 label="Nomor HP"
                 type="tel"
                 inputMode="tel"
