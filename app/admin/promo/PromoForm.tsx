@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
-import { Loader2, Trash2 } from "lucide-react";
+import { useRef, useState, type FormEvent } from "react";
+import { Loader2, Trash2, Upload, X } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 import type { Promotion, PromotionType, DiscountType } from "@/types/database";
 
@@ -99,6 +99,39 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
 
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function handleImageUpload(file: File) {
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("info", "Ukuran file maksimal 5MB");
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      showToast("info", "Tipe file harus JPEG, PNG, atau WebP");
+      return;
+    }
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const data = (await res.json().catch(() => ({}))) as {
+        url?: string;
+        error?: string;
+      };
+      if (!res.ok || !data.url) {
+        showToast("info", data.error ?? "Upload gagal");
+        return;
+      }
+      setImage(data.url);
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  }
 
   function toggleProduct(productId: string) {
     setProductIds((prev) =>
@@ -608,34 +641,60 @@ export default function PromoForm({ mode, products, initial }: PromoFormProps) {
         {/* === Banner === */}
         {type === "banner" ? (
           <div>
-            <label
-              htmlFor="image"
-              className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2"
-            >
-              URL Gambar
+            <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-600 mb-2">
+              Gambar Banner
             </label>
-            <input
-              id="image"
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="https://... atau /images/banner.jpg"
-              className={`${baseInput} font-mono`}
-              disabled={disabled}
-            />
-            <p className="mt-2 text-[10px] text-neutral-500">
-              URL absolut atau path publik. Disarankan rasio 16:9.
-            </p>
             {image ? (
-              <div className="mt-3 border-2 border-neutral-800 bg-neutral-100 p-2 inline-block">
+              <div className="relative mt-1 border-2 border-neutral-800 bg-neutral-100 p-2 inline-block">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={image}
                   alt="Preview banner"
                   className="max-h-40 max-w-full object-contain"
                 />
+                <button
+                  type="button"
+                  onClick={() => setImage("")}
+                  disabled={disabled || uploading}
+                  aria-label="Hapus gambar"
+                  className="absolute top-1 right-1 w-6 h-6 bg-white border-2 border-[#dc2626] text-[#dc2626] flex items-center justify-center hover:bg-[#dc2626] hover:text-white transition-colors disabled:opacity-50"
+                >
+                  <X size={12} strokeWidth={2.5} />
+                </button>
               </div>
             ) : null}
+            <div className="mt-2">
+              <button
+                type="button"
+                disabled={disabled || uploading}
+                onClick={() => fileRef.current?.click()}
+                className="inline-flex items-center gap-2 bg-white text-black border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {uploading ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <Upload size={12} strokeWidth={2.5} />
+                )}
+                {uploading
+                  ? "Mengupload…"
+                  : image
+                    ? "Ganti Gambar"
+                    : "Upload Gambar"}
+              </button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void handleImageUpload(f);
+                }}
+              />
+            </div>
+            <p className="mt-2 text-[10px] text-neutral-500">
+              JPEG/PNG/WebP, maks 5MB. Disarankan rasio 16:9.
+            </p>
           </div>
         ) : null}
 
