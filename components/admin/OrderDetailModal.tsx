@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   X,
   Loader2,
@@ -16,6 +16,7 @@ import {
   Save,
   Trash2,
   Settings,
+  Upload,
 } from "lucide-react";
 import type { Order, OrderItem, OrderShipping } from "@/types/database";
 import { useToast } from "@/contexts/ToastContext";
@@ -133,6 +134,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
     carrier: order.shipping_manual_carrier ?? "",
     cost: order.shipping_manual_cost ?? 0,
     receipt: order.shipping_manual_receipt ?? "",
+    receiptUrl: order.shipping_manual_receipt_url ?? "",
   });
 
   const address = useMemo(
@@ -328,6 +330,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
           shipping_manual_carrier: editShipping.carrier.trim() || null,
           shipping_manual_cost: editShipping.cost || null,
           shipping_manual_receipt: editShipping.receipt.trim() || null,
+          shipping_manual_receipt_url: editShipping.receiptUrl.trim() || null,
         }),
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
@@ -946,14 +949,59 @@ function AdminOrderActions({
   deleting: boolean;
   showDeleteConfirm: boolean;
   setShowDeleteConfirm: (v: boolean) => void;
-  editShipping: { carrier: string; cost: number; receipt: string };
+  editShipping: {
+    carrier: string;
+    cost: number;
+    receipt: string;
+    receiptUrl: string;
+  };
   setEditShipping: React.Dispatch<
-    React.SetStateAction<{ carrier: string; cost: number; receipt: string }>
+    React.SetStateAction<{
+      carrier: string;
+      cost: number;
+      receipt: string;
+      receiptUrl: string;
+    }>
   >;
   onUpdateStatus: (s: string) => void;
   onSaveShipping: () => void;
   onDelete: () => void;
 }) {
+  const { showToast } = useToast();
+  const receiptFileRef = useRef<HTMLInputElement>(null);
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+
+  async function handleReceiptUpload(file: File) {
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("info", "Ukuran file maksimal 5MB");
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      showToast("info", "Tipe file harus JPEG, PNG, atau WebP");
+      return;
+    }
+    setUploadingReceipt(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const data = (await res.json().catch(() => ({}))) as {
+        url?: string;
+        error?: string;
+      };
+      if (!res.ok || !data.url) {
+        showToast("info", data.error ?? "Upload gagal");
+        return;
+      }
+      setEditShipping((s) => ({ ...s, receiptUrl: data.url! }));
+    } catch {
+      showToast("info", "Terjadi kesalahan jaringan");
+    } finally {
+      setUploadingReceipt(false);
+      if (receiptFileRef.current) receiptFileRef.current.value = "";
+    }
+  }
+
   // Status transition options sesuai state machine (lihat API)
   const transitions: { value: string; label: string; primary?: boolean }[] = [];
   switch (order.status) {
@@ -1079,6 +1127,62 @@ function AdminOrderActions({
                 className="w-full bg-canvas text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs"
               />
             </div>
+          </div>
+          <div className="mt-3">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-1">
+              Foto Resi (opsional)
+            </label>
+            {editShipping.receiptUrl ? (
+              <div className="flex items-start gap-3">
+                <a
+                  href={editShipping.receiptUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={editShipping.receiptUrl}
+                    alt="Foto resi"
+                    className="h-24 w-24 object-cover border-2 border-neutral-800"
+                  />
+                </a>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setEditShipping((s) => ({ ...s, receiptUrl: "" }))
+                  }
+                  className="inline-flex items-center gap-1 text-red-600 text-[10px] font-black uppercase tracking-wider hover:underline"
+                >
+                  <Trash2 size={12} strokeWidth={2.5} />
+                  Hapus Foto
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => receiptFileRef.current?.click()}
+                disabled={uploadingReceipt}
+                className="inline-flex items-center gap-2 bg-white text-black border-2 border-neutral-800 px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:border-black transition-colors disabled:opacity-50"
+              >
+                {uploadingReceipt ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <Upload size={12} strokeWidth={2.5} />
+                )}
+                {uploadingReceipt ? "Mengupload…" : "Upload Foto Resi"}
+              </button>
+            )}
+            <input
+              ref={receiptFileRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) void handleReceiptUpload(f);
+              }}
+            />
           </div>
           <button
             type="button"

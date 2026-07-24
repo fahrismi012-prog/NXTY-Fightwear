@@ -163,6 +163,12 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         ? null
         : String(body.shipping_manual_receipt).trim() || null;
   }
+  if (body.shipping_manual_receipt_url !== undefined) {
+    update.shipping_manual_receipt_url =
+      body.shipping_manual_receipt_url === null
+        ? null
+        : String(body.shipping_manual_receipt_url).trim() || null;
+  }
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: "Tidak ada field yang diubah" }, { status: 400 });
