@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
 import { getProductById } from "@/lib/storefront/products";
-import { getActiveBankAccounts, getManualShippingFee, getShippingMode } from "@/lib/storefront/settings";
+import { getActiveBankAccounts, getShippingMode } from "@/lib/storefront/settings";
 import type { CartItem, Customer } from "@/types";
 import { getRates } from "@/lib/shipping/everpro";
 import { saveCheckoutAddress } from "@/lib/customer/save-address";
@@ -20,10 +20,10 @@ interface RequestBody {
  * POST /api/orders/create-manual
  *
  * Buat order di Supabase untuk mode pembayaran MANUAL.
- * - Insert ke tabel `orders` dengan status `awaiting_payment`
+ * - Shipping mode manual: status `awaiting_shipping_cost`, ongkir 0,
+ *   `payment_expires_at` null (admin isi ongkir dulu -> awaiting_payment)
+ * - Shipping mode auto: status `awaiting_payment`, ongkir dari Everpro
  * - Set `payment_method = 'manual'`, `bank_account_id` (first active)
- * - Set `payment_expires_at` (now + expire hours dari setting)
- * - Shipping cost = 0 (akan di-set admin nanti untuk mode manual)
  * - Return orderId untuk redirect ke /payment/pending
  *
  * Public endpoint (no auth) — guest checkout OK.
@@ -123,9 +123,11 @@ export async function POST(request: NextRequest) {
   }
   const primaryBank = bankAccounts[0];
 
-  // Hitung shipping cost (untuk mode manual, fixed fee; tapi admin bisa adjust)
+  // Mode manual: ongkir 0 dulu — barang dimensi besar, admin cek & isi ongkir
+  // per pesanan (status awaiting_shipping_cost), customer konfirmasi via WA.
+  // Mode auto: ongkir dari Everpro, layanan wajib dipilih saat checkout.
   const shippingMode = await getShippingMode();
-  let shippingFee = await getManualShippingFee(customer.province);
+  let shippingFee = 0;
   let shipping: Record<string, unknown> | null = null;
   if (shippingMode === "auto") {
     if (!body.shipping?.courier || !body.shipping.service || !customer.postalCode) {
@@ -147,6 +149,11 @@ export async function POST(request: NextRequest) {
   }
   const total = subtotal + shippingFee;
 
+  // Mode manual: order nunggu admin isi ongkir dulu. Countdown pembayaran baru
+  // mulai saat status pindah ke awaiting_payment (di admin PUT).
+  const awaitingShippingCost = shippingMode === "manual";
+  const orderStatus = awaitingShippingCost ? "awaiting_shipping_cost" : "awaiting_payment";
+
   // Payment expires at = now + expire hours dari setting
   const expireHoursSetting = await supabase
     .from("settings")
@@ -157,7 +164,9 @@ export async function POST(request: NextRequest) {
     const n = Number(expireHoursSetting.data?.value);
     return Number.isFinite(n) && n >= 1 ? Math.round(n) : 24;
   })();
-  const expiresAt = new Date(Date.now() + expireHours * 3600 * 1000).toISOString();
+  const expiresAt = awaitingShippingCost
+    ? null
+    : new Date(Date.now() + expireHours * 3600 * 1000).toISOString();
 
   // Unique order ID
   const orderId = `NXTY-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
@@ -185,7 +194,7 @@ export async function POST(request: NextRequest) {
       subtotal,
       shipping_cost: shippingFee,
       total,
-      status: "awaiting_payment",
+      status: orderStatus,
       items: validatedItems,
       shipping,
       payment_id: null,
@@ -198,7 +207,7 @@ export async function POST(request: NextRequest) {
       bank_account_id: primaryBank.id,
       shipping_method_used: shippingMode,
       shipping_manual_carrier: null,
-      shipping_manual_cost: shippingMode === "manual" ? shippingFee : null,
+      shipping_manual_cost: null,
       shipping_manual_receipt: null,
       shipping_manual_receipt_url: null,
     })

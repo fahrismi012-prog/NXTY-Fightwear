@@ -1005,6 +1005,10 @@ function AdminOrderActions({
   // Status transition options sesuai state machine (lihat API)
   const transitions: { value: string; label: string; primary?: boolean }[] = [];
   switch (order.status) {
+    case "awaiting_shipping_cost":
+      // Ongkir di-set lewat form "Set Ongkir" di bawah
+      transitions.push({ value: "cancelled", label: "Batalkan" });
+      break;
     case "awaiting_payment":
       // Mode manual — confirmation handled di section Pembayaran Manual
       break;
@@ -1044,6 +1048,48 @@ function AdminOrderActions({
   return (
     <section>
       <SectionHeader icon={Settings} title="Aksi Admin" />
+
+      {/* Set ongkir (barang dimensi besar — dicek manual per pesanan) */}
+      {order.status === "awaiting_shipping_cost" && (
+        <div className="bg-white border-2 border-[#b45309] p-4 mb-3">
+          <p className="text-[10px] font-black uppercase tracking-widest text-[#b45309] mb-2">
+            Set Ongkir — Pesanan Menunggu
+          </p>
+          <p className="text-xs text-neutral-700 mb-3">
+            Customer konfirmasi ongkir via WhatsApp. Isi nominal ongkir, lalu
+            pesanan otomatis lanjut ke tahap pembayaran (total dihitung ulang).
+          </p>
+          <label className="block text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-1">
+            Ongkir (Rp)
+          </label>
+          <input
+            type="number"
+            min={0}
+            value={editShipping.cost || ""}
+            onChange={(e) =>
+              setEditShipping((s) => ({
+                ...s,
+                cost: Math.max(0, Number(e.target.value) || 0),
+              }))
+            }
+            placeholder="0"
+            className="w-full bg-canvas text-black px-3 py-2 border-2 border-neutral-800 focus:border-black focus:outline-none text-xs mb-3"
+          />
+          <button
+            type="button"
+            onClick={onSaveShipping}
+            disabled={savingShipping || editShipping.cost <= 0}
+            className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-2 text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-black transition-colors disabled:opacity-50"
+          >
+            {savingShipping ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <Save size={12} strokeWidth={2.5} />
+            )}
+            Simpan Ongkir &amp; Lanjut ke Pembayaran
+          </button>
+        </div>
+      )}
 
       {/* Status transition buttons */}
       {transitions.length > 0 && (

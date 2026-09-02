@@ -27,6 +27,7 @@ async function requireAdmin() {
  *  sebelum shipped; awaiting_payment/awaiting_confirmation khusus mode manual).
  */
 const STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+  awaiting_shipping_cost: ["awaiting_payment", "cancelled"],
   awaiting_payment: ["awaiting_confirmation", "cancelled"],
   awaiting_confirmation: ["paid", "cancelled"],
   pending: ["paid", "cancelled"],
@@ -57,6 +58,11 @@ const STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
  *   - 'shipped': set shipping_manual_carrier & shipping_manual_receipt
  *   - 'delivered': set payment_confirmed_at kalau belum (untuk mode manual)
  *
+ * Effect samping saat `shipping_manual_cost` diisi (order belum dibayar):
+ *   - shipping_cost + total dihitung ulang (subtotal + ongkir)
+ *   - kalau status 'awaiting_shipping_cost' -> pindah 'awaiting_payment'
+ *     + mulai countdown payment_expires_at
+ *
  * Validasi transisi: hanya boleh pindah ke status yang diizinkan.
  */
 export async function PUT(request: NextRequest, context: RouteContext) {
@@ -77,10 +83,10 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     return NextResponse.json({ error: "Supabase belum dikonfigurasi" }, { status: 503 });
   }
 
-  // Fetch order saat ini untuk validasi transition
+  // Fetch order saat ini untuk validasi transition + recompute total
   const { data: current, error: fetchError } = await supabase
     .from("orders")
-    .select("status")
+    .select("status, subtotal")
     .eq("id", id)
     .maybeSingle();
 
@@ -154,7 +160,31 @@ export async function PUT(request: NextRequest, context: RouteContext) {
           { status: 400 },
         );
       }
-      update.shipping_manual_cost = Math.round(n);
+      const cost = Math.round(n);
+      update.shipping_manual_cost = cost;
+      // Admin isi ongkir untuk order yang belum dibayar -> jadikan ongkir
+      // resmi + hitung ulang total. Kalau order masih nunggu ongkir,
+      // lepas ke tahap pembayaran + mulai countdown expiry.
+      if (
+        current.status === "awaiting_shipping_cost" ||
+        current.status === "awaiting_payment"
+      ) {
+        update.shipping_cost = cost;
+        update.total = (current.subtotal ?? 0) + cost;
+      }
+      if (current.status === "awaiting_shipping_cost") {
+        update.status = "awaiting_payment";
+        const { data: expireSetting } = await supabase
+          .from("settings")
+          .select("value")
+          .eq("key", "payment_manual_expire_hours")
+          .maybeSingle();
+        const hours = Number(expireSetting?.value);
+        const expireHours = Number.isFinite(hours) && hours >= 1 ? Math.round(hours) : 24;
+        update.payment_expires_at = new Date(
+          Date.now() + expireHours * 3600 * 1000,
+        ).toISOString();
+      }
     }
   }
   if (body.shipping_manual_receipt !== undefined) {

@@ -11,6 +11,7 @@ export type PromotionType =
 export type DiscountType = "percentage" | "fixed";
 
 export type OrderStatus =
+  | "awaiting_shipping_cost"
   | "awaiting_payment"
   | "awaiting_confirmation"
   | "pending"

@@ -30,6 +30,7 @@ function formatDate(iso: string): string {
 }
 
 const VALID_STATUSES: OrderStatus[] = [
+  "awaiting_shipping_cost",
   "awaiting_payment",
   "awaiting_confirmation",
   "paid",
@@ -40,6 +41,7 @@ const VALID_STATUSES: OrderStatus[] = [
 ];
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
+  awaiting_shipping_cost: "Menunggu Ongkir",
   awaiting_payment: "Menunggu Bayar",
   awaiting_confirmation: "Menunggu Konfirmasi",
   pending: "Pending",
@@ -100,6 +102,7 @@ export default async function PesananSayaPage({ searchParams }: PageProps) {
       label: "Semua",
       count: allOrdersForCount?.length ?? 0,
     },
+    { value: "awaiting_shipping_cost", label: "Ongkir", count: countByStatus.awaiting_shipping_cost ?? 0 },
     { value: "awaiting_payment", label: "Menunggu", count: countByStatus.awaiting_payment ?? 0 },
     { value: "awaiting_confirmation", label: "Konfirmasi", count: countByStatus.awaiting_confirmation ?? 0 },
     { value: "paid", label: "Dibayar", count: countByStatus.paid ?? 0 },

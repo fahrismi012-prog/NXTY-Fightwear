@@ -5,6 +5,9 @@ const STATUS_MAP: Record<
   string,
   { label: string; classes: string; icon?: "check" }
 > = {
+  awaiting_shipping_cost: { label: "Perlu Ongkir", classes: "bg-white text-[#b45309] border-2 border-[#b45309]" },
+  awaiting_payment: { label: "Menunggu Bayar", classes: "bg-white text-black border-2 border-black" },
+  awaiting_confirmation: { label: "Cek Bukti", classes: "bg-white text-black border-2 border-black" },
   pending: { label: "Menunggu", classes: "bg-white text-black border-2 border-black" },
   paid: { label: "Dibayar", classes: "bg-black text-white border-2 border-black" },
   processed: { label: "Diproses", classes: "bg-neutral-200 text-black border-2 border-neutral-800" },

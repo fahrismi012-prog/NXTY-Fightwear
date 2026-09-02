@@ -13,7 +13,6 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Card } from "@/components/ui/Card";
 import { TrustStrip } from "@/components/TrustStrip";
 import { PROVINCES } from "@/lib/shipping/regions";
-import { resolveManualShippingFee, type ShippingZone } from "@/lib/shipping/manual";
 
 interface FormData {
   name: string;
@@ -112,16 +111,15 @@ export default function CheckoutPage() {
   const [modeLoaded, setModeLoaded] = useState(false);
   const [midtransConfig, setMidtransConfig] = useState({ clientKey: "", environment: "sandbox" });
   const [shippingMode, setShippingMode] = useState<"auto" | "manual">("manual");
-  const [manualShippingFee, setManualShippingFee] = useState(0);
-  const [manualShippingZones, setManualShippingZones] = useState<ShippingZone[]>([]);
   const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
   const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
   const [ratesLoading, setRatesLoading] = useState(false);
-  const shippingCost =
-    shippingMode === "auto"
-      ? (selectedRate?.cost ?? 0)
-      : resolveManualShippingFee(manualShippingZones, manualShippingFee, form.province);
+  // Mode manual: ongkir dihitung admin per pesanan (barang dimensi besar),
+  // jadi belum ada di checkout — customer konfirmasi via WA setelahnya.
+  const shippingCost = shippingMode === "auto" ? (selectedRate?.cost ?? 0) : 0;
   const checkoutTotal = totalPrice + shippingCost;
+  // Mode manual = order dibuat dulu (ongkir & bayar menyusul), bukan bayar langsung.
+  const submitLabel = paymentMode === "manual" ? "Buat Pesanan" : "Bayar Sekarang";
 
   useEffect(() => {
     let cancelled = false;
@@ -151,7 +149,7 @@ export default function CheckoutPage() {
     let cancelled = false;
     fetch("/api/storefront/payment-mode")
       .then((r) => (r.ok ? r.json() : { mode: "gateway" }))
-      .then((data: { mode?: string; shippingMode?: string; shippingManualFee?: number; shippingManualZones?: ShippingZone[]; midtrans?: { clientKey?: string; environment?: string } }) => {
+      .then((data: { mode?: string; shippingMode?: string; midtrans?: { clientKey?: string; environment?: string } }) => {
         if (cancelled) return;
         if (data.mode === "manual" || data.mode === "gateway") {
           setPaymentMode(data.mode);
@@ -161,8 +159,6 @@ export default function CheckoutPage() {
           environment: data.midtrans?.environment ?? "sandbox",
         });
         setShippingMode(data.shippingMode === "auto" ? "auto" : "manual");
-        setManualShippingFee(Number(data.shippingManualFee) || 0);
-        setManualShippingZones(Array.isArray(data.shippingManualZones) ? data.shippingManualZones : []);
       })
       .catch(() => {
         if (!cancelled) setPaymentMode("gateway");
@@ -468,10 +464,12 @@ export default function CheckoutPage() {
             <p className="text-heading-3 font-semibold text-text-primary mb-4">Pengiriman</p>
             {shippingMode === "manual" ? (
               <div className="rounded-subtle border border-border-subtle bg-surface-1 p-4 text-sm">
-                Ongkir: <strong>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(shippingCost)}</strong>
-                {!form.province && (
-                  <span className="block text-text-muted mt-1">Pilih provinsi di bawah untuk ongkir sesuai zona.</span>
-                )}
+                <strong>Ongkir dihitung admin.</strong>
+                <span className="block text-text-muted mt-1">
+                  Barang berdimensi besar, jadi ongkir dicek manual per pesanan.
+                  Setelah pesanan dibuat, kamu konfirmasi ongkir ke admin via
+                  WhatsApp, lalu lanjut bayar.
+                </span>
               </div>
             ) : (
               <div className="space-y-3">
@@ -582,10 +580,12 @@ export default function CheckoutPage() {
               loading={loading}
               leftIcon={<CreditCard className="w-4 h-4" />}
             >
-              Bayar Sekarang
+              {submitLabel}
             </Button>
             <p className="text-caption text-text-muted text-center mt-3">
-              Pembayaran aman via Midtrans
+              {paymentMode === "manual"
+                ? "Ongkir & pembayaran dikonfirmasi setelah pesanan dibuat"
+                : "Pembayaran aman via Midtrans"}
             </p>
           </div>
         </form>
@@ -606,7 +606,7 @@ export default function CheckoutPage() {
             loading={loading}
             className="min-w-[140px]"
           >
-            Bayar Sekarang
+            {submitLabel}
           </Button>
         </div>
       </div>

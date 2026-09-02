@@ -14,7 +14,13 @@ import {
   Copy,
   Building2,
   Hourglass,
+  MessageCircle,
 } from "lucide-react";
+import { useBrand } from "@/contexts/BrandContext";
+
+// Nomor WA admin untuk konfirmasi ongkir barang besar. Pakai nomor CS dari
+// theme kalau ada, fallback ke nomor default.
+const FALLBACK_ADMIN_WA = "6289524840900";
 
 interface OrderData {
   id: string;
@@ -26,6 +32,7 @@ interface OrderData {
   payment_expires_at: string | null;
   payment_proof_url: string | null;
   payment_rejection_reason: string | null;
+  customer_address: string | null;
   bank_account: {
     id: string;
     bank_name: string;
@@ -36,9 +43,25 @@ interface OrderData {
   items: Array<{ name: string; quantity: number; price: number }>;
 }
 
+/** Parse alamat customer (JSON string) buat isi pesan WA ke admin. */
+function shippingDestination(raw: string | null): string {
+  if (!raw) return "";
+  try {
+    const a = JSON.parse(raw) as {
+      city?: string;
+      province?: string;
+      postal_code?: string;
+    };
+    return [a.city, a.province, a.postal_code].filter(Boolean).join(", ");
+  } catch {
+    return "";
+  }
+}
+
 function PendingContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id") || "-";
+  const { whatsappNumber } = useBrand();
 
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -151,6 +174,81 @@ function PendingContent() {
         >
           Kembali ke Beranda
         </Link>
+      </div>
+    );
+  }
+
+  // ─── Menunggu ongkir dari admin (barang dimensi besar) ────
+  if (order.status === "awaiting_shipping_cost") {
+    const dest = shippingDestination(order.customer_address);
+    const waNumber = whatsappNumber || FALLBACK_ADMIN_WA;
+    const waText = encodeURIComponent(
+      [
+        "Halo, saya mau konfirmasi ongkir untuk pesanan:",
+        `No. Pesanan: ${order.id}`,
+        dest ? `Tujuan: ${dest}` : "",
+        "Barang:",
+        ...order.items.map((it) => `- ${it.name} x${it.quantity}`),
+        `Subtotal: ${formatRupiah(order.subtotal)}`,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
+
+    return (
+      <div className="w-full max-w-md">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 border-2 border-yellow-600 mb-4">
+            <Clock className="w-8 h-8 text-yellow-600" strokeWidth={2.5} />
+          </div>
+          <h1 className="text-xl font-black text-text-primary mb-2">
+            Pesanan Dibuat — Menunggu Ongkir
+          </h1>
+          <p className="text-xs text-text-muted">
+            Order ID: <span className="font-mono">{order.id}</span>
+          </p>
+        </div>
+
+        <div className="border-2 border-black bg-white p-4 mb-4 text-sm text-text-primary">
+          Barang kamu berdimensi besar, jadi ongkir dihitung manual per
+          pesanan. Konfirmasi ongkir ke admin via WhatsApp — setelah admin
+          set ongkir, halaman ini otomatis pindah ke tahap pembayaran.
+        </div>
+
+        <a
+          href={`https://wa.me/${waNumber}?text=${waText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-3 bg-[#25d366] text-white font-bold text-sm hover:brightness-95 transition-all flex items-center justify-center gap-2 mb-2"
+        >
+          <MessageCircle className="w-4 h-4" />
+          Konfirmasi Ongkir via WhatsApp
+        </a>
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="w-full py-3 border-2 border-black text-text-primary font-bold text-sm hover:bg-black hover:text-white transition-colors"
+        >
+          Cek Status (Refresh)
+        </button>
+
+        <div className="mt-4 border-t border-border-subtle pt-4 text-left">
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">
+            Ringkasan
+          </p>
+          {order.items.map((it, i) => (
+            <div key={i} className="flex justify-between text-xs text-text-muted">
+              <span>
+                {it.name} × {it.quantity}
+              </span>
+              <span>{formatRupiah(it.price * it.quantity)}</span>
+            </div>
+          ))}
+          <div className="flex justify-between text-sm font-bold text-text-primary mt-2 pt-2 border-t border-border-subtle">
+            <span>Subtotal (belum termasuk ongkir)</span>
+            <span>{formatRupiah(order.subtotal)}</span>
+          </div>
+        </div>
       </div>
     );
   }

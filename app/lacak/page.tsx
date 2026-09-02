@@ -46,6 +46,9 @@ function formatPrice(price: number): string {
 }
 
 const STATUS_LABEL: Record<string, string> = {
+  awaiting_shipping_cost: "Menunggu Ongkir",
+  awaiting_payment: "Menunggu Pembayaran",
+  awaiting_confirmation: "Menunggu Konfirmasi",
   pending: "Menunggu Pembayaran",
   paid: "Sudah Dibayar",
   processed: "Diproses",

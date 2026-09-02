@@ -167,7 +167,7 @@ export default function SettingsForm({
             checked={shippingMode === "manual"}
             onChange={setShippingMode}
             title="Manual (Admin Input)"
-            description="Ongkos fixed, admin input kurir + resi manual di halaman pesanan."
+            description="Pembayaran manual: order dibuat tanpa ongkir, customer konfirmasi via WhatsApp, admin isi ongkir per pesanan di halaman detail. (Ongkir default & zona di bawah hanya dipakai untuk mode pembayaran gateway.)"
           />
         </div>
 

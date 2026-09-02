@@ -14,6 +14,7 @@ const PAGE_SIZE = 20;
 
 const STATUS_FILTERS: { value: "" | OrderStatus; label: string }[] = [
   { value: "", label: "Semua Status" },
+  { value: "awaiting_shipping_cost", label: "Perlu Ongkir" },
   { value: "awaiting_payment", label: "Menunggu Bayar" },
   { value: "awaiting_confirmation", label: "Menunggu Konfirmasi" },
   { value: "pending", label: "Pending" },

@@ -8,6 +8,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const VALID_STATUSES: OrderStatus[] = [
+  "awaiting_shipping_cost",
+  "awaiting_payment",
+  "awaiting_confirmation",
   "pending",
   "paid",
   "processed",

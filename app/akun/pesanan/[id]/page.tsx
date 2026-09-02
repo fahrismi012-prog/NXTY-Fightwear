@@ -223,7 +223,9 @@ export default async function PesananDetailPage({
         <div className="flex justify-between text-xs mb-2 pb-2 border-b border-border-subtle">
           <span className="text-neutral-500">Ongkir</span>
           <span className="text-text-primary font-bold">
-            {formatPrice(order.shipping_cost || 0)}
+            {order.status === "awaiting_shipping_cost"
+              ? "Menunggu admin"
+              : formatPrice(order.shipping_cost || 0)}
           </span>
         </div>
         <div className="flex justify-between">
