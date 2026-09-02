@@ -7,12 +7,14 @@ import {
   User,
   Package,
   MapPin,
+  Bell,
   LogOut,
   Menu,
   X,
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUnreadCount } from "@/hooks/useUnreadCount";
 
 interface AccountSidebarProps {
   email: string | null;
@@ -40,6 +42,12 @@ const NAV_ITEMS: NavItem[] = [
     match: (p) => p.startsWith("/akun/pesanan"),
   },
   {
+    label: "Notifikasi",
+    href: "/akun/notifikasi",
+    icon: Bell,
+    match: (p) => p.startsWith("/akun/notifikasi"),
+  },
+  {
     label: "Alamat Saya",
     href: "/akun/alamat",
     icon: MapPin,
@@ -56,6 +64,7 @@ export default function AccountSidebar({ email, fullName }: AccountSidebarProps)
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const unread = useUnreadCount("/api/customer/notifications");
 
   const initials = (fullName?.trim() || email || "?")
     .split(/\s+/)
@@ -133,6 +142,7 @@ export default function AccountSidebar({ email, fullName }: AccountSidebarProps)
                   key={item.href}
                   item={item}
                   active={item.match(pathname)}
+                  badge={item.href === "/akun/notifikasi" ? unread : 0}
                   onClick={() => setMobileOpen(false)}
                 />
               ))}
@@ -183,7 +193,12 @@ export default function AccountSidebar({ email, fullName }: AccountSidebarProps)
             Akun Saya
           </p>
           {NAV_ITEMS.map((item) => (
-            <SidebarItem key={item.href} item={item} active={item.match(pathname)} />
+            <SidebarItem
+              key={item.href}
+              item={item}
+              active={item.match(pathname)}
+              badge={item.href === "/akun/notifikasi" ? unread : 0}
+            />
           ))}
 
           <div className="pt-3 mt-3 border-t border-border-subtle">
@@ -229,10 +244,12 @@ export default function AccountSidebar({ email, fullName }: AccountSidebarProps)
 function SidebarItem({
   item,
   active,
+  badge = 0,
   onClick,
 }: {
   item: NavItem;
   active: boolean;
+  badge?: number;
   onClick?: () => void;
 }) {
   const Icon = item.icon;
@@ -258,12 +275,13 @@ function SidebarItem({
           {item.label}
         </span>
       </span>
-      {active && (
-        <span
-          aria-hidden
-          className="w-1.5 h-1.5 rounded-full bg-white shrink-0"
-        />
-      )}
+      {badge > 0 ? (
+        <span className="min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-[#dc2626] text-white text-[10px] font-black rounded-full shrink-0">
+          {badge > 99 ? "99+" : badge}
+        </span>
+      ) : active ? (
+        <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
+      ) : null}
     </Link>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Search, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Order, OrderStatus } from "@/types/database";
 import OrderDetailModal from "@/components/admin/OrderDetailModal";
@@ -51,10 +52,14 @@ function shortOrderId(id: string): string {
 }
 
 export default function OrderListClient({ orders }: Props) {
+  // Deep-link dari notifikasi admin: /admin/pesanan?order=<id> -> buka modal
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"" | OrderStatus>("");
   const [page, setPage] = useState(1);
-  const [selected, setSelected] = useState<Order | null>(null);
+  const [selected, setSelected] = useState<Order | null>(
+    () => orders.find((o) => o.id === searchParams.get("order")) ?? null,
+  );
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();

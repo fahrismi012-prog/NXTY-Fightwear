@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { notify } from "@/lib/notifications";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
 
   const { data: order, error: fetchError } = await supabase
     .from("orders")
-    .select("id, status, payment_method")
+    .select("id, status, payment_method, customer_id")
     .eq("id", id)
     .maybeSingle();
 
@@ -96,6 +97,15 @@ export async function POST(request: NextRequest, context: RouteContext) {
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
+
+  await notify({
+    audience: "customer",
+    type: "payment_rejected",
+    title: "Pembayaran ditolak",
+    body: `Pembayaran pesanan …${id.slice(-8)} ditolak. Alasan: ${reason}`,
+    orderId: id,
+    recipientId: order.customer_id,
+  });
 
   return NextResponse.json({ ok: true, order: updated });
 }

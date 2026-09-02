@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { notify } from "@/lib/notifications";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,7 +36,7 @@ export async function POST(_request: NextRequest, context: RouteContext) {
   // Fetch order dulu untuk validasi
   const { data: order, error: fetchError } = await supabase
     .from("orders")
-    .select("id, status, payment_method, payment_proof_url")
+    .select("id, status, payment_method, payment_proof_url, customer_id")
     .eq("id", id)
     .maybeSingle();
 
@@ -82,6 +83,15 @@ export async function POST(_request: NextRequest, context: RouteContext) {
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
+
+  await notify({
+    audience: "customer",
+    type: "payment_verified",
+    title: "Pembayaran dikonfirmasi",
+    body: `Pembayaran pesanan …${id.slice(-8)} sudah kami verifikasi. Pesanan akan diproses.`,
+    orderId: id,
+    recipientId: order.customer_id,
+  });
 
   return NextResponse.json({ ok: true, order: updated });
 }

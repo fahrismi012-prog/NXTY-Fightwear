@@ -6,6 +6,7 @@ import { getActiveBankAccounts, getShippingMode } from "@/lib/storefront/setting
 import type { CartItem, Customer } from "@/types";
 import { getRates } from "@/lib/shipping/everpro";
 import { saveCheckoutAddress } from "@/lib/customer/save-address";
+import { notify, formatRupiah } from "@/lib/notifications";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -225,6 +226,16 @@ export async function POST(request: NextRequest) {
   if (currentUser) {
     await saveCheckoutAddress(supabase, currentUser.id, customer);
   }
+
+  await notify({
+    audience: "admin",
+    type: "order_created",
+    title: `Pesanan baru …${orderId.slice(-8)}`,
+    body: `${customer.name} · ${formatRupiah(subtotal)}${
+      awaitingShippingCost ? " · menunggu ongkir" : ""
+    }`,
+    orderId,
+  });
 
   return NextResponse.json({ orderId, order }, { status: 201 });
 }

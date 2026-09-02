@@ -14,13 +14,7 @@ import {
   Copy,
   Building2,
   Hourglass,
-  MessageCircle,
 } from "lucide-react";
-import { useBrand } from "@/contexts/BrandContext";
-
-// Nomor WA admin untuk konfirmasi ongkir barang besar. Pakai nomor CS dari
-// theme kalau ada, fallback ke nomor default.
-const FALLBACK_ADMIN_WA = "6289524840900";
 
 interface OrderData {
   id: string;
@@ -43,25 +37,9 @@ interface OrderData {
   items: Array<{ name: string; quantity: number; price: number }>;
 }
 
-/** Parse alamat customer (JSON string) buat isi pesan WA ke admin. */
-function shippingDestination(raw: string | null): string {
-  if (!raw) return "";
-  try {
-    const a = JSON.parse(raw) as {
-      city?: string;
-      province?: string;
-      postal_code?: string;
-    };
-    return [a.city, a.province, a.postal_code].filter(Boolean).join(", ");
-  } catch {
-    return "";
-  }
-}
-
 function PendingContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id") || "-";
-  const { whatsappNumber } = useBrand();
 
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -178,77 +156,63 @@ function PendingContent() {
     );
   }
 
-  // ─── Menunggu ongkir dari admin (barang dimensi besar) ────
+  // ─── Order dibuat, menunggu ongkos kirim dari admin ───────
   if (order.status === "awaiting_shipping_cost") {
-    const dest = shippingDestination(order.customer_address);
-    const waNumber = whatsappNumber || FALLBACK_ADMIN_WA;
-    const waText = encodeURIComponent(
-      [
-        "Halo, saya mau konfirmasi ongkir untuk pesanan:",
-        `No. Pesanan: ${order.id}`,
-        dest ? `Tujuan: ${dest}` : "",
-        "Barang:",
-        ...order.items.map((it) => `- ${it.name} x${it.quantity}`),
-        `Subtotal: ${formatRupiah(order.subtotal)}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    );
-
     return (
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 border-2 border-yellow-600 mb-4">
-            <Clock className="w-8 h-8 text-yellow-600" strokeWidth={2.5} />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 border-2 border-green-700 mb-4">
+            <Check className="w-8 h-8 text-green-700" strokeWidth={2.5} />
           </div>
           <h1 className="text-xl font-black text-text-primary mb-2">
-            Pesanan Dibuat — Menunggu Ongkir
+            Order Berhasil Dibuat
           </h1>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">Pesanan Anda telah diterima.</p>
+          <p className="text-xs text-text-muted mt-1">
             Order ID: <span className="font-mono">{order.id}</span>
           </p>
         </div>
 
-        <div className="border-2 border-black bg-white p-4 mb-4 text-sm text-text-primary">
-          Barang kamu berdimensi besar, jadi ongkir dihitung manual per
-          pesanan. Konfirmasi ongkir ke admin via WhatsApp — setelah admin
-          set ongkir, halaman ini otomatis pindah ke tahap pembayaran.
-        </div>
-
-        <a
-          href={`https://wa.me/${waNumber}?text=${waText}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full py-3 bg-[#25d366] text-white font-bold text-sm hover:brightness-95 transition-all flex items-center justify-center gap-2 mb-2"
-        >
-          <MessageCircle className="w-4 h-4" />
-          Konfirmasi Ongkir via WhatsApp
-        </a>
-        <button
-          type="button"
-          onClick={() => window.location.reload()}
-          className="w-full py-3 border-2 border-black text-text-primary font-bold text-sm hover:bg-black hover:text-white transition-colors"
-        >
-          Cek Status (Refresh)
-        </button>
-
-        <div className="mt-4 border-t border-border-subtle pt-4 text-left">
-          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">
-            Ringkasan
-          </p>
+        <div className="border-2 border-black bg-white p-4 mb-4 text-left">
           {order.items.map((it, i) => (
-            <div key={i} className="flex justify-between text-xs text-text-muted">
+            <div key={i} className="flex justify-between text-xs text-text-muted mb-1">
               <span>
                 {it.name} × {it.quantity}
               </span>
               <span>{formatRupiah(it.price * it.quantity)}</span>
             </div>
           ))}
-          <div className="flex justify-between text-sm font-bold text-text-primary mt-2 pt-2 border-t border-border-subtle">
-            <span>Subtotal (belum termasuk ongkir)</span>
+          <div className="flex justify-between text-sm font-black text-text-primary mt-2 pt-2 border-t-2 border-border-subtle">
+            <span>Subtotal Pesanan</span>
             <span>{formatRupiah(order.subtotal)}</span>
           </div>
         </div>
+
+        <div className="border-2 border-yellow-600 bg-yellow-50 p-4 mb-4 text-sm text-yellow-900">
+          <p className="font-black uppercase tracking-wider text-xs mb-1">
+            Status: Menunggu Ongkos Kirim
+          </p>
+          <p>
+            Saat ini kami sedang menghitung ongkos kirim. Halaman ini otomatis
+            berubah ke tahap pembayaran begitu ongkir siap — cek notifikasi atau
+            refresh halaman ini.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="w-full py-3 border-2 border-black text-text-primary font-bold text-sm hover:bg-black hover:text-white transition-colors mb-2"
+        >
+          Cek Status
+        </button>
+        <Link
+          href="/"
+          className="w-full py-3 bg-black text-white font-bold text-sm hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2"
+        >
+          <Home className="w-4 h-4" />
+          Kembali ke Beranda
+        </Link>
       </div>
     );
   }
@@ -284,8 +248,8 @@ function PendingContent() {
                 Bukti Transfer Diterima
               </h1>
               <p className="text-sm text-text-muted">
-                Sedang dicek admin (1-2 jam kerja). Kami kabari via email
-                setelah dikonfirmasi.
+                Sedang dicek admin (1&ndash;2 jam kerja). Kamu dapat notifikasi
+                di aplikasi setelah pembayaran dikonfirmasi.
               </p>
             </>
           ) : (
@@ -349,14 +313,24 @@ function PendingContent() {
               </p>
             )}
 
-            {/* Total amount to transfer */}
-            <div className="mt-4 pt-3 border-t-2 border-black flex items-center justify-between">
-              <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">
-                Total Transfer
-              </p>
-              <p className="text-lg font-black text-black">
-                {formatRupiah(order.total)}
-              </p>
+            {/* Rincian: Subtotal + Ongkos Kirim = Total */}
+            <div className="mt-4 pt-3 border-t-2 border-black space-y-1">
+              <div className="flex items-center justify-between text-xs text-text-muted">
+                <span>Subtotal</span>
+                <span>{formatRupiah(order.subtotal)}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-text-muted">
+                <span>Ongkos Kirim</span>
+                <span>{formatRupiah(order.shipping_cost)}</span>
+              </div>
+              <div className="flex items-center justify-between pt-2 mt-1 border-t border-border-subtle">
+                <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">
+                  Total Pembayaran
+                </p>
+                <p className="text-lg font-black text-black">
+                  {formatRupiah(order.total)}
+                </p>
+              </div>
             </div>
           </div>
         )}
@@ -419,8 +393,9 @@ function PendingContent() {
         <div className="flex items-start gap-3 p-3 bg-surface-1 border border-border-subtle mb-4 text-left">
           <HelpCircle className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
           <p className="text-[11px] text-text-muted leading-relaxed">
-            Sudah transfer tapi tidak ada konfirmasi? Cek folder spam email
-            atau hubungi kami via WhatsApp.
+            Setelah upload bukti, admin memverifikasi dalam 1&ndash;2 jam kerja.
+            Status &amp; notifikasi pesanan bisa kamu pantau di halaman ini dan di
+            menu Notifikasi akun.
           </p>
         </div>
 

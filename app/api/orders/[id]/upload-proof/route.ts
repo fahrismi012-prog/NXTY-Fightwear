@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getCurrentCustomerUser } from "@/lib/supabase/server-auth";
+import { notify } from "@/lib/notifications";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -163,6 +164,14 @@ export async function POST(request: NextRequest, context: RouteContext) {
       { status: 500 },
     );
   }
+
+  await notify({
+    audience: "admin",
+    type: "payment_submitted",
+    title: `Bukti pembayaran masuk …${id.slice(-8)}`,
+    body: "Customer sudah upload bukti transfer. Cek & konfirmasi di detail pesanan.",
+    orderId: id,
+  });
 
   return NextResponse.json({ ok: true, proofPath: path });
 }

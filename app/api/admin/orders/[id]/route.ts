@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/server";
 import { verifySession, ADMIN_COOKIE } from "@/lib/supabase/auth";
+import { notify, formatRupiah, statusNotification } from "@/lib/notifications";
 import type { OrderStatus } from "@/types/database";
 
 export const runtime = "nodejs";
@@ -86,7 +87,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   // Fetch order saat ini untuk validasi transition + recompute total
   const { data: current, error: fetchError } = await supabase
     .from("orders")
-    .select("status, subtotal")
+    .select("status, subtotal, customer_id")
     .eq("id", id)
     .maybeSingle();
 
@@ -98,6 +99,8 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   }
 
   const update: Record<string, unknown> = {};
+  // Notifikasi customer yang dikirim SETELAH update sukses.
+  const customerNotes: Array<{ type: Parameters<typeof notify>[0]["type"]; title: string; body: string }> = [];
 
   // Status transition validation
   if (typeof body.status === "string" && body.status !== current.status) {
@@ -117,6 +120,8 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       // Tandai delivered time = now
       update.updated_at = new Date().toISOString();
     }
+    const note = statusNotification(newStatus, id);
+    if (note) customerNotes.push(note);
   }
 
   // Notes (internal admin notes, bukan notes customer)
@@ -184,6 +189,11 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         update.payment_expires_at = new Date(
           Date.now() + expireHours * 3600 * 1000,
         ).toISOString();
+        customerNotes.push({
+          type: "shipping_cost_set",
+          title: "Ongkos kirim sudah tersedia",
+          body: `Total pembayaran: ${formatRupiah((current.subtotal ?? 0) + cost)}. Silakan lanjut ke pembayaran.`,
+        });
       }
     }
   }
@@ -213,6 +223,19 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
+  }
+
+  // Notifikasi customer (best-effort). Guest order (customer_id null) tetap
+  // lihat update via halaman order/lacak.
+  for (const note of customerNotes) {
+    await notify({
+      audience: "customer",
+      type: note.type,
+      title: note.title,
+      body: note.body,
+      orderId: id,
+      recipientId: current.customer_id,
+    });
   }
 
   return NextResponse.json({ order: updated });

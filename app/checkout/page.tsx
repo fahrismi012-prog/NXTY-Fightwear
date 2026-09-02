@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChevronLeft, CreditCard, AlertCircle, Shield, RotateCcw, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useBrand } from "@/contexts/BrandContext";
 import { PriceTag } from "@/components/ui/PriceTag";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -82,7 +81,6 @@ const CHECKOUT_TRUST_ITEMS = [
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCart();
-  const { whatsappNumber } = useBrand();
   const [form, setForm] = useState<FormData>(() => {
     const base: FormData = {
       name: "",
@@ -122,20 +120,6 @@ export default function CheckoutPage() {
   const checkoutTotal = totalPrice + shippingCost;
   // Mode manual = order dibuat dulu (ongkir & bayar menyusul), bukan bayar langsung.
   const submitLabel = paymentMode === "manual" ? "Buat Pesanan" : "Bayar Sekarang";
-  // Tombol WA "Hubungi Admin" untuk cek ongkir barang besar (mode manual).
-  const adminWaNumber = whatsappNumber || "6289524840900";
-  const adminWaHref = `https://wa.me/${adminWaNumber}?text=${encodeURIComponent(
-    [
-      "Halo, mau cek ongkir untuk pesanan:",
-      ...items.map((it) => `- ${it.name} (${it.size}, ${it.color}) x${it.quantity}`),
-      `Subtotal: ${new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(totalPrice)}`,
-      form.address
-        ? `Alamat: ${[form.address, form.city, form.province, form.postalCode].filter(Boolean).join(", ")}`
-        : "",
-    ]
-      .filter(Boolean)
-      .join("\n"),
-  )}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -480,21 +464,12 @@ export default function CheckoutPage() {
             <p className="text-heading-3 font-semibold text-text-primary mb-4">Pengiriman</p>
             {shippingMode === "manual" ? (
               <div className="rounded-subtle border border-border-subtle bg-surface-1 p-4 text-sm">
-                <strong>Ongkir dihitung admin.</strong>
+                <strong>Ongkos kirim dihitung admin.</strong>
                 <span className="block text-text-muted mt-1">
-                  Barang berdimensi besar, jadi ongkir dicek manual per pesanan.
-                  Konfirmasi ongkir ke admin via WhatsApp — bisa sekarang atau
-                  setelah pesanan dibuat, lalu lanjut bayar.
+                  Barang berdimensi besar — ongkos kirim dihitung admin setelah
+                  pesanan dibuat. Status pesanan berubah otomatis saat ongkir
+                  siap, lalu kamu lanjut ke pembayaran. Semua lewat aplikasi.
                 </span>
-                <a
-                  href={adminWaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-subtle bg-[#25d366] py-2.5 text-sm font-bold text-white transition-all hover:brightness-95"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  Hubungi Admin via WhatsApp
-                </a>
               </div>
             ) : (
               <div className="space-y-3">

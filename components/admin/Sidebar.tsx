@@ -11,13 +11,16 @@ import {
   Users,
   Settings,
   Palette,
+  Bell,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/contexts/ToastContext";
+import { useUnreadCount } from "@/hooks/useUnreadCount";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Notifikasi", href: "/admin/notifikasi", icon: Bell },
   { label: "Kategori", href: "/admin/kategori", icon: Layers },
   { label: "Produk", href: "/admin/produk", icon: Package },
   { label: "Promo", href: "/admin/promo", icon: Tag },
@@ -31,6 +34,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { showToast } = useToast();
+  const unread = useUnreadCount("/api/admin/notifications");
 
   async function handleLogout() {
     try {
@@ -76,6 +80,11 @@ export default function Sidebar() {
                 >
                   <Icon size={18} strokeWidth={2.5} />
                   <span>{item.label}</span>
+                  {item.href === "/admin/notifikasi" && unread > 0 && (
+                    <span className="ml-auto min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-[#dc2626] text-white text-[10px] font-black rounded-full">
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                  )}
                 </Link>
               </li>
             );
