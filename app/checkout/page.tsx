@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronLeft, CreditCard, AlertCircle, Shield, RotateCcw, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronLeft, CreditCard, AlertCircle, Shield, RotateCcw, PackageCheck, ChevronDown, ChevronUp } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { PriceTag } from "@/components/ui/PriceTag";
 import { Button } from "@/components/ui/Button";
@@ -75,7 +75,7 @@ const GUEST_ADDRESS_KEY = "nxty_checkout_address";
 const CHECKOUT_TRUST_ITEMS = [
   { icon: <Shield className="w-5 h-5" />, label: "Pembayaran Aman" },
   { icon: <RotateCcw className="w-5 h-5" />, label: "Garansi 30 Hari" },
-  { icon: <MessageCircle className="w-5 h-5" />, label: "Support WhatsApp" },
+  { icon: <PackageCheck className="w-5 h-5" />, label: "Pesanan Dilacak" },
 ];
 
 export default function CheckoutPage() {
