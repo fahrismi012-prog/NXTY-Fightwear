@@ -46,7 +46,7 @@ interface CustomerAddressJSON {
 const SHIPPABLE_STATUSES = ["paid", "processed"] as const;
 
 function formatRupiah(value: number | null | undefined): string {
-  if (typeof value !== "number") return "—";
+  if (typeof value !== "number" || Number.isNaN(value)) return "—";
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -206,13 +206,13 @@ export default function OrderDetailModal({ order, onClose }: Props) {
     }
 
     // Hitung total weight & value dari items
-    const totalQty = items.reduce((sum, it) => sum + (it.qty || 0), 0);
+    const totalQty = items.reduce((sum, it) => sum + (it.quantity || 0), 0);
     const totalWeight = items.reduce(
-      (sum, it) => sum + (it.qty || 0) * 500,
+      (sum, it) => sum + (it.quantity || 0) * 500,
       0,
     ); // fallback 500g/item kalau tidak ada weight per item
     const totalValue = items.reduce(
-      (sum, it) => sum + (it.price || 0) * (it.qty || 0),
+      (sum, it) => sum + (it.price || 0) * (it.quantity || 0),
       0,
     );
 
@@ -406,14 +406,14 @@ export default function OrderDetailModal({ order, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-3 md:p-6 bg-black/80 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-3 md:p-6 bg-black/80 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-3xl bg-white border-2 border-black my-4">
+      <div className="relative w-full max-w-3xl bg-white border-2 border-black flex flex-col max-h-full">
         {/* Header */}
-        <div className="bg-white border-b-2 border-black px-4 py-3 flex items-center justify-between gap-3 sticky top-0 z-10">
+        <div className="bg-white border-b-2 border-black px-4 py-3 flex items-center justify-between gap-3 shrink-0">
           <div className="min-w-0">
             <p className="text-[9px] font-black uppercase tracking-[0.3em] text-neutral-500 mb-1">
               Detail Pesanan
@@ -432,7 +432,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
           </button>
         </div>
 
-        <div className="p-4 md:p-6 space-y-5">
+        <div className="p-4 md:p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
           {/* Meta row: status + tanggal */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="bg-white border-2 border-neutral-800 p-3">
@@ -568,12 +568,12 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                           .join(" · ")}
                       </p>
                       <p className="text-[11px] text-neutral-600 mt-1">
-                        {formatRupiah(it.price)} × {it.qty}
+                        {formatRupiah(it.price)} × {it.quantity}
                       </p>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-sm font-black text-black font-mono">
-                        {formatRupiah(it.price * it.qty)}
+                        {formatRupiah(it.price * it.quantity)}
                       </p>
                     </div>
                   </div>
@@ -704,7 +704,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
         </div>
 
         {/* Footer actions */}
-        <div className="border-t-2 border-black p-4 flex flex-wrap items-center gap-2 justify-end sticky bottom-0 bg-white">
+        <div className="border-t-2 border-black p-4 flex flex-wrap items-center gap-2 justify-end bg-white shrink-0">
           <button
             type="button"
             onClick={onClose}

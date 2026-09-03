@@ -88,10 +88,11 @@ export interface OrderItem {
   productId: string;
   name: string;
   price: number;
-  qty: number;
+  quantity: number;
   size?: string;
   color?: string;
   image?: string;
+  slug?: string;
 }
 
 export interface OrderShipping {
