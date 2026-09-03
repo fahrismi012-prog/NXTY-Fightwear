@@ -37,21 +37,77 @@ export function formatRupiah(value: number | null | undefined): string {
   }).format(Number(value) || 0);
 }
 
+const TYPE_EMOJI: Partial<Record<NotificationType, string>> = {
+  order_created: "🛒",
+  payment_submitted: "💰",
+};
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/**
+ * Push alert admin ke Telegram (opsional, best-effort).
+ * Aktif kalau TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID di-set.
+ */
+async function pushTelegram(input: NotifyInput): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const emoji = TYPE_EMOJI[input.type] ?? "🔔";
+  const lines = [`${emoji} <b>${escapeHtml(input.title)}</b>`];
+  if (input.body) lines.push(escapeHtml(input.body));
+  if (input.orderId) {
+    const base = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+    if (base) lines.push(`${base}/admin/pesanan?order=${encodeURIComponent(input.orderId)}`);
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: lines.join("\n"),
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      console.error("[notify] telegram gagal:", res.status, await res.text().catch(() => ""));
+    }
+  } catch (err) {
+    console.error("[notify] telegram error:", err instanceof Error ? err.message : err);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function notify(input: NotifyInput): Promise<void> {
   try {
     const supabase = createAdminClient();
-    if (!supabase) return;
-    const { error } = await supabase.from("notifications").insert({
-      audience: input.audience,
-      type: input.type,
-      title: input.title,
-      body: input.body ?? null,
-      order_id: input.orderId ?? null,
-      recipient_id: input.recipientId ?? null,
-    });
-    if (error) console.error("[notify] insert gagal:", error.message);
+    if (supabase) {
+      const { error } = await supabase.from("notifications").insert({
+        audience: input.audience,
+        type: input.type,
+        title: input.title,
+        body: input.body ?? null,
+        order_id: input.orderId ?? null,
+        recipient_id: input.recipientId ?? null,
+      });
+      if (error) console.error("[notify] insert gagal:", error.message);
+    }
   } catch (err) {
     console.error("[notify] error:", err);
+  }
+
+  // Alert admin ke Telegram (di luar try DB — biar tetap kirim walau DB error)
+  if (input.audience === "admin") {
+    await pushTelegram(input);
   }
 }
 
