@@ -238,17 +238,37 @@ export default function LacakPage() {
               </div>
             </div>
 
+            {/* Pengiriman (No. Resi) */}
+            {order.shipping?.waybill && (
+              <div className="bg-surface-1 border-2 border-border-subtle p-4">
+                <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
+                  Pengiriman
+                </h3>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  {order.shipping.courier && (
+                    <div>
+                      <p className="text-neutral-500 mb-0.5">Kurir</p>
+                      <p className="text-text-primary font-bold uppercase">
+                        {order.shipping.courier}
+                      </p>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-neutral-500 mb-0.5">No. Resi</p>
+                    <p className="text-text-primary font-mono font-bold">
+                      {order.shipping.waybill}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Tracking timeline */}
             {events.length > 0 && (
               <div className="bg-surface-1 border-2 border-border-subtle p-4">
                 <h3 className="text-xs font-black uppercase tracking-wider text-text-muted mb-3">
                   Tracking Pengiriman
                 </h3>
-                {order.shipping?.waybill && (
-                  <p className="text-xs text-neutral-500 mb-3 font-mono">
-                    Resi: {order.shipping.waybill} ({order.shipping.courier})
-                  </p>
-                )}
                 <TrackingTimeline events={events} />
               </div>
             )}

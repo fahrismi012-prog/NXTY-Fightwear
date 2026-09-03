@@ -24,7 +24,9 @@ export async function GET(req: NextRequest) {
   }
   const { data, error } = await supabase
     .from("orders")
-    .select("id, status, total, items, shipping, created_at, customer_name, customer_address")
+    .select(
+      "id, status, total, shipping_cost, items, shipping, shipping_manual_carrier, shipping_manual_receipt, created_at, customer_name, customer_address",
+    )
     .eq("id", id)
     .or(`customer_email.eq.${contact},customer_phone.eq.${contact}`)
     .single();
@@ -36,5 +38,12 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ order: data });
+  // Mode manual: kolom `shipping` jsonb kosong, resi ada di shipping_manual_*.
+  const shipping =
+    data.shipping ??
+    (data.shipping_manual_carrier || data.shipping_manual_receipt
+      ? { courier: data.shipping_manual_carrier, waybill: data.shipping_manual_receipt }
+      : null);
+
+  return NextResponse.json({ order: { ...data, shipping } });
 }
