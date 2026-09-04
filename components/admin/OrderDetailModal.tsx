@@ -17,6 +17,8 @@ import {
   Trash2,
   Settings,
   Upload,
+  Copy,
+  Check,
 } from "lucide-react";
 import type { Order, OrderItem, OrderShipping } from "@/types/database";
 import { useToast } from "@/contexts/ToastContext";
@@ -112,6 +114,10 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Copy alamat untuk cek ongkir eksternal
+  const [addressCopied, setAddressCopied] = useState(false);
+  const addressCopyTimer = useRef<number | null>(null);
+
   // Fetch signed URL untuk payment proof (private storage bucket)
   useEffect(() => {
     if (!order.payment_proof_url) {
@@ -144,6 +150,19 @@ export default function OrderDetailModal({ order, onClose }: Props) {
   const items = useMemo(() => safeItems(order.items), [order.items]);
   const shipping = (order.shipping ?? {}) as OrderShipping;
 
+  // Alamat satu baris siap-paste ke situs cek ongkir eksternal.
+  const addressOneLine = useMemo(() => {
+    if (!address) return "";
+    return [
+      address.street || address.address,
+      address.city,
+      address.province,
+      address.postal_code,
+    ]
+      .filter(Boolean)
+      .join(", ");
+  }, [address]);
+
   const waybill = shipping.waybill;
   const canCreateAwb =
     SHIPPABLE_STATUSES.includes(
@@ -166,8 +185,39 @@ export default function OrderDetailModal({ order, onClose }: Props) {
       if (e.key === "Escape") onClose();
     }
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (addressCopyTimer.current) window.clearTimeout(addressCopyTimer.current);
+    };
   }, [onClose]);
+
+  async function handleCopyAddress() {
+    if (!addressOneLine) return;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(addressOneLine);
+      } else {
+        // Fallback untuk context non-HTTPS (mis. akses admin via IP/HTTP)
+        const ta = document.createElement("textarea");
+        ta.value = addressOneLine;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      setAddressCopied(true);
+      if (addressCopyTimer.current)
+        window.clearTimeout(addressCopyTimer.current);
+      addressCopyTimer.current = window.setTimeout(
+        () => setAddressCopied(false),
+        2000,
+      );
+    } catch {
+      showToast("info", "Gagal menyalin alamat");
+    }
+  }
 
   async function handleTrack() {
     if (!waybill || !shipping.courier) return;
@@ -475,7 +525,26 @@ export default function OrderDetailModal({ order, onClose }: Props) {
 
           {/* Address */}
           <section>
-            <SectionHeader icon={MapPin} title="Alamat Pengiriman" />
+            <SectionHeader
+              icon={MapPin}
+              title="Alamat Pengiriman"
+              action={
+                <button
+                  type="button"
+                  onClick={handleCopyAddress}
+                  disabled={!addressOneLine}
+                  title={addressOneLine || "Alamat tidak tersedia"}
+                  className="inline-flex items-center gap-1.5 bg-white text-black border-2 border-black px-2.5 py-1 text-[9px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+                >
+                  {addressCopied ? (
+                    <Check size={11} strokeWidth={2.5} />
+                  ) : (
+                    <Copy size={11} strokeWidth={2.5} />
+                  )}
+                  {addressCopied ? "Tersalin" : "Copy Alamat"}
+                </button>
+              }
+            />
             <div className="bg-white border-2 border-neutral-800 p-3">
               {address ? (
                 <div className="space-y-1">
@@ -1297,9 +1366,12 @@ function AdminOrderActions({
 function SectionHeader({
   icon: Icon,
   title,
+  action,
 }: {
   icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   title: string;
+  /** Elemen opsional (mis. tombol) yang diletakkan di ujung kanan baris judul. */
+  action?: React.ReactNode;
 }) {
   return (
     <div className="flex items-center gap-2 mb-2">
@@ -1308,6 +1380,7 @@ function SectionHeader({
         {title}
       </h2>
       <div className="flex-1 h-px bg-neutral-200" />
+      {action ?? null}
     </div>
   );
 }
