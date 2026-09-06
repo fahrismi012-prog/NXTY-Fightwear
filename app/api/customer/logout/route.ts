@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { NextRequest } from "next/server";
 
 /**
  * POST /api/customer/logout
  * Sign out customer dan redirect ke homepage.
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,5 +26,5 @@ export async function POST() {
     }
   );
   await supabase.auth.signOut();
-  return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"));
+  return NextResponse.redirect(new URL("/", request.nextUrl.origin));
 }

@@ -20,9 +20,9 @@ function formatPrice(price: number): string {
 
 async function fetchTracking(waybill: string, courier: string): Promise<TrackingEvent[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    // Fetch ke API sendiri: cukup relatif, ikut origin tempat halaman jalan.
     const res = await fetch(
-      `${baseUrl}/api/shipping/track?waybill=${waybill}&courier=${courier}`,
+      `/api/shipping/track?waybill=${waybill}&courier=${courier}`,
       { cache: "no-store" }
     );
     if (!res.ok) return [];

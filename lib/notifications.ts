@@ -47,6 +47,21 @@ function escapeHtml(s: string): string {
 }
 
 /**
+ * Base URL untuk link di pesan Telegram. Env NEXT_PUBLIC_APP_URL kadang
+ * tertinggal nilai localhost di dashboard Vercel, jadi nilai localhost
+ * di-skip dan dipakai domain deployment Vercel sebagai fallback.
+ */
+function resolveBaseUrl(): string {
+  const explicit = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+  if (explicit && !/localhost|127\.0\.0\.1/.test(explicit)) return explicit;
+  const prod = (process.env.VERCEL_PROJECT_PRODUCTION_URL || "").replace(/\/$/, "");
+  if (prod) return `https://${prod}`;
+  const deployment = (process.env.VERCEL_URL || "").replace(/\/$/, "");
+  if (deployment) return `https://${deployment}`;
+  return explicit;
+}
+
+/**
  * Push alert admin ke Telegram (opsional, best-effort).
  * Aktif kalau TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID di-set.
  */
@@ -59,7 +74,7 @@ async function pushTelegram(input: NotifyInput): Promise<void> {
   const lines = [`${emoji} <b>${escapeHtml(input.title)}</b>`];
   if (input.body) lines.push(escapeHtml(input.body));
   if (input.orderId) {
-    const base = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+    const base = resolveBaseUrl();
     if (base) lines.push(`${base}/admin/pesanan?order=${encodeURIComponent(input.orderId)}`);
   }
 

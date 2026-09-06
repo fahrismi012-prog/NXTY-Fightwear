@@ -68,7 +68,9 @@ declare global {
   }
 }
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+// Redirect Midtrans snap: pakai origin browser supaya selalu landas di
+// domain yang sedang dibuka (env NEXT_PUBLIC_APP_URL bisa tertinggal localhost).
+const APP_URL = typeof window !== "undefined" ? window.location.origin : "";
 const GUEST_ADDRESS_KEY = "nxty_checkout_address";
 
 // Trust items untuk checkout
