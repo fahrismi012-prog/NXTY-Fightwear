@@ -13,6 +13,9 @@ export function proxy(req: NextRequest) {
   const token = req.cookies.get(ADMIN_COOKIE)?.value;
   if (!token || !verifySession(token)) {
     const loginUrl = new URL("/admin/login", req.url);
+    // Simpan tujuan asli (path + query) supaya setelah login kembali ke sana,
+    // mis. deep-link notifikasi Telegram /admin/pesanan?order=...
+    loginUrl.searchParams.set("next", `${pathname}${req.nextUrl.search}`);
     return NextResponse.redirect(loginUrl);
   }
 

@@ -4,6 +4,14 @@ import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } fro
 import { useRouter } from "next/navigation";
 import { useToast } from "@/contexts/ToastContext";
 
+// Tujuan setelah login: hanya path internal /admin (dari param ?next yang
+// dipasang proxy saat redirect), untuk mencegah open redirect.
+function safeAdminNext(next: string | null): string | null {
+  if (!next) return null;
+  if (next !== "/admin" && !next.startsWith("/admin/")) return null;
+  return next.startsWith("/admin/login") ? null : next;
+}
+
 export default function AdminLoginPage() {
   const router = useRouter();
   const { showToast } = useToast();
@@ -53,7 +61,12 @@ export default function AdminLoginPage() {
       }
 
       showToast("success", "Login berhasil");
-      router.replace("/admin");
+      // Deep-link notifikasi Telegram: proxy memindah URL awal ke param ?next,
+      // pakai itu sebagai tujuan setelah login (default /admin).
+      const nextPath =
+        safeAdminNext(new URLSearchParams(window.location.search).get("next")) ??
+        "/admin";
+      router.replace(nextPath);
       router.refresh();
     } catch (err) {
       const message =
