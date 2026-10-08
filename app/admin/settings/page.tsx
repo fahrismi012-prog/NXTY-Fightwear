@@ -4,6 +4,7 @@ import type { ShippingZone } from "@/lib/shipping/manual";
 import SettingsForm from "./SettingsForm";
 import BankAccountsManager from "./BankAccountsManager";
 import IntegrationSettings from "./IntegrationSettings";
+import AdminPasswordForm from "./AdminPasswordForm";
 
 export const dynamic = "force-dynamic";
 
@@ -128,6 +129,17 @@ export default async function AdminSettingsPage() {
       />
 
       <IntegrationSettings />
+
+      {/* Password admin */}
+      <div className="mt-8">
+        <div className="flex items-center gap-2 mb-4">
+          <SettingsIcon size={16} className="text-black" />
+          <h2 className="text-xs font-black uppercase tracking-[0.25em] text-black">
+            Password Admin
+          </h2>
+        </div>
+        <AdminPasswordForm />
+      </div>
 
       {/* Bank accounts manager */}
       <div className="mt-8">

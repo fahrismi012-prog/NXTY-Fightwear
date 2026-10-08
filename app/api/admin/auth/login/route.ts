@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const passwordResult = verifyAdminPassword(password);
+  const passwordResult = await verifyAdminPassword(password);
   if (passwordResult === "unconfigured") {
     return NextResponse.json(
       { error: "ADMIN_PASSWORD belum di-set di server" },
