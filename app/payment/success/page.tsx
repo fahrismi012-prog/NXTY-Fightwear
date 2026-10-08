@@ -1,13 +1,30 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, Home, Package } from "lucide-react";
+import OrderWhatsAppShare, { type OrderWaData } from "@/components/OrderWhatsAppShare";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id") || "-";
+  const [order, setOrder] = useState<OrderWaData | null>(null);
+
+  // Ambil detail order untuk pesan WA share (gagal fetch = tombol hidden).
+  useEffect(() => {
+    if (!orderId || orderId === "-") return;
+    let cancelled = false;
+    fetch(`/api/orders/${orderId}`)
+      .then((r) => r.json())
+      .then((data: { order?: OrderWaData }) => {
+        if (!cancelled && data?.order) setOrder(data.order);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [orderId]);
 
   return (
     <div className="text-center max-w-sm w-full">
@@ -32,7 +49,8 @@ function SuccessContent() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-6">
+        <OrderWhatsAppShare order={order} />
         <Link
           href="/"
           className="w-full py-3 bg-red-600 hover:bg-red-700 text-text-primary font-bold text-sm rounded-xl flex items-center justify-center gap-2 transition-colors"

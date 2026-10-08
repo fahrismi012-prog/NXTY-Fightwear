@@ -15,6 +15,7 @@ import {
   Building2,
   Hourglass,
 } from "lucide-react";
+import OrderWhatsAppShare from "@/components/OrderWhatsAppShare";
 
 interface OrderData {
   id: string;
@@ -27,6 +28,8 @@ interface OrderData {
   payment_proof_url: string | null;
   payment_rejection_reason: string | null;
   customer_address: string | null;
+  customer_name: string | null;
+  customer_phone: string | null;
   bank_account: {
     id: string;
     bank_name: string;
@@ -34,7 +37,13 @@ interface OrderData {
     account_holder: string;
     instructions: string | null;
   } | null;
-  items: Array<{ name: string; quantity: number; price: number }>;
+  items: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+    size?: string;
+    color?: string;
+  }>;
 }
 
 function PendingContent() {
@@ -197,6 +206,10 @@ function PendingContent() {
             berubah ke tahap pembayaran begitu ongkir siap — cek notifikasi atau
             refresh halaman ini.
           </p>
+        </div>
+
+        <div className="mb-2">
+          <OrderWhatsAppShare order={order} />
         </div>
 
         <button
