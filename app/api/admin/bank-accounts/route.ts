@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Body harus JSON valid" }, { status: 400 });
   }
 
-  const passwordResult = verifyAdminPassword(body.password);
+  const passwordResult = await verifyAdminPassword(body.password);
   if (passwordResult === "unconfigured") {
     return NextResponse.json(
       { error: "ADMIN_PASSWORD belum di-set di server" },
