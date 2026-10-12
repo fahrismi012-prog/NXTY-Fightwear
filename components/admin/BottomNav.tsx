@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import {
   LayoutDashboard,
+  Layers,
   Package,
   Tag,
   ShoppingBag,
+  Users,
+  Settings,
+  Palette,
   Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,22 +21,42 @@ const ICON_SIZE = 22;
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Notif", href: "/admin/notifikasi", icon: Bell },
+  { label: "Kategori", href: "/admin/kategori", icon: Layers },
   { label: "Produk", href: "/admin/produk", icon: Package },
   { label: "Promo", href: "/admin/promo", icon: Tag },
   { label: "Pesanan", href: "/admin/pesanan", icon: ShoppingBag },
-  { label: "Notif", href: "/admin/notifikasi", icon: Bell },
+  { label: "Pelanggan", href: "/admin/pelanggan", icon: Users },
+  { label: "Tampilan", href: "/admin/tampilan", icon: Palette },
+  { label: "Pengaturan", href: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminBottomNav() {
   const pathname = usePathname();
   const unread = useUnreadCount("/api/admin/notifications");
+  const scrollRef = useRef<HTMLUListElement>(null);
+  const activeItemRef = useRef<HTMLLIElement>(null);
+
+  // Auto-scroll: posisikan tab aktif di tengah agar selalu terlihat
+  useEffect(() => {
+    const ul = scrollRef.current;
+    const activeItem = activeItemRef.current;
+    if (!ul || !activeItem) return;
+    ul.scrollTo({
+      left: activeItem.offsetLeft - (ul.clientWidth - activeItem.offsetWidth) / 2,
+      behavior: "smooth",
+    });
+  }, [pathname]);
 
   return (
     <nav
       aria-label="Navigasi admin"
       className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t-2 border-black pb-[env(safe-area-inset-bottom)]"
     >
-      <ul className="flex items-stretch h-16">
+      <ul
+        ref={scrollRef}
+        className="flex items-stretch h-16 overflow-x-auto scrollbar-hide border-b border-neutral-100"
+      >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const active =
@@ -39,12 +64,16 @@ export default function AdminBottomNav() {
               ? pathname === "/admin"
               : pathname?.startsWith(item.href);
           return (
-            <li key={item.href} className="flex-1">
+            <li
+              key={item.href}
+              ref={active ? activeItemRef : undefined}
+              className="flex-none w-[19vw] max-w-[84px]"
+            >
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 aria-label={item.label}
-                className="relative flex-1 flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform"
+                className="relative flex-1 h-full flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform"
               >
                 <span
                   aria-hidden

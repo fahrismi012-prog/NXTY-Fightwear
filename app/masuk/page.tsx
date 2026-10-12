@@ -216,10 +216,7 @@ export default function MasukPage() {
         <div className="bg-neutral-900 border-2 border-neutral-800 p-6">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-black text-white tracking-tighter">
-              <span className="text-white">Anxiety Fightwear</span>{" "}
-              <span className="text-white text-xl tracking-[0.2em]">
-                FIGHTWEAR
-              </span>
+              Anxiety Fightwear
             </h1>
             <p className="text-sm text-neutral-400 mt-2">
               {authMode === "password"
